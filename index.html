@@ -201,12 +201,6 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#4f46e5;}
 .irinfo strong{display:block;font-size:14px;}.irinfo span{font-size:12px;color:#6b7280;}
 .ira{display:flex;gap:6px;flex-shrink:0;}
 
-.as{display:flex;align-items:center;gap:12px;padding:12px;border-radius:8px;background:#f8fafc;margin-bottom:8px;}
-.al{width:28px;height:28px;border-radius:50%;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.lp{background:#e0e7ff;color:#4f46e5;}.ld{background:#d1fae5;color:#065f46;}
-.la{background:#4f46e5;color:white;}.lw{background:#f3f4f6;color:#9ca3af;}
-.ainf{flex:1;font-size:13px;}.ainf strong{display:block;font-size:14px;}
-
 /* CHARTS */
 .chart-wrap{position:relative;height:240px;margin-top:8px;}
 .chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
@@ -366,7 +360,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#4f46e5;}
       <!-- MANAGER DASHBOARD -->
       <div id="page-manager-dashboard" class="page">
         <div class="page-title">Dashboard del equipo</div>
-        <div class="page-sub">Resumen en tiempo real · Hoy, miércoles 19 de febrero</div>
+        <div class="page-sub">Resumen en tiempo real · Hoy, miércoles 18 de febrero</div>
         <div class="stats">
           <div class="stat"><div class="val" style="color:#10b981">6</div><div class="lbl">Fichados hoy</div></div>
           <div class="stat"><div class="val" style="color:#ef4444">2</div><div class="lbl">Sin fichar</div></div>
@@ -392,7 +386,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#4f46e5;}
           <button class="inner-tab" onclick="mabsTab('historial')">📋 Historial</button>
         </div>
         <div id="mabs-pendientes">
-          <div class="card" style="margin-bottom:12px">
+          <div class="card" style="margin-bottom:12px" id="mabs-card-1">
             <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
               <div class="uav" style="background:#4f46e5;width:44px;height:44px;font-size:15px">CM</div>
               <div style="flex:1"><div style="font-size:16px;font-weight:700">Carlos Martínez</div><div style="font-size:13px;color:#6b7280">Vacaciones · 24 Feb – 28 Feb · <strong>5 días</strong></div></div>
@@ -400,11 +394,11 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#4f46e5;}
             </div>
             <div class="alert al-blue">💬 "Semana de vacaciones planificada con antelación."</div>
             <div style="display:flex;gap:10px">
-              <button class="btn btn-danger btn-sm" onclick="this.closest('.card').innerHTML='<div class=\'alert al-red\'>✗ Solicitud rechazada.</div>'">✗ Rechazar</button>
-              <button class="btn btn-success" onclick="this.closest('.card').innerHTML='<div class=\'alert al-green\'>✅ Vacaciones aprobadas. Empleado notificado.</div>'">✓ Aprobar vacaciones</button>
+              <button class="btn btn-danger btn-sm" onclick="document.getElementById('mabs-card-1').innerHTML='<div class=\'alert al-red\'>✗ Solicitud rechazada.</div>'">✗ Rechazar</button>
+              <button class="btn btn-success" onclick="document.getElementById('mabs-card-1').innerHTML='<div class=\'alert al-green\'>✅ Vacaciones aprobadas. Empleado notificado.</div>'">✓ Aprobar vacaciones</button>
             </div>
           </div>
-          <div class="card">
+          <div class="card" id="mabs-card-2">
             <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
               <div class="uav" style="background:#10b981;width:44px;height:44px;font-size:15px">AP</div>
               <div style="flex:1"><div style="font-size:16px;font-weight:700">Ana Pérez</div><div style="font-size:13px;color:#6b7280">Asunto personal · 20 Feb · <strong>1 día</strong></div></div>
@@ -412,8 +406,8 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:#4f46e5;}
             </div>
             <div class="alert al-blue">💬 "Gestión médica familiar."</div>
             <div style="display:flex;gap:10px">
-              <button class="btn btn-danger btn-sm" onclick="this.closest('.card').innerHTML='<div class=\'alert al-red\'>✗ Solicitud rechazada.</div>'">✗ Rechazar</button>
-              <button class="btn btn-success" onclick="this.closest('.card').innerHTML='<div class=\'alert al-green\'>✅ Permiso aprobado.</div>'">✓ Aprobar</button>
+              <button class="btn btn-danger btn-sm" onclick="document.getElementById('mabs-card-2').innerHTML='<div class=\'alert al-red\'>✗ Solicitud rechazada.</div>'">✗ Rechazar</button>
+              <button class="btn btn-success" onclick="document.getElementById('mabs-card-2').innerHTML='<div class=\'alert al-green\'>✅ Permiso aprobado.</div>'">✓ Aprobar</button>
             </div>
           </div>
         </div>
@@ -712,10 +706,12 @@ function doLogin(){
   startApp();
 }
 function doLogout(){
-  currentUser=null;fichajeState={status:'idle',clockIn:null,workedMins:0,maxMins:480,_iv:null};
+  currentUser=null;
+  fichajeState={status:'idle',clockIn:null,workedMins:0,maxMins:480,_iv:null};
   document.getElementById('app-screen').style.display='none';
   document.getElementById('login-screen').style.display='flex';
-  document.getElementById('l-email').value='';document.getElementById('l-pwd').value='';
+  document.getElementById('l-email').value='';
+  document.getElementById('l-pwd').value='';
   chartsInitialized=false;
 }
 function startApp(){
@@ -732,7 +728,6 @@ function startApp(){
   renderTeamGrid();renderIncidents();renderOTList();
   renderTable(users);updateStats();
   renderNotifications();
-  // Fichaje setup
   fichajeState.maxMins=u.horarioMax||480;
   document.getElementById('emp-schedule-info').innerHTML=buildScheduleInfo(u);
   renderProjInputs();
@@ -740,7 +735,6 @@ function startApp(){
   renderAbsCalendar();
   renderSaldos();
   renderAbsRequests();
-  // Geo
   setTimeout(()=>{
     const el=document.getElementById('emp-geo');if(!el)return;
     const ok=Math.random()>.2;
@@ -812,7 +806,6 @@ document.addEventListener('click',e=>{
   const panel=document.getElementById('notif-panel');
   if(panel&&!panel.contains(e.target)&&!e.target.closest('.notif-bell'))panel.classList.remove('show');
 });
-// Simular notificación en tiempo real
 setInterval(()=>{
   if(!currentUser)return;
   const msgs=[
@@ -852,9 +845,8 @@ function toggleFichaje(){
   const now=new Date();
   if(fichajeState.status==='idle'){
     fichajeState.status='working';fichajeState.clockIn=now;
-    document.getElementById('emp-btn-fichar').className='btn btn-danger-s btn-full';
-    document.getElementById('emp-btn-fichar').style.cssText='font-size:16px;padding:14px';
-    document.getElementById('emp-btn-fichar').textContent='■ Finalizar jornada';
+    const btn=document.getElementById('emp-btn-fichar');
+    btn.className='btn btn-danger-s btn-full';btn.style.cssText='font-size:16px;padding:14px';btn.textContent='■ Finalizar jornada';
     document.getElementById('t-in').textContent=fmtTime(now);
     document.getElementById('dot-in').className='tld done';
     document.getElementById('dot-br').className='tld active';
@@ -874,9 +866,8 @@ function toggleFichaje(){
   } else if(fichajeState.status==='working'){
     fichajeState.status='ended';fichajeState.workedMins=calcMins(fichajeState.clockIn,new Date());
     clearInterval(fichajeState._iv);
-    document.getElementById('emp-btn-fichar').className='btn btn-ghost btn-full';
-    document.getElementById('emp-btn-fichar').textContent='✓ Jornada finalizada';
-    document.getElementById('emp-btn-fichar').disabled=true;
+    const btn=document.getElementById('emp-btn-fichar');
+    btn.className='btn btn-ghost btn-full';btn.textContent='✓ Jornada finalizada';btn.disabled=true;
     document.getElementById('t-out').textContent=fmtTime(new Date());
     document.getElementById('dot-out').className='tld done';document.getElementById('dot-br').className='tld done';
     document.getElementById('l2').className='tll done';
@@ -897,17 +888,11 @@ function empTab(t){
   }
 }
 
-// Proyectos dinámicos según usuario
 function renderProjInputs(){
-  const u=currentUser;
-  if(!u)return;
+  const u=currentUser;if(!u)return;
   const userProjs=PROJECTS.filter(p=>u.proyectos.includes(p.id));
-  const container=document.getElementById('proj-inputs');
-  if(!container)return;
-  if(!userProjs.length){
-    container.innerHTML='<div class="alert al-yellow">No tienes proyectos asignados. Contacta con tu manager.</div>';
-    return;
-  }
+  const container=document.getElementById('proj-inputs');if(!container)return;
+  if(!userProjs.length){container.innerHTML='<div class="alert al-yellow">No tienes proyectos asignados. Contacta con tu manager.</div>';return;}
   container.innerHTML=userProjs.map(p=>`
     <div class="pr-row">
       <div class="dc" style="background:${p.color}"></div>
@@ -933,7 +918,6 @@ function confirmImp(){
   if(used>avail+15){alert('El tiempo imputado supera el disponible.');return;}
   document.getElementById('imp-done').style.display='block';document.getElementById('imp-form').style.display='none';
 }
-
 function renderHistorial(){
   const hist=[
     {dia:'Lun 17 Feb',ent:'08:02',sal:'17:05',tot:'8h 03min',st:'Completa',sc:'bg-green'},
@@ -953,7 +937,6 @@ const absRequests=[
   {tipo:'Asunto personal',from:'13/01',to:'13/01',dias:1,st:'Aprobada',sc:'bg-green'},
   {tipo:'Enfermedad',from:'05/01',to:'06/01',dias:2,st:'Aprobada',sc:'bg-green'},
 ];
-
 function renderSaldos(){
   const u=currentUser;if(!u)return;
   const vRest=u.vacDias-u.vacUsados;
@@ -974,32 +957,28 @@ function renderSaldos(){
       <div style="font-size:11px;color:#9ca3af;margin-top:4px">Balance actual</div>
     </div>`;
 }
-
 function renderAbsCalendar(){
   const days=['L','M','X','J','V','S','D'];
   const absMap={3:'vacation',4:'vacation',5:'sick',10:'sick',13:'personal',24:'pending',25:'pending',26:'pending',27:'pending',28:'pending'};
   let html=days.map(d=>`<div class="abs-day-header">${d}</div>`).join('');
-  // Feb 2026 starts on Sunday → offset 6
   for(let i=0;i<6;i++)html+=`<div class="abs-day empty"></div>`;
   for(let d=1;d<=28;d++){
-    const cls=d===19?'today':(absMap[d]||'');
+    const cls=d===18?'today':(absMap[d]||'');
     html+=`<div class="abs-day ${cls}" title="${d} Feb">${d}</div>`;
   }
   const el=document.getElementById('abs-calendar');if(el)el.innerHTML=html;
-  // Team calendar
   const tel=document.getElementById('team-abs-calendar');
   if(tel){
-    const teamAbs={3:'vacation',4:'vacation',7:'sick',14:'personal',17:'vacation',18:'vacation',19:'today'};
+    const teamAbs={3:'vacation',4:'vacation',7:'sick',14:'personal',17:'vacation',18:'vacation'};
     let th=days.map(d=>`<div class="abs-day-header">${d}</div>`).join('');
     for(let i=0;i<6;i++)th+=`<div class="abs-day empty"></div>`;
     for(let d=1;d<=28;d++){
-      const cls=d===19?'today':(teamAbs[d]||'');
+      const cls=d===18?'today':(teamAbs[d]||'');
       th+=`<div class="abs-day ${cls}">${d}</div>`;
     }
     tel.innerHTML=th;
   }
 }
-
 function renderAbsRequests(){
   const tb=document.getElementById('abs-requests-tbody');if(!tb)return;
   tb.innerHTML=absRequests.map(r=>`<tr><td>${r.tipo}</td><td>${r.from}</td><td>${r.to}</td><td>${r.dias}</td><td><span class="badge ${r.sc}">${r.st}</span></td><td>${r.st==='Pendiente'?'<button class="btn btn-danger btn-sm" onclick="alert(\'Solicitud cancelada.\')">Cancelar</button>':'—'}</td></tr>`).join('');
@@ -1031,7 +1010,6 @@ function absNext(){
   document.getElementById('abs-back').style.display='inline-flex';
   document.getElementById('abs-next').style.display='none';
   document.getElementById('abs-submit').style.display='inline-flex';
-  // Mostrar saldo si es vacaciones
   const warn=document.getElementById('abs-saldo-warning');
   if(selectedAbsType==='vacaciones'&&currentUser){
     const rest=currentUser.vacDias-currentUser.vacUsados;
@@ -1053,7 +1031,6 @@ function submitAbs(){
   document.getElementById('abs-success').style.display='block';
   document.getElementById('abs-back').style.display='none';
   document.getElementById('abs-submit').style.display='none';
-  // Añadir notificación
   notifications.unshift({id:Date.now(),icon:'🏖',bg:'#f0fdf4',title:'Solicitud enviada',body:`Tu solicitud de ${selectedAbsType} ha sido enviada para aprobación`,time:'Ahora',unread:true});
   renderNotifications();
   setTimeout(()=>{closeModal('abs-modal');renderAbsRequests();},1500);
@@ -1092,7 +1069,12 @@ function renderIncidents(){
 }
 function resolveInc(id,a){openIncidents=openIncidents.filter(i=>i.id!==id);renderIncidents();alert(a==='ok'?'✅ Incidencia excusada.':'📋 Registrado.');}
 function openIncModal(type,name){
-  const t={missing:{title:'Sin fichaje',body:`<p style="font-size:14px;color:#6b7280;margin-bottom:16px"><strong>${name}</strong> no ha fichado hoy.</p><div class="fg"><label class="lbl">Comentario</label><textarea rows="3" placeholder="Justificación..."></textarea></div>`},geo:{title:'GPS fuera del radio',body:`<div class="alert al-yellow">📍 <strong>${name}</strong> fichó a 420m de la oficina.</div><div class="fg"><label class="lbl">Motivo</label><textarea rows="2" placeholder="Ej: Reunión externa..."></textarea></div>`}};
+  const t={
+    missing:{title:'Sin fichaje',body:`<p style="font-size:14px;color:#6b7280;margin-bottom:16px"><strong>${name}</strong> no ha fichado hoy.</p><div class="fg"><label class="lbl">Comentario</label><textarea rows="3" placeholder="Justificación..."></textarea></div>`},
+    geo:{title:'GPS fuera del radio',body:`<div class="alert al-yellow">📍 <strong>${name}</strong> fichó a 420m de la oficina.</div><div class="fg"><label class="lbl">Motivo</label><textarea rows="2" placeholder="Ej: Reunión externa..."></textarea></div>`},
+    short:{title:'Jornada corta',body:`<div class="alert al-yellow">⏰ <strong>${name}</strong> realizó una jornada inferior a la contratada.</div><div class="fg"><label class="lbl">Motivo</label><textarea rows="2" placeholder="Justificación..."></textarea></div>`},
+    missing_imp:{title:'Sin imputación',body:`<div class="alert al-blue">📝 <strong>${name}</strong> no imputó tiempo a proyectos ayer.</div><div class="fg"><label class="lbl">Observaciones</label><textarea rows="2" placeholder="..."></textarea></div>`}
+  };
   const cfg=t[type]||t.missing;
   document.getElementById('inc-modal-title').textContent=cfg.title;
   document.getElementById('inc-modal-body').innerHTML=cfg.body;
@@ -1103,12 +1085,272 @@ function incTab(t){
   document.querySelectorAll('#page-manager-incidencias .inner-tab').forEach((el,i)=>el.classList.toggle('active',['abiertas','resueltas'][i]===t));
 }
 
+// ============================================================
+// HORAS EXTRA
+// ============================================================
 let otRequests=[
   {id:1,name:'Carlos Martínez',i:'CM',c:'#4f46e5',hours:'1h 30min',reason:'Cierre de sprint urgente.'},
   {id:2,name:'Ana Pérez',i:'AP',c:'#10b981',hours:'2h 00min',reason:'Entrega de diseños para cliente mañana.'},
 ];
 function renderOTList(){
   const el=document.getElementById('overtime-list');if(!el)return;
-  if(!otRequests.length){el.innerHTML='<div class="card"><div class="empty-state"><div class="ei">✅</div>No hay solicitudes pendientes.</div></div>';return;}
-  el.innerHTML=otRequests.map(r=>`<div class="card" style="margin-bottom:16px" id="ot-card-${r.id}">
-    <div style="display:flex;align-items:center;gap
+  if(!otRequests.length){
+    el.innerHTML='<div class="card"><div class="empty-state"><div class="ei">✅</div>No hay solicitudes pendientes.</div></div>';
+    return;
+  }
+  el.innerHTML=otRequests.map(r=>`
+    <div class="card" style="margin-bottom:16px" id="ot-card-${r.id}">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
+        <div class="uav" style="background:${r.c};width:44px;height:44px;font-size:15px">${r.i}</div>
+        <div style="flex:1">
+          <div style="font-size:16px;font-weight:700">${r.name}</div>
+          <div style="font-size:13px;color:#6b7280">Horas extra · <strong>${r.hours}</strong></div>
+        </div>
+        <span class="badge bg-yellow">Pendiente Nv.1</span>
+      </div>
+      <div class="alert al-blue">💬 "${r.reason}"</div>
+      <div style="font-size:12px;color:#9ca3af;margin-bottom:12px">
+        Flujo de aprobación: <strong style="color:#10b981">Nv.1 Manager</strong> → Nv.2 RRHH → Nv.3 Dirección
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-danger btn-sm" onclick="resolveOT(${r.id},'rej')">✗ Rechazar</button>
+        <button class="btn btn-success" onclick="resolveOT(${r.id},'ok')">✓ Aprobar (Nv.1)</button>
+      </div>
+    </div>`).join('');
+}
+function resolveOT(id,action){
+  const card=document.getElementById('ot-card-'+id);if(!card)return;
+  if(action==='ok'){
+    card.innerHTML='<div class="alert al-green">✅ Aprobado en Nv.1. Enviado a RRHH para aprobación Nv.2.</div>';
+    otRequests=otRequests.filter(r=>r.id!==id);
+  } else {
+    card.innerHTML='<div class="alert al-red">✗ Solicitud rechazada. Empleado notificado.</div>';
+    otRequests=otRequests.filter(r=>r.id!==id);
+  }
+}
+function approveOT(name){
+  alert(`✅ Horas extra de ${name} aprobadas en Nivel 1. Pasa a RRHH para Nivel 2.`);
+}
+function openOTModal(){document.getElementById('ot-modal').classList.add('show');}
+function submitOTReq(){
+  const hrs=document.getElementById('ot-hours').value;
+  const reason=document.getElementById('ot-reason').value.trim();
+  if(!reason){alert('El motivo es obligatorio.');return;}
+  closeModal('ot-modal');
+  notifications.unshift({id:Date.now(),icon:'⏱',bg:'#fff7ed',title:'H. extra solicitadas',body:`${hrs}h extra enviadas para aprobación`,time:'Ahora',unread:true});
+  renderNotifications();
+  alert('✅ Solicitud enviada. Pendiente de aprobación en 3 niveles.');
+}
+
+// ============================================================
+// USUARIOS (ADMIN)
+// ============================================================
+function renderTable(data){
+  const tb=document.getElementById('users-table');if(!tb)return;
+  if(!data.length){tb.innerHTML='<tr><td colspan="6"><div class="empty-state"><div class="ei">🔍</div>No se encontraron resultados.</div></td></tr>';return;}
+  tb.innerHTML=data.map(u=>`
+    <tr>
+      <td><div class="uc"><div class="uav" style="background:${COLORS[u.id%COLORS.length]}">${u.nombre[0]}${u.apellidos[0]}</div><div><div class="un">${u.nombre} ${u.apellidos}</div><div class="ue">${u.email}</div></div></div></td>
+      <td><span class="badge ${u.rol==='admin'?'bg-purple':u.rol==='manager'?'bg-blue':'bg-gray'}">${roleName(u.rol)}</span></td>
+      <td><div style="font-size:13px">${u.centro||'—'}</div><div style="font-size:12px;color:#9ca3af">${u.horario||'—'}</div></td>
+      <td>${u.proyectos.length?u.proyectos.map(p=>`<span class="tag">${PROJECTS.find(x=>x.id===p)?.name||p}</span>`).join(''):'<span style="color:#9ca3af;font-size:13px">Sin proyectos</span>'}</td>
+      <td><span class="badge ${u.status==='activo'?'bg-green':u.status==='pendiente'?'bg-yellow':'bg-red'}">${u.status}</span></td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-ghost btn-sm" onclick="openEditUser(${u.id})">✏️ Editar</button>
+        <button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="toggleStatus(${u.id})">${u.status==='activo'?'🚫 Desactivar':'✅ Activar'}</button>
+      </td>
+    </tr>`).join('');
+}
+function updateStats(){
+  const el=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  el('stat-total',users.length);
+  el('stat-active',users.filter(u=>u.status==='activo').length);
+  el('stat-pending',users.filter(u=>u.status==='pendiente').length);
+  el('stat-inactive',users.filter(u=>u.status==='inactivo').length);
+}
+function filterUsers(){
+  const q=(document.getElementById('search-input')?.value||'').toLowerCase();
+  const role=document.getElementById('filter-role')?.value||'';
+  const status=document.getElementById('filter-status')?.value||'';
+  renderTable(users.filter(u=>{
+    const match=!q||(u.nombre+' '+u.apellidos+' '+u.email).toLowerCase().includes(q);
+    return match&&(!role||u.rol===role)&&(!status||u.status===status);
+  }));
+}
+function toggleStatus(id){
+  const u=users.find(x=>x.id===id);if(!u)return;
+  u.status=u.status==='activo'?'inactivo':'activo';
+  filterUsers();updateStats();
+}
+
+// Modal usuario
+function openNewUser(){
+  editingId=null;currentMTab='datos';
+  document.getElementById('modal-title').textContent='Nuevo empleado';
+  document.getElementById('modal-success').style.display='none';
+  ['f-nombre','f-apellidos','f-email','f-telefono','f-dni','f-depto','f-cargo','f-pwd'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  ['f-nacimiento','f-incorporacion'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  ['f-centro','f-horario','f-manager'].forEach(id=>{const e=document.getElementById(id);if(e)e.selectedIndex=0;});
+  document.getElementById('f-rol').value='empleado';
+  document.getElementById('f-2fa').checked=false;
+  ['err-nombre','err-apellidos','err-email','err-depto','err-centro','err-horario','err-pwd'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent='';});
+  renderProjectCheckboxes([]);
+  switchModalTab('datos');
+  document.getElementById('user-modal').classList.add('show');
+}
+function openEditUser(id){
+  editingId=id;currentMTab='datos';
+  const u=users.find(x=>x.id===id);if(!u)return;
+  document.getElementById('modal-title').textContent='Editar empleado';
+  document.getElementById('modal-success').style.display='none';
+  document.getElementById('f-nombre').value=u.nombre;
+  document.getElementById('f-apellidos').value=u.apellidos;
+  document.getElementById('f-email').value=u.email;
+  document.getElementById('f-depto').value=u.depto||'';
+  document.getElementById('f-cargo').value=u.cargo||'';
+  document.getElementById('f-centro').value=u.centro||'';
+  document.getElementById('f-horario').value=u.horario||'';
+  document.getElementById('f-rol').value=u.rol||'empleado';
+  document.getElementById('f-pwd').value='';
+  renderProjectCheckboxes(u.proyectos);
+  switchModalTab('datos');
+  document.getElementById('user-modal').classList.add('show');
+}
+function renderProjectCheckboxes(selected){
+  const c=document.getElementById('projects-checkboxes');if(!c)return;
+  c.innerHTML=PROJECTS.map(p=>`
+    <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer">
+      <input type="checkbox" name="proj" value="${p.id}" ${selected.includes(p.id)?'checked':''}>
+      <span style="width:10px;height:10px;border-radius:50%;background:${p.color};display:inline-block"></span>
+      ${p.name}
+    </label>`).join('');
+}
+function getSelectedProjects(){
+  return [...document.querySelectorAll('input[name=proj]:checked')].map(e=>e.value);
+}
+
+function switchModalTab(t){
+  currentMTab=t;
+  mTabs.forEach(id=>{
+    const el=document.getElementById('mtab-'+id);if(el)el.style.display=id===t?'block':'none';
+  });
+  document.querySelectorAll('#user-modal .inner-tab').forEach((el,i)=>el.classList.toggle('active',mTabs[i]===t));
+  const idx=mTabs.indexOf(t);
+  const prevBtn=document.getElementById('btn-prev');
+  const nextBtn=document.getElementById('btn-next');
+  const saveBtn=document.getElementById('btn-save');
+  if(prevBtn)prevBtn.style.display=idx>0?'inline-flex':'none';
+  if(nextBtn)nextBtn.style.display=idx<mTabs.length-1?'inline-flex':'none';
+  if(saveBtn)saveBtn.style.display=idx===mTabs.length-1?'inline-flex':'none';
+}
+function modalTab(t){switchModalTab(t);}
+function nextMTab(){
+  const idx=mTabs.indexOf(currentMTab);
+  if(idx<mTabs.length-1){if(validateModalTab(currentMTab))switchModalTab(mTabs[idx+1]);}
+}
+function prevMTab(){
+  const idx=mTabs.indexOf(currentMTab);
+  if(idx>0)switchModalTab(mTabs[idx-1]);
+}
+function validateModalTab(t){
+  let ok=true;
+  const setErr=(id,msg)=>{const e=document.getElementById('err-'+id);if(e)e.textContent=msg;if(msg)ok=false;};
+  if(t==='datos'){
+    setErr('nombre',document.getElementById('f-nombre').value.trim()?'':'Campo obligatorio');
+    setErr('apellidos',document.getElementById('f-apellidos').value.trim()?'':'Campo obligatorio');
+    const email=document.getElementById('f-email').value.trim();
+    setErr('email',email?(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)?'':'Email inválido'):'Campo obligatorio');
+  } else if(t==='laboral'){
+    setErr('depto',document.getElementById('f-depto').value.trim()?'':'Campo obligatorio');
+    setErr('centro',document.getElementById('f-centro').value?'':'Selecciona un centro');
+    setErr('horario',document.getElementById('f-horario').value?'':'Selecciona un horario');
+  }
+  return ok;
+}
+function saveUser(){
+  if(!validateModalTab('acceso'))return;
+  const pwd=document.getElementById('f-pwd').value;
+  if(!editingId&&pwd.length<4){const e=document.getElementById('err-pwd');if(e)e.textContent='Mínimo 4 caracteres';return;}
+  const horario=document.getElementById('f-horario').value;
+  const newU={
+    id:editingId||Date.now(),
+    nombre:document.getElementById('f-nombre').value.trim(),
+    apellidos:document.getElementById('f-apellidos').value.trim(),
+    email:document.getElementById('f-email').value.trim(),
+    pwd:pwd||users.find(u=>u.id===editingId)?.pwd||'1234',
+    depto:document.getElementById('f-depto').value.trim(),
+    cargo:document.getElementById('f-cargo').value.trim(),
+    centro:document.getElementById('f-centro').value,
+    horario,
+    horarioMax:horario.includes('intensiva')?420:480,
+    breakStart:horario.includes('intensiva')?0:840,
+    breakEnd:horario.includes('intensiva')?0:900,
+    manager:document.getElementById('f-manager').value,
+    rol:document.getElementById('f-rol').value,
+    proyectos:getSelectedProjects(),
+    status:'activo',
+    vacDias:22,vacUsados:0
+  };
+  if(editingId){const idx=users.findIndex(u=>u.id===editingId);if(idx>=0)users[idx]=newU;}
+  else users.push(newU);
+  document.getElementById('modal-success').style.display='block';
+  setTimeout(()=>{closeModal('user-modal');renderTable(users);updateStats();},1200);
+}
+
+// ============================================================
+// MODALES GENÉRICOS
+// ============================================================
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+
+// ============================================================
+// GRÁFICAS
+// ============================================================
+let chartsInitialized=false;
+let chartInstances={};
+function initCharts(){
+  if(chartsInitialized)return;
+  chartsInitialized=true;
+  const opts={responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:12,font:{size:11}}}}};
+
+  // Horas por proyecto (doughnut)
+  const cp=document.getElementById('chart-proyectos');
+  if(cp){
+    chartInstances.proyectos=new Chart(cp,{type:'doughnut',data:{
+      labels:['Alpha','Beta','Gamma','Delta','Soporte'],
+      datasets:[{data:[142,98,67,45,23],backgroundColor:['#4f46e5','#10b981','#f59e0b','#8b5cf6','#06b6d4'],borderWidth:2,borderColor:'#fff'}]
+    },options:{...opts,cutout:'65%'}});
+  }
+
+  // Horas semana (bar)
+  const cs=document.getElementById('chart-semanas');
+  if(cs){
+    chartInstances.semanas=new Chart(cs,{type:'bar',data:{
+      labels:['Sem 1','Sem 2','Sem 3','Sem 4'],
+      datasets:[
+        {label:'Media real',data:[38.2,39.1,37.8,38.9],backgroundColor:'#4f46e5',borderRadius:6},
+        {label:'Contratadas',data:[40,40,40,40],backgroundColor:'#e0e7ff',borderRadius:6}
+      ]
+    },options:{...opts,scales:{y:{beginAtZero:false,min:35,grid:{color:'#f3f4f6'}}}}});
+  }
+
+  // Tipos ausencia (pie)
+  const ca=document.getElementById('chart-ausencias');
+  if(ca){
+    chartInstances.ausencias=new Chart(ca,{type:'pie',data:{
+      labels:['Vacaciones','Enfermedad','Personal','Médica','Otros'],
+      datasets:[{data:[12,5,4,3,1],backgroundColor:['#10b981','#ef4444','#4f46e5','#f59e0b','#9ca3af'],borderWidth:2,borderColor:'#fff'}]
+    },options:opts});
+  }
+
+  // H. extra por empleado (bar horizontal)
+  const co=document.getElementById('chart-overtime');
+  if(co){
+    chartInstances.overtime=new Chart(co,{type:'bar',data:{
+      labels:['Carlos M.','Ana P.','Sara M.','Pedro R.','Elena C.'],
+      datasets:[{label:'Horas extra',data:[6.5,4,3,2.5,1],backgroundColor:'#f59e0b',borderRadius:6}]
+    },options:{...opts,indexAxis:'y',scales:{x:{beginAtZero:true,grid:{color:'#f3f4f6'}}}}});
+  }
+}
+</script>
+</body>
+</html>
