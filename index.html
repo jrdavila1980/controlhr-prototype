@@ -8,55 +8,58 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #1a1a2e; min-height: 100vh; }
 
-nav { background: #1a1a2e; color: white; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+nav { background: #1a1a2e; color: white; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 50; }
 nav .logo { font-weight: 700; font-size: 18px; letter-spacing: 1px; }
+nav .nav-right { display: flex; align-items: center; gap: 16px; }
 nav .user { display: flex; align-items: center; gap: 10px; font-size: 14px; }
-nav .avatar { width: 32px; height: 32px; border-radius: 50%; background: #4f46e5; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
+nav .avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; cursor: pointer; }
+.role-switcher { display: flex; gap: 4px; background: rgba(255,255,255,.1); padding: 4px; border-radius: 8px; }
+.role-btn { padding: 5px 12px; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; background: none; color: #9ca3af; transition: all .15s; }
+.role-btn.active { background: white; color: #1a1a2e; }
 
-/* SIDEBAR */
 .layout { display: flex; min-height: calc(100vh - 56px); }
 .sidebar { width: 220px; background: white; border-right: 1px solid #e5e7eb; padding: 16px 0; flex-shrink: 0; }
-.sidebar-item { display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 14px; font-weight: 500; cursor: pointer; color: #6b7280; border-left: 3px solid transparent; transition: all .15s; }
+.sidebar-item { display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 14px; font-weight: 500; cursor: pointer; color: #6b7280; border-left: 3px solid transparent; transition: all .15s; user-select: none; }
 .sidebar-item:hover { background: #f9fafb; color: #1a1a2e; }
 .sidebar-item.active { color: #4f46e5; background: #eef2ff; border-left-color: #4f46e5; }
 .sidebar-icon { font-size: 16px; width: 20px; text-align: center; }
 .sidebar-section { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: #9ca3af; padding: 16px 20px 6px; }
+.notif-dot { background: #ef4444; color: white; border-radius: 10px; font-size: 11px; font-weight: 700; padding: 1px 6px; margin-left: auto; }
 
-.main { flex: 1; padding: 28px 32px; overflow-y: auto; }
+.main { flex: 1; padding: 28px 32px; overflow-y: auto; max-width: 1100px; }
 .page { display: none; }
 .page.active { display: block; }
 
-/* CARDS */
 .card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,.07); margin-bottom: 20px; }
 .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .card-header h2 { font-size: 16px; font-weight: 700; }
-.page-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+.page-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
 .page-sub { font-size: 14px; color: #6b7280; margin-bottom: 24px; }
 
-/* BOTONES */
 .btn { padding: 9px 18px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all .15s; display: inline-flex; align-items: center; gap: 6px; }
 .btn-primary { background: #4f46e5; color: white; }
 .btn-primary:hover { background: #4338ca; }
+.btn-success { background: #10b981; color: white; }
+.btn-success:hover { background: #059669; }
+.btn-danger-solid { background: #ef4444; color: white; }
+.btn-danger-solid:hover { background: #dc2626; }
 .btn-danger { background: #fee2e2; color: #991b1b; }
 .btn-danger:hover { background: #fecaca; }
 .btn-ghost { background: #f3f4f6; color: #374151; }
 .btn-ghost:hover { background: #e5e7eb; }
-.btn-green { background: #d1fae5; color: #065f46; }
-.btn-green:hover { background: #a7f3d0; }
 .btn-sm { padding: 5px 12px; font-size: 12px; }
 .btn-full { width: 100%; justify-content: center; }
 .btn:disabled { opacity: .4; cursor: not-allowed; }
 
-/* BADGES */
-.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }
 .badge-green { background: #d1fae5; color: #065f46; }
 .badge-blue { background: #e0e7ff; color: #3730a3; }
 .badge-red { background: #fee2e2; color: #991b1b; }
 .badge-gray { background: #f3f4f6; color: #6b7280; }
 .badge-yellow { background: #fef3c7; color: #92400e; }
 .badge-purple { background: #f3e8ff; color: #6b21a8; }
+.badge-orange { background: #fff7ed; color: #9a3412; }
 
-/* TABLA */
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
 th { text-align: left; padding: 10px 12px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: #9ca3af; border-bottom: 1px solid #f3f4f6; }
 td { padding: 12px; border-bottom: 1px solid #f9fafb; vertical-align: middle; }
@@ -67,35 +70,30 @@ tr:last-child td { border-bottom: none; }
 .user-name { font-weight: 600; font-size: 14px; }
 .user-email { font-size: 12px; color: #9ca3af; }
 
-/* FORMULARIO */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 @media(max-width:600px) { .form-grid { grid-template-columns: 1fr; } }
 .form-group { display: flex; flex-direction: column; gap: 5px; }
 .form-group.full { grid-column: 1 / -1; }
-label { font-size: 13px; font-weight: 600; color: #374151; }
+label.lbl { font-size: 13px; font-weight: 600; color: #374151; }
 label .req { color: #ef4444; }
 input, select, textarea { padding: 9px 12px; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 14px; font-family: inherit; transition: border .15s; background: white; }
 input:focus, select:focus, textarea:focus { outline: none; border-color: #4f46e5; }
 input.error, select.error { border-color: #ef4444; }
 .field-error { font-size: 12px; color: #ef4444; }
-.form-divider { grid-column: 1 / -1; border: none; border-top: 1px solid #f3f4f6; margin: 8px 0; }
 
-/* SEARCH */
-.search-bar { display: flex; gap: 10px; margin-bottom: 16px; align-items: center; }
-.search-bar input { flex: 1; }
+.search-bar { display: flex; gap: 10px; margin-bottom: 16px; align-items: center; flex-wrap: wrap; }
+.search-bar input { flex: 1; min-width: 180px; }
 .search-bar select { width: 160px; }
 
-/* STATS */
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
 @media(max-width:700px) { .stats { grid-template-columns: 1fr 1fr; } }
 .stat { background: white; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 4px rgba(0,0,0,.07); }
 .stat .val { font-size: 28px; font-weight: 700; margin-bottom: 2px; }
 .stat .lbl { font-size: 12px; color: #9ca3af; font-weight: 500; }
 
-/* MODAL */
 .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto; }
 .overlay.show { display: flex; }
-.modal { background: white; border-radius: 16px; padding: 28px; width: 100%; max-width: 580px; }
+.modal { background: white; border-radius: 16px; padding: 28px; width: 100%; max-width: 560px; }
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .modal-header h3 { font-size: 18px; font-weight: 700; }
 .modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: #9ca3af; line-height: 1; }
@@ -105,316 +103,458 @@ input.error, select.error { border-color: #ef4444; }
 .alert-green { background: #d1fae5; color: #065f46; border-left: 4px solid #10b981; }
 .alert-yellow { background: #fef3c7; color: #92400e; border-left: 4px solid #f59e0b; }
 .alert-red { background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
+.alert-blue { background: #e0e7ff; color: #3730a3; border-left: 4px solid #4f46e5; }
 
-.tag { display: inline-block; background: #f3f4f6; color: #374151; border-radius: 6px; padding: 2px 8px; font-size: 12px; margin: 2px; }
-
-/* TABS dentro de página */
 .inner-tabs { display: flex; gap: 4px; background: #f3f4f6; padding: 4px; border-radius: 10px; margin-bottom: 20px; width: fit-content; }
-.inner-tab { padding: 7px 16px; text-align: center; font-size: 13px; font-weight: 600; border-radius: 7px; cursor: pointer; color: #6b7280; border: none; background: none; transition: all .2s; }
+.inner-tab { padding: 7px 16px; font-size: 13px; font-weight: 600; border-radius: 7px; cursor: pointer; color: #6b7280; border: none; background: none; transition: all .2s; }
 .inner-tab.active { background: white; color: #1a1a2e; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
 
+.tag { display: inline-block; background: #f3f4f6; color: #374151; border-radius: 6px; padding: 2px 8px; font-size: 12px; margin: 2px; }
 .empty-state { text-align: center; padding: 40px; color: #9ca3af; font-size: 14px; }
 .empty-state .icon { font-size: 40px; margin-bottom: 12px; }
+
+/* MANAGER ESPECÍFICO */
+.team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 20px; }
+.team-card { background: white; border-radius: 10px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.07); display: flex; align-items: center; gap: 12px; border-left: 4px solid #e5e7eb; }
+.team-card.ok { border-left-color: #10b981; }
+.team-card.incident { border-left-color: #ef4444; }
+.team-card.pending { border-left-color: #f59e0b; }
+.team-card.overtime { border-left-color: #4f46e5; }
+.team-card .tc-info { flex: 1; min-width: 0; }
+.team-card .tc-name { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.team-card .tc-status { font-size: 12px; color: #6b7280; margin-top: 2px; }
+.team-card .tc-time { font-size: 13px; font-weight: 600; }
+
+.incident-row { border-left: 4px solid #ef4444; background: #fff; border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+.incident-row.geo { border-left-color: #f59e0b; }
+.incident-row.overtime-row { border-left-color: #4f46e5; }
+.incident-row .ir-icon { font-size: 22px; flex-shrink: 0; }
+.incident-row .ir-info { flex: 1; }
+.incident-row .ir-info strong { display: block; font-size: 14px; }
+.incident-row .ir-info span { font-size: 12px; color: #6b7280; }
+.incident-row .ir-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+.approval-step { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; background: #f8fafc; margin-bottom: 8px; }
+.approval-step .level { width: 28px; height: 28px; border-radius: 50%; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.level-pending { background: #e0e7ff; color: #4f46e5; }
+.level-done { background: #d1fae5; color: #065f46; }
+.level-active { background: #4f46e5; color: white; }
+.level-rejected { background: #fee2e2; color: #991b1b; }
+.level-waiting { background: #f3f4f6; color: #9ca3af; }
+.approval-step .info { flex: 1; font-size: 13px; }
+.approval-step .info strong { display: block; font-size: 14px; }
+
+/* TIMELINE */
+.timeline { display: flex; align-items: center; margin: 16px 0; }
+.tl-item { flex: 1; text-align: center; font-size: 12px; color: #6b7280; }
+.tl-item strong { display: block; font-size: 15px; color: #1a1a2e; }
+.tl-line { flex: 1; height: 2px; background: #e5e7eb; }
+.tl-line.done { background: #10b981; }
+.tl-dot { width: 10px; height: 10px; border-radius: 50%; background: #e5e7eb; margin: 0 auto 4px; }
+.tl-dot.done { background: #10b981; }
+.tl-dot.active { background: #4f46e5; box-shadow: 0 0 0 3px #e0e7ff; }
+
+.hours-bar { height: 8px; border-radius: 4px; background: #e5e7eb; margin: 12px 0 6px; overflow: hidden; }
+.hours-bar-fill { height: 100%; border-radius: 4px; background: #4f46e5; transition: width .3s; }
+.hours-bar-fill.over { background: #ef4444; }
+.geo-status { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-top: 12px; padding: 10px 14px; border-radius: 8px; }
+.geo-ok { background: #d1fae5; color: #065f46; }
+.geo-warn { background: #fef3c7; color: #92400e; }
+.geo-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+
+/* FICHAJE EMPLEADO */
+.schedule-info { background: #f8fafc; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; font-size: 13px; color: #374151; display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.schedule-info span { display: flex; flex-direction: column; gap: 2px; }
+.schedule-info strong { font-size: 15px; color: #1a1a2e; }
+.clock-display { text-align: center; margin: 8px 0 20px; }
+.clock-display .time { font-size: 48px; font-weight: 700; color: #1a1a2e; letter-spacing: 2px; }
+.clock-display .date { font-size: 14px; color: #6b7280; margin-top: 4px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media(max-width:640px) { .grid2 { grid-template-columns: 1fr; } }
+.project-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.project-row label { flex: 1; font-size: 14px; font-weight: 500; }
+.project-row input[type=number] { width: 80px; padding: 8px; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 14px; text-align: center; }
+.project-row input:focus { outline: none; border-color: #4f46e5; }
+.dot-color { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 </style>
 </head>
 <body>
 
 <nav>
   <div class="logo">⏱ ControlHR</div>
-  <div class="user">
-    <div style="text-align:right">
-      <div style="font-weight:600;font-size:14px">Admin RRHH</div>
-      <div style="font-size:11px;color:#9ca3af">Recursos Humanos</div>
+  <div class="nav-right">
+    <!-- SELECTOR DE ROL (demo) -->
+    <div class="role-switcher">
+      <button class="role-btn" onclick="switchRole('empleado')">Empleado</button>
+      <button class="role-btn active" onclick="switchRole('manager')">Manager</button>
+      <button class="role-btn" onclick="switchRole('admin')">Admin RRHH</button>
     </div>
-    <div class="avatar">RH</div>
+    <div class="user">
+      <div style="text-align:right">
+        <div style="font-weight:600;font-size:14px" id="nav-name">Laura González</div>
+        <div style="font-size:11px;color:#9ca3af" id="nav-role">Manager · Madrid</div>
+      </div>
+      <div class="avatar" id="nav-avatar" style="background:#10b981">LG</div>
+    </div>
   </div>
 </nav>
 
 <div class="layout">
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-section">Principal</div>
-    <div class="sidebar-item active" onclick="goTo('usuarios')">
-      <span class="sidebar-icon">👥</span> Usuarios
-    </div>
-    <div class="sidebar-item" onclick="goTo('fichaje')">
-      <span class="sidebar-icon">⏱</span> Mi fichaje
-    </div>
-    <div class="sidebar-section">Configuración</div>
-    <div class="sidebar-item" onclick="goTo('horarios')">
-      <span class="sidebar-icon">🗓</span> Horarios
-    </div>
-    <div class="sidebar-item" onclick="goTo('proyectos-admin')">
-      <span class="sidebar-icon">📁</span> Proyectos
-    </div>
-    <div class="sidebar-item" onclick="goTo('centros')">
-      <span class="sidebar-icon">🏢</span> Centros
-    </div>
-  </aside>
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main" id="main-content">
 
-  <main class="main">
+    <!-- ===================== PÁGINAS EMPLEADO ===================== -->
+    <div id="page-fichaje" class="page">
+      <div class="page-title">Mi jornada</div>
+      <div class="page-sub">Registro horario y asignación de tiempo a proyectos</div>
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="empTab('fichar')">Fichaje</button>
+        <button class="inner-tab" onclick="empTab('imputar')">Proyectos</button>
+        <button class="inner-tab" onclick="empTab('historial')">Historial</button>
+      </div>
+      <!-- Fichaje -->
+      <div id="etab-fichar">
+        <div class="grid2">
+          <div class="card">
+            <h2 style="font-size:15px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px">Control de fichaje</h2>
+            <div class="clock-display">
+              <div class="time" id="emp-clock">--:--:--</div>
+              <div class="date" id="emp-date"></div>
+            </div>
+            <div class="schedule-info">
+              <span>Entrada<strong>08:00</strong></span>
+              <span>Comida<strong>14–15h</strong></span>
+              <span>Salida<strong>17:00</strong></span>
+              <span>Máx.<strong>8h/día</strong></span>
+            </div>
+            <div id="emp-geo" class="geo-status geo-warn"><div class="geo-dot"></div>Obteniendo ubicación...</div>
+            <div style="margin-top:16px">
+              <button id="emp-btn-fichar" class="btn btn-success btn-full" style="font-size:16px;padding:14px" onclick="toggleFichaje()">▶ Iniciar jornada</button>
+            </div>
+            <div id="emp-overtime-alert" style="display:none;margin-top:12px">
+              <div class="alert alert-yellow">⚠️ Has alcanzado tu jornada máxima de <strong>8h</strong>. Para continuar necesitas aprobación.</div>
+              <button class="btn btn-primary btn-full" onclick="openOvertimeModal()" style="margin-top:6px">Solicitar horas extra</button>
+            </div>
+          </div>
+          <div class="card">
+            <h2 style="font-size:15px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px">Estado de hoy</h2>
+            <div class="timeline">
+              <div class="tl-item"><div class="tl-dot" id="dot-in"></div><div>Entrada</div><strong id="time-in">--:--</strong></div>
+              <div class="tl-line" id="line1"></div>
+              <div class="tl-item"><div class="tl-dot" id="dot-break"></div><div>Comida</div><strong>14–15h</strong></div>
+              <div class="tl-line" id="line2"></div>
+              <div class="tl-item"><div class="tl-dot" id="dot-out"></div><div>Salida</div><strong id="time-out">--:--</strong></div>
+            </div>
+            <div style="font-size:14px;margin-top:8px">
+              <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f3f4f6">
+                <span style="color:#6b7280">Tiempo trabajado</span><strong id="worked-disp">0h 00min</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f3f4f6">
+                <span style="color:#6b7280">Pausa comida</span><strong id="break-disp">No iniciada</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:8px 0">
+                <span style="color:#6b7280">Estado</span><span id="emp-status-badge" class="badge badge-gray">Sin iniciar</span>
+              </div>
+            </div>
+            <div id="emp-imputation-ok" class="alert alert-green" style="display:none;margin-top:12px">
+              ✅ Jornada finalizada. <a href="#" onclick="empTab('imputar');return false" style="color:#065f46;font-weight:700">Imputa tu tiempo →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Imputar -->
+      <div id="etab-imputar" style="display:none">
+        <div class="card">
+          <h2 style="font-size:15px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Imputación a proyectos</h2>
+          <div id="imp-locked" class="alert alert-yellow" style="margin-top:12px">⏳ Finaliza tu jornada antes de imputar tiempo.</div>
+          <div id="imp-done" class="alert alert-green" style="display:none">✅ Imputación confirmada correctamente.</div>
+          <div id="imp-form">
+            <div class="hours-bar"><div class="hours-bar-fill" id="imp-bar" style="width:0%"></div></div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;color:#6b7280;margin-bottom:16px">
+              <span>Imputado: <strong id="imp-used">0h 00min</strong></span>
+              <span>Disponible: <strong id="imp-total">8h 00min</strong></span>
+            </div>
+            <div class="project-row"><div class="dot-color" style="background:#4f46e5"></div><label>Proyecto Alpha</label><input type="number" id="p1" min="0" max="10" step="0.5" value="0" oninput="updateImpBar()"> h</div>
+            <div class="project-row"><div class="dot-color" style="background:#10b981"></div><label>Proyecto Beta</label><input type="number" id="p2" min="0" max="10" step="0.5" value="0" oninput="updateImpBar()"> h</div>
+            <div class="project-row"><div class="dot-color" style="background:#f59e0b"></div><label>Proyecto Gamma</label><input type="number" id="p3" min="0" max="10" step="0.5" value="0" oninput="updateImpBar()"> h</div>
+            <div id="imp-warn" class="alert alert-red" style="display:none"></div>
+            <button class="btn btn-primary btn-full" style="margin-top:8px" onclick="confirmImputation()">Confirmar imputación</button>
+          </div>
+        </div>
+      </div>
+      <!-- Historial -->
+      <div id="etab-historial" style="display:none">
+        <div class="card">
+          <h2 style="font-size:15px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px">Mis últimos registros</h2>
+          <table>
+            <thead><tr><th>Día</th><th>Entrada</th><th>Salida</th><th>Total</th><th>Proyectos</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr><td>Lun 17 Feb</td><td>08:02</td><td>17:05</td><td>8h 03min</td><td><span class="tag">Alpha 4h</span><span class="tag">Beta 4h</span></td><td><span class="badge badge-green">Completa</span></td></tr>
+              <tr><td>Mar 18 Feb</td><td>07:58</td><td>18:32</td><td>9h 34min</td><td><span class="tag">Alpha 5h</span><span class="tag">Gamma 4h</span></td><td><span class="badge badge-blue">H.Extra aprobadas</span></td></tr>
+              <tr><td>Mié 19 Feb</td><td>08:10</td><td>17:00</td><td>7h 50min</td><td><span class="tag">Beta 7h</span></td><td><span class="badge badge-yellow">Incidencia</span></td></tr>
+              <tr><td>Jue 20 Feb</td><td>08:05</td><td>17:02</td><td>7h 57min</td><td><span class="tag">Alpha 4h</span><span class="tag">Beta 4h</span></td><td><span class="badge badge-green">Completa</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
-    <!-- PÁGINA: USUARIOS -->
-    <div id="page-usuarios" class="page active">
+    <!-- ===================== PÁGINAS MANAGER ===================== -->
+    <div id="page-manager-dashboard" class="page">
+      <div class="page-title">Dashboard del equipo</div>
+      <div class="page-sub">Resumen en tiempo real · Hoy, miércoles 19 de febrero</div>
+      <div class="stats">
+        <div class="stat"><div class="val" style="color:#10b981">6</div><div class="lbl">Fichados hoy</div></div>
+        <div class="stat"><div class="val" style="color:#ef4444">2</div><div class="lbl">Sin fichar</div></div>
+        <div class="stat"><div class="val" style="color:#f59e0b">3</div><div class="lbl">Incidencias abiertas</div></div>
+        <div class="stat"><div class="val" style="color:#4f46e5">2</div><div class="lbl">H.Extra pendientes</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h2>Estado del equipo ahora</h2></div>
+        <div class="team-grid" id="team-grid"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h2>🚨 Requieren atención hoy</h2></div>
+        <div class="incident-row">
+          <div class="ir-icon">🕐</div>
+          <div class="ir-info"><strong>Miguel Torres – Sin fichar entrada</strong><span>Hoy · Debía entrar a las 08:00 · Sin actividad registrada</span></div>
+          <div class="ir-actions"><button class="btn btn-ghost btn-sm" onclick="openIncidentModal('missing','Miguel Torres')">Gestionar</button></div>
+        </div>
+        <div class="incident-row geo">
+          <div class="ir-icon">📍</div>
+          <div class="ir-info"><strong>Sara Medina – Fichaje fuera del radio</strong><span>Hoy 08:12 · Ubicación a 420m de la oficina</span></div>
+          <div class="ir-actions">
+            <button class="btn btn-success btn-sm" onclick="resolveQuick('geo')">✓ Excusar</button>
+            <button class="btn btn-ghost btn-sm" onclick="openIncidentModal('geo','Sara Medina')">Ver</button>
+          </div>
+        </div>
+        <div class="incident-row overtime-row">
+          <div class="ir-icon">⏱</div>
+          <div class="ir-info"><strong>Carlos Martínez – Solicitud horas extra</strong><span>Hoy · 1h 30min extra · "Cierre de sprint urgente"</span></div>
+          <div class="ir-actions">
+            <button class="btn btn-success btn-sm" onclick="approveOvertime('Carlos Martínez')">✓ Aprobar</button>
+            <button class="btn btn-danger btn-sm" onclick="rejectOvertime('Carlos Martínez')">✗ Rechazar</button>
+          </div>
+        </div>
+        <div class="incident-row overtime-row">
+          <div class="ir-icon">⏱</div>
+          <div class="ir-info"><strong>Ana Pérez – Solicitud horas extra</strong><span>Hoy · 2h extra · "Entrega diseño cliente"</span></div>
+          <div class="ir-actions">
+            <button class="btn btn-success btn-sm" onclick="approveOvertime('Ana Pérez')">✓ Aprobar</button>
+            <button class="btn btn-danger btn-sm" onclick="rejectOvertime('Ana Pérez')">✗ Rechazar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-manager-incidencias" class="page">
+      <div class="page-title">Incidencias del equipo</div>
+      <div class="page-sub">Gestiona y resuelve las incidencias de tu equipo</div>
+      <div class="inner-tabs">
+        <button class="inner-tab active" onclick="incTab('abiertas')">🔴 Abiertas <span class="notif-dot" style="display:inline;margin-left:4px">5</span></button>
+        <button class="inner-tab" onclick="incTab('resueltas')">✅ Resueltas</button>
+      </div>
+      <div id="inc-abiertas">
+        <div id="incidents-list"></div>
+      </div>
+      <div id="inc-resueltas" style="display:none">
+        <div class="card">
+          <table>
+            <thead><tr><th>Empleado</th><th>Tipo</th><th>Fecha</th><th>Resuelto por</th><th>Comentario</th></tr></thead>
+            <tbody>
+              <tr><td>Carlos Martínez</td><td><span class="badge badge-gray">Olvido fichaje</span></td><td>14 Feb</td><td>Laura González</td><td>Confirmó presencia por email</td></tr>
+              <tr><td>Sara Medina</td><td><span class="badge badge-gray">GPS fuera radio</span></td><td>12 Feb</td><td>Laura González</td><td>Reunión externa con cliente</td></tr>
+              <tr><td>Miguel Torres</td><td><span class="badge badge-gray">Exceso jornada</span></td><td>10 Feb</td><td>Laura González</td><td>H. extra aprobadas por RRHH</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-manager-overtime" class="page">
+      <div class="page-title">Horas extra</div>
+      <div class="page-sub">Solicitudes de horas extra pendientes de aprobación en el nivel 1</div>
+      <div id="overtime-list"></div>
+    </div>
+
+    <div id="page-manager-horario" class="page">
+      <div class="page-title">Control horario del equipo</div>
+      <div class="page-sub">Registro de jornada de todos los miembros del equipo</div>
+      <div class="card">
+        <div class="search-bar">
+          <input type="text" placeholder="🔍 Buscar empleado...">
+          <select><option>Esta semana</option><option>Semana pasada</option><option>Este mes</option></select>
+        </div>
+        <table>
+          <thead><tr><th>Empleado</th><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th><th>Total</th><th>Estado</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Carlos Martínez</strong></td><td>8h 03m</td><td>9h 34m ⭐</td><td>8h 01m</td><td>7h 57m</td><td>—</td><td>33h 35m</td><td><span class="badge badge-green">OK</span></td></tr>
+            <tr><td><strong>Ana Pérez</strong></td><td>7h 00m</td><td>7h 00m</td><td>7h 00m</td><td>7h 00m</td><td>—</td><td>28h 00m</td><td><span class="badge badge-green">OK</span></td></tr>
+            <tr><td><strong>Sara Medina</strong></td><td>8h 00m</td><td>8h 00m</td><td>8h 12m</td><td>8h 00m</td><td>—</td><td>32h 12m</td><td><span class="badge badge-yellow">Incidencia</span></td></tr>
+            <tr><td><strong>Miguel Torres</strong></td><td>8h 00m</td><td>8h 00m</td><td>—</td><td>—</td><td>—</td><td>16h 00m</td><td><span class="badge badge-red">Sin fichar</span></td></tr>
+            <tr><td><strong>Pedro Ruiz</strong></td><td>8h 00m</td><td>8h 00m</td><td>8h 00m</td><td>8h 00m</td><td>—</td><td>32h 00m</td><td><span class="badge badge-green">OK</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===================== PÁGINAS ADMIN ===================== -->
+    <div id="page-usuarios" class="page">
       <div class="page-title">Gestión de usuarios</div>
       <div class="page-sub">Alta, edición y configuración de empleados</div>
-
       <div class="stats">
         <div class="stat"><div class="val" id="stat-total">4</div><div class="lbl">Total empleados</div></div>
         <div class="stat"><div class="val" style="color:#10b981" id="stat-active">3</div><div class="lbl">Activos</div></div>
-        <div class="stat"><div class="val" style="color:#f59e0b" id="stat-pending">1</div><div class="lbl">Pendientes activación</div></div>
+        <div class="stat"><div class="val" style="color:#f59e0b" id="stat-pending">1</div><div class="lbl">Pendientes</div></div>
         <div class="stat"><div class="val" style="color:#ef4444" id="stat-inactive">0</div><div class="lbl">Inactivos</div></div>
       </div>
-
       <div class="card">
-        <div class="card-header">
-          <h2>Empleados</h2>
-          <button class="btn btn-primary" onclick="openNewUser()">＋ Nuevo empleado</button>
-        </div>
-
+        <div class="card-header"><h2>Empleados</h2><button class="btn btn-primary" onclick="openNewUser()">＋ Nuevo empleado</button></div>
         <div class="search-bar">
-          <input type="text" id="search-input" placeholder="🔍  Buscar por nombre, email o departamento..." oninput="filterUsers()">
-          <select id="filter-role" onchange="filterUsers()">
-            <option value="">Todos los roles</option>
-            <option value="empleado">Empleado</option>
-            <option value="manager">Manager</option>
-            <option value="rrhh">RRHH</option>
-            <option value="admin">Admin</option>
-          </select>
-          <select id="filter-status" onchange="filterUsers()">
-            <option value="">Todos los estados</option>
-            <option value="activo">Activo</option>
-            <option value="pendiente">Pendiente</option>
-            <option value="inactivo">Inactivo</option>
-          </select>
+          <input type="text" id="search-input" placeholder="🔍 Buscar..." oninput="filterUsers()">
+          <select id="filter-role" onchange="filterUsers()"><option value="">Todos los roles</option><option value="empleado">Empleado</option><option value="manager">Manager</option><option value="rrhh">RRHH</option><option value="admin">Admin</option></select>
+          <select id="filter-status" onchange="filterUsers()"><option value="">Todos los estados</option><option value="activo">Activo</option><option value="pendiente">Pendiente</option><option value="inactivo">Inactivo</option></select>
         </div>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Empleado</th>
-              <th>Rol</th>
-              <th>Centro / Horario</th>
-              <th>Proyectos</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="users-table"></tbody>
-        </table>
+        <table><thead><tr><th>Empleado</th><th>Rol</th><th>Centro / Horario</th><th>Proyectos</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="users-table"></tbody></table>
       </div>
     </div>
 
-    <!-- PÁGINA: FICHAJE (simplificada) -->
-    <div id="page-fichaje" class="page">
-      <div class="page-title">Mi fichaje</div>
-      <div class="page-sub">Registro de jornada y proyectos</div>
-      <div class="card" style="text-align:center;padding:40px">
-        <div style="font-size:48px;font-weight:700;letter-spacing:2px" id="clock2">--:--:--</div>
-        <div style="color:#6b7280;margin:8px 0 24px;font-size:14px" id="date2"></div>
-        <button class="btn btn-primary" style="font-size:16px;padding:14px 40px" onclick="alert('Demo: funcionalidad de fichaje completa en la pestaña anterior.')">Iniciar jornada</button>
-      </div>
-    </div>
-
-    <!-- PÁGINA: HORARIOS -->
     <div id="page-horarios" class="page">
       <div class="page-title">Horarios</div>
-      <div class="page-sub">Turnos y jornadas disponibles para asignar a empleados</div>
+      <div class="page-sub">Turnos y jornadas disponibles</div>
       <div class="card">
-        <table>
-          <thead><tr><th>Nombre</th><th>Entrada</th><th>Pausa</th><th>Salida</th><th>Horas/día</th><th>Empleados</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Jornada completa L-V</strong></td><td>08:00</td><td>14:00–15:00</td><td>17:00</td><td>8h</td><td>3</td></tr>
-            <tr><td><strong>Jornada intensiva</strong></td><td>08:00</td><td>—</td><td>15:00</td><td>7h</td><td>1</td></tr>
-            <tr><td><strong>Turno mañana</strong></td><td>06:00</td><td>10:00–10:30</td><td>14:00</td><td>7.5h</td><td>0</td></tr>
-          </tbody>
-        </table>
+        <table><thead><tr><th>Nombre</th><th>Entrada</th><th>Pausa</th><th>Salida</th><th>Horas/día</th><th>Empleados</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Jornada completa L-V</strong></td><td>08:00</td><td>14:00–15:00</td><td>17:00</td><td>8h</td><td>3</td></tr>
+          <tr><td><strong>Jornada intensiva</strong></td><td>08:00</td><td>—</td><td>15:00</td><td>7h</td><td>1</td></tr>
+          <tr><td><strong>Turno mañana</strong></td><td>06:00</td><td>10:00–10:30</td><td>14:00</td><td>7.5h</td><td>0</td></tr>
+        </tbody></table>
       </div>
     </div>
 
-    <!-- PÁGINA: PROYECTOS ADMIN -->
     <div id="page-proyectos-admin" class="page">
       <div class="page-title">Proyectos</div>
-      <div class="page-sub">Gestión y asignación de proyectos activos</div>
+      <div class="page-sub">Gestión y asignación de proyectos</div>
       <div class="card">
-        <table>
-          <thead><tr><th>Proyecto</th><th>Código</th><th>Empleados asignados</th><th>Estado</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Proyecto Alpha</strong></td><td><span class="tag">PRY-001</span></td><td>3</td><td><span class="badge badge-green">Activo</span></td></tr>
-            <tr><td><strong>Proyecto Beta</strong></td><td><span class="tag">PRY-002</span></td><td>2</td><td><span class="badge badge-green">Activo</span></td></tr>
-            <tr><td><strong>Proyecto Gamma</strong></td><td><span class="tag">PRY-003</span></td><td>1</td><td><span class="badge badge-yellow">En pausa</span></td></tr>
-          </tbody>
-        </table>
+        <table><thead><tr><th>Proyecto</th><th>Código</th><th>Asignados</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Proyecto Alpha</strong></td><td><span class="tag">PRY-001</span></td><td>3</td><td><span class="badge badge-green">Activo</span></td></tr>
+          <tr><td><strong>Proyecto Beta</strong></td><td><span class="tag">PRY-002</span></td><td>2</td><td><span class="badge badge-green">Activo</span></td></tr>
+          <tr><td><strong>Proyecto Gamma</strong></td><td><span class="tag">PRY-003</span></td><td>1</td><td><span class="badge badge-yellow">En pausa</span></td></tr>
+        </tbody></table>
       </div>
     </div>
 
-    <!-- PÁGINA: CENTROS -->
     <div id="page-centros" class="page">
       <div class="page-title">Centros de trabajo</div>
-      <div class="page-sub">Sedes y oficinas con su configuración geográfica</div>
+      <div class="page-sub">Sedes y configuración geográfica</div>
       <div class="card">
-        <table>
-          <thead><tr><th>Centro</th><th>Dirección</th><th>CCAA</th><th>Radio GPS</th><th>Empleados</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Madrid Centro</strong></td><td>C/ Gran Vía 28</td><td>Madrid</td><td>200m</td><td>3</td></tr>
-            <tr><td><strong>Barcelona Oficina</strong></td><td>Av. Diagonal 405</td><td>Cataluña</td><td>150m</td><td>1</td></tr>
-            <tr><td><strong>Sevilla Hub</strong></td><td>C/ Sierpes 10</td><td>Andalucía</td><td>200m</td><td>0</td></tr>
-          </tbody>
-        </table>
+        <table><thead><tr><th>Centro</th><th>Dirección</th><th>CCAA</th><th>Radio GPS</th><th>Empleados</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Madrid Centro</strong></td><td>C/ Gran Vía 28</td><td>Madrid</td><td>200m</td><td>3</td></tr>
+          <tr><td><strong>Barcelona Oficina</strong></td><td>Av. Diagonal 405</td><td>Cataluña</td><td>150m</td><td>1</td></tr>
+          <tr><td><strong>Sevilla Hub</strong></td><td>C/ Sierpes 10</td><td>Andalucía</td><td>200m</td><td>0</td></tr>
+        </tbody></table>
       </div>
     </div>
 
   </main>
 </div>
 
-<!-- MODAL: NUEVO / EDITAR USUARIO -->
+<!-- MODAL INCIDENCIA -->
+<div class="overlay" id="incident-modal">
+  <div class="modal">
+    <div class="modal-header"><h3 id="inc-modal-title">Gestionar incidencia</h3><button class="modal-close" onclick="closeModal('incident-modal')">✕</button></div>
+    <div id="inc-modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('incident-modal')">Cancelar</button>
+      <button class="btn btn-danger" onclick="rejectIncident()">✗ Registrar incumplimiento</button>
+      <button class="btn btn-success" onclick="excuseIncident()">✓ Excusar / Justificar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL HORAS EXTRA (empleado) -->
+<div class="overlay" id="overtime-modal">
+  <div class="modal">
+    <div class="modal-header"><h3>Solicitar horas extra</h3><button class="modal-close" onclick="closeModal('overtime-modal')">✕</button></div>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:20px">La solicitud pasará por 3 niveles de aprobación antes de activarse.</p>
+    <div class="form-group" style="margin-bottom:16px">
+      <label class="lbl">Horas extra solicitadas</label>
+      <input type="number" id="ot-hours" min="0.5" max="4" step="0.5" value="1" style="width:100px">
+    </div>
+    <div class="form-group">
+      <label class="lbl">Motivo <span class="req">*</span></label>
+      <textarea id="ot-reason" rows="3" placeholder="Explica brevemente el motivo..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('overtime-modal')">Cancelar</button>
+      <button class="btn btn-primary" onclick="submitOvertimeRequest()">Enviar solicitud</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NUEVO/EDITAR USUARIO -->
 <div class="overlay" id="user-modal">
   <div class="modal">
-    <div class="modal-header">
-      <h3 id="modal-title">Nuevo empleado</h3>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-
-    <div id="modal-success" class="alert alert-green" style="display:none">
-      ✅ Empleado dado de alta correctamente. Se ha enviado un email de activación.
-    </div>
-
-    <div class="inner-tabs" style="margin-bottom:20px">
-      <button class="inner-tab active" onclick="modalTab('datos')">👤 Datos personales</button>
-      <button class="inner-tab" onclick="modalTab('laboral')">💼 Info laboral</button>
+    <div class="modal-header"><h3 id="modal-title">Nuevo empleado</h3><button class="modal-close" onclick="closeModal('user-modal')">✕</button></div>
+    <div id="modal-success" class="alert alert-green" style="display:none">✅ Empleado dado de alta. Se ha enviado email de activación.</div>
+    <div class="inner-tabs">
+      <button class="inner-tab active" onclick="modalTab('datos')">👤 Datos</button>
+      <button class="inner-tab" onclick="modalTab('laboral')">💼 Laboral</button>
       <button class="inner-tab" onclick="modalTab('acceso')">🔐 Acceso</button>
     </div>
-
-    <!-- TAB: DATOS PERSONALES -->
     <div id="mtab-datos">
       <div class="form-grid">
-        <div class="form-group">
-          <label>Nombre <span class="req">*</span></label>
-          <input type="text" id="f-nombre" placeholder="Ej: Carlos">
-          <span class="field-error" id="err-nombre"></span>
-        </div>
-        <div class="form-group">
-          <label>Apellidos <span class="req">*</span></label>
-          <input type="text" id="f-apellidos" placeholder="Ej: Martínez López">
-          <span class="field-error" id="err-apellidos"></span>
-        </div>
-        <div class="form-group">
-          <label>Email corporativo <span class="req">*</span></label>
-          <input type="email" id="f-email" placeholder="carlos.martinez@empresa.com">
-          <span class="field-error" id="err-email"></span>
-        </div>
-        <div class="form-group">
-          <label>Teléfono</label>
-          <input type="tel" id="f-telefono" placeholder="+34 600 000 000">
-        </div>
-        <div class="form-group">
-          <label>DNI / NIE</label>
-          <input type="text" id="f-dni" placeholder="12345678A">
-        </div>
-        <div class="form-group">
-          <label>Fecha de nacimiento</label>
-          <input type="date" id="f-nacimiento">
-        </div>
+        <div class="form-group"><label class="lbl">Nombre <span class="req">*</span></label><input type="text" id="f-nombre" placeholder="Ej: Carlos"><span class="field-error" id="err-nombre"></span></div>
+        <div class="form-group"><label class="lbl">Apellidos <span class="req">*</span></label><input type="text" id="f-apellidos" placeholder="Ej: Martínez López"><span class="field-error" id="err-apellidos"></span></div>
+        <div class="form-group"><label class="lbl">Email corporativo <span class="req">*</span></label><input type="email" id="f-email" placeholder="carlos@empresa.com"><span class="field-error" id="err-email"></span></div>
+        <div class="form-group"><label class="lbl">Teléfono</label><input type="tel" id="f-telefono" placeholder="+34 600 000 000"></div>
+        <div class="form-group"><label class="lbl">DNI / NIE</label><input type="text" id="f-dni" placeholder="12345678A"></div>
+        <div class="form-group"><label class="lbl">Fecha de nacimiento</label><input type="date" id="f-nacimiento"></div>
       </div>
     </div>
-
-    <!-- TAB: INFO LABORAL -->
     <div id="mtab-laboral" style="display:none">
       <div class="form-grid">
-        <div class="form-group">
-          <label>Departamento <span class="req">*</span></label>
-          <input type="text" id="f-depto" placeholder="Ej: Desarrollo, Ventas...">
-          <span class="field-error" id="err-depto"></span>
-        </div>
-        <div class="form-group">
-          <label>Cargo / Puesto</label>
-          <input type="text" id="f-cargo" placeholder="Ej: Desarrollador Senior">
-        </div>
-        <div class="form-group">
-          <label>Centro de trabajo <span class="req">*</span></label>
-          <select id="f-centro">
-            <option value="">— Seleccionar —</option>
-            <option>Madrid Centro</option>
-            <option>Barcelona Oficina</option>
-            <option>Sevilla Hub</option>
-          </select>
-          <span class="field-error" id="err-centro"></span>
-        </div>
-        <div class="form-group">
-          <label>Horario asignado <span class="req">*</span></label>
-          <select id="f-horario">
-            <option value="">— Seleccionar —</option>
-            <option>Jornada completa L-V (8h)</option>
-            <option>Jornada intensiva (7h)</option>
-            <option>Turno mañana (7.5h)</option>
-          </select>
-          <span class="field-error" id="err-horario"></span>
-        </div>
-        <div class="form-group">
-          <label>Fecha de incorporación</label>
-          <input type="date" id="f-incorporacion">
-        </div>
-        <div class="form-group">
-          <label>Manager directo</label>
-          <select id="f-manager">
-            <option value="">— Sin asignar —</option>
-            <option>Laura González (Manager)</option>
-            <option>Roberto Sanz (Director)</option>
-          </select>
-        </div>
-        <div class="form-group full">
-          <label>Proyectos asignados</label>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;padding:10px;border:1.5px solid #e5e7eb;border-radius:8px;min-height:44px" id="proj-tags">
-            <label style="font-weight:400;display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" value="Alpha" onchange="updateProjTags()"> Proyecto Alpha</label>
-            <label style="font-weight:400;display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" value="Beta" onchange="updateProjTags()"> Proyecto Beta</label>
-            <label style="font-weight:400;display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" value="Gamma" onchange="updateProjTags()"> Proyecto Gamma</label>
+        <div class="form-group"><label class="lbl">Departamento <span class="req">*</span></label><input type="text" id="f-depto" placeholder="Ej: Desarrollo"><span class="field-error" id="err-depto"></span></div>
+        <div class="form-group"><label class="lbl">Cargo</label><input type="text" id="f-cargo" placeholder="Ej: Desarrollador Senior"></div>
+        <div class="form-group"><label class="lbl">Centro de trabajo <span class="req">*</span></label><select id="f-centro"><option value="">— Seleccionar —</option><option>Madrid Centro</option><option>Barcelona Oficina</option><option>Sevilla Hub</option></select><span class="field-error" id="err-centro"></span></div>
+        <div class="form-group"><label class="lbl">Horario <span class="req">*</span></label><select id="f-horario"><option value="">— Seleccionar —</option><option>Jornada completa L-V (8h)</option><option>Jornada intensiva (7h)</option><option>Turno mañana (7.5h)</option></select><span class="field-error" id="err-horario"></span></div>
+        <div class="form-group"><label class="lbl">Incorporación</label><input type="date" id="f-incorporacion"></div>
+        <div class="form-group"><label class="lbl">Manager directo</label><select id="f-manager"><option value="">— Sin asignar —</option><option>Laura González</option><option>Roberto Sanz</option></select></div>
+        <div class="form-group full"><label class="lbl">Proyectos</label>
+          <div style="display:flex;gap:16px;padding:10px;border:1.5px solid #e5e7eb;border-radius:8px">
+            <label style="font-weight:400;display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" value="Alpha" id="cb-alpha"> Alpha</label>
+            <label style="font-weight:400;display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" value="Beta" id="cb-beta"> Beta</label>
+            <label style="font-weight:400;display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" value="Gamma" id="cb-gamma"> Gamma</label>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- TAB: ACCESO -->
     <div id="mtab-acceso" style="display:none">
       <div class="form-grid">
-        <div class="form-group full">
-          <label>Rol en la plataforma <span class="req">*</span></label>
+        <div class="form-group full"><label class="lbl">Rol <span class="req">*</span></label>
           <select id="f-rol">
-            <option value="empleado">👤 Empleado — Puede fichar e imputar tiempo</option>
-            <option value="manager">👔 Manager — Ve y gestiona a su equipo</option>
-            <option value="rrhh">🏢 RRHH — Acceso a todos los empleados y centros</option>
-            <option value="admin">⚙️ Admin — Control total de la plataforma</option>
+            <option value="empleado">👤 Empleado</option>
+            <option value="manager">👔 Manager</option>
+            <option value="rrhh">🏢 RRHH</option>
+            <option value="admin">⚙️ Admin</option>
           </select>
         </div>
-        <div class="form-group full">
-          <label>Método de activación</label>
-          <select id="f-activacion">
-            <option value="email">📧 Enviar email de bienvenida con contraseña temporal</option>
-            <option value="manual">🔑 Establecer contraseña manualmente</option>
-            <option value="sso">🔗 Activar via SSO corporativo</option>
+        <div class="form-group full"><label class="lbl">Activación</label>
+          <select id="f-activacion" onchange="togglePwd()">
+            <option value="email">📧 Email de bienvenida</option>
+            <option value="manual">🔑 Contraseña manual</option>
+            <option value="sso">🔗 SSO corporativo</option>
           </select>
         </div>
-        <div class="form-group" id="pwd-group" style="display:none">
-          <label>Contraseña temporal</label>
-          <input type="password" id="f-pwd" placeholder="Mínimo 8 caracteres">
-        </div>
-        <div class="form-group full">
-          <label style="display:flex;align-items:center;gap:8px;font-weight:400;cursor:pointer">
-            <input type="checkbox" id="f-2fa"> Requerir verificación en dos pasos (2FA) al primer inicio de sesión
-          </label>
-        </div>
-        <div class="form-group full">
-          <label style="display:flex;align-items:center;gap:8px;font-weight:400;cursor:pointer">
-            <input type="checkbox" id="f-notify" checked> Notificar al manager directo cuando el empleado se active
-          </label>
-        </div>
+        <div class="form-group full" id="pwd-group" style="display:none"><label class="lbl">Contraseña temporal</label><input type="password" id="f-pwd" placeholder="Mínimo 8 caracteres"></div>
+        <div class="form-group full"><label style="font-weight:400;display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="f-2fa"> Requerir 2FA al primer inicio</label></div>
       </div>
-      <div class="alert alert-yellow" style="margin-top:8px">
-        ⚠️ El acceso solo estará activo una vez que el empleado confirme su cuenta desde el email de bienvenida.
-      </div>
+      <div class="alert alert-yellow" style="margin-top:8px">⚠️ El acceso estará activo tras confirmar el email de bienvenida.</div>
     </div>
-
     <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-ghost" onclick="closeModal('user-modal')">Cancelar</button>
       <button class="btn btn-ghost" onclick="prevModalTab()" id="btn-prev" style="display:none">← Anterior</button>
       <button class="btn btn-primary" onclick="nextModalTab()" id="btn-next">Siguiente →</button>
       <button class="btn btn-primary" onclick="saveUser()" id="btn-save" style="display:none">✓ Dar de alta</button>
@@ -422,331 +562,541 @@ input.error, select.error { border-color: #ef4444; }
   </div>
 </div>
 
-<!-- MODAL: VER USUARIO -->
-<div class="overlay" id="view-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <h3 id="view-title">Ficha de empleado</h3>
-      <button class="modal-close" onclick="closeViewModal()">✕</button>
-    </div>
-    <div id="view-content"></div>
-    <div class="modal-footer">
-      <button class="btn btn-danger btn-sm" onclick="deactivateUser()">Desactivar cuenta</button>
-      <button class="btn btn-ghost" onclick="closeViewModal()">Cerrar</button>
-      <button class="btn btn-primary" onclick="closeViewModal();openEditUser()">✏️ Editar</button>
-    </div>
-  </div>
-</div>
-
 <script>
-// --- DATOS ---
-const COLORS = ['#4f46e5','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#ec4899'];
+// ===================== CONFIG ROLES =====================
+const ROLES = {
+  empleado: {
+    navName: 'Carlos Martínez', navRole: 'Empleado · Madrid', avatarColor: '#4f46e5', avatarInitials: 'CM',
+    sidebar: [
+      { id:'fichaje', icon:'⏱', label:'Mi fichaje', section:'Principal' },
+    ]
+  },
+  manager: {
+    navName: 'Laura González', navRole: 'Manager · Madrid', avatarColor: '#10b981', avatarInitials: 'LG',
+    sidebar: [
+      { id:'manager-dashboard', icon:'📊', label:'Dashboard', section:'Mi equipo', notif:2 },
+      { id:'manager-incidencias', icon:'🚨', label:'Incidencias', notif:5 },
+      { id:'manager-overtime', icon:'⏱', label:'Horas extra', notif:2 },
+      { id:'manager-horario', icon:'📅', label:'Control horario' },
+      { id:'fichaje', icon:'🕐', label:'Mi fichaje', section:'Personal' },
+    ]
+  },
+  admin: {
+    navName: 'Admin RRHH', navRole: 'Recursos Humanos', avatarColor: '#8b5cf6', avatarInitials: 'RH',
+    sidebar: [
+      { id:'usuarios', icon:'👥', label:'Usuarios', section:'Principal' },
+      { id:'horarios', icon:'🗓', label:'Horarios', section:'Configuración' },
+      { id:'proyectos-admin', icon:'📁', label:'Proyectos' },
+      { id:'centros', icon:'🏢', label:'Centros' },
+    ]
+  }
+};
+
+let currentRole = 'manager';
+let currentPage = 'manager-dashboard';
+let editingId = null;
+let currentModalTab = 'datos';
+const modalTabs = ['datos','laboral','acceso'];
+
+// ===================== SWITCH ROLE =====================
+function switchRole(role) {
+  currentRole = role;
+  document.querySelectorAll('.role-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.trim().toLowerCase() === role ||
+      (role === 'admin' && b.textContent.trim() === 'Admin RRHH') ||
+      (role === 'manager' && b.textContent.trim() === 'Manager') ||
+      (role === 'empleado' && b.textContent.trim() === 'Empleado'));
+  });
+  const cfg = ROLES[role];
+  document.getElementById('nav-name').textContent = cfg.navName;
+  document.getElementById('nav-role').textContent = cfg.navRole;
+  document.getElementById('nav-avatar').textContent = cfg.avatarInitials;
+  document.getElementById('nav-avatar').style.background = cfg.avatarColor;
+  buildSidebar(cfg.sidebar);
+  const firstPage = cfg.sidebar[0].id;
+  showPage(firstPage);
+}
+
+function buildSidebar(items) {
+  const sb = document.getElementById('sidebar');
+  let html = '';
+  let lastSection = '';
+  items.forEach(item => {
+    if (item.section && item.section !== lastSection) {
+      html += `<div class="sidebar-section">${item.section}</div>`;
+      lastSection = item.section;
+    }
+    const notif = item.notif ? `<span class="notif-dot">${item.notif}</span>` : '';
+    html += `<div class="sidebar-item" id="si-${item.id}" onclick="showPage('${item.id}',this)">${'<span class="sidebar-icon">'+item.icon+'</span>'} ${item.label} ${notif}</div>`;
+  });
+  sb.innerHTML = html;
+  // Mark first active
+  const first = sb.querySelector('.sidebar-item');
+  if (first) first.classList.add('active');
+}
+
+function showPage(pageId, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  const pg = document.getElementById('page-' + pageId);
+  if (pg) pg.classList.add('active');
+  if (el) el.classList.add('active');
+  else { const si = document.getElementById('si-' + pageId); if (si) si.classList.add('active'); }
+  currentPage = pageId;
+}
+
+// ===================== RELOJ =====================
+setInterval(() => {
+  const n = new Date(), t = n.toTimeString().slice(0,8);
+  const el = document.getElementById('emp-clock'); if (el) el.textContent = t;
+  const d = document.getElementById('emp-date');
+  if (d) d.textContent = n.toLocaleDateString('es-ES',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+}, 1000);
+
+// ===================== FICHAJE =====================
+let fichajeState = { status:'idle', clockIn:null, clockOut:null, workedMins:0, maxMins:480 };
+
+setTimeout(() => {
+  const el = document.getElementById('emp-geo');
+  if (!el) return;
+  const ok = Math.random() > 0.2;
+  el.className = 'geo-status ' + (ok ? 'geo-ok' : 'geo-warn');
+  el.innerHTML = '<div class="geo-dot"></div>' + (ok ? 'Ubicación verificada · Oficina Madrid (38m)' : 'Fuera del radio de oficina (420m) · Se registrará incidencia');
+}, 1500);
+
+function fmtMin(m) { return `${Math.floor(m/60)}h ${String(m%60).padStart(2,'0')}min`; }
+function fmtTime(d) { return d.toTimeString().slice(0,5); }
+
+function calcMins(inT, outT) {
+  let m = Math.floor((outT - inT) / 60000);
+  const i = inT.getHours()*60+inT.getMinutes(), o = outT.getHours()*60+outT.getMinutes();
+  const bs = 14*60, be = 15*60;
+  if (i < be && o > bs) m -= Math.max(0, Math.min(o,be) - Math.max(i,bs));
+  return Math.max(0, m);
+}
+
+function toggleFichaje() {
+  const now = new Date();
+  const s = fichajeState;
+  if (s.status === 'idle') {
+    s.status = 'working'; s.clockIn = now;
+    document.getElementById('emp-btn-fichar').className = 'btn btn-danger-solid btn-full';
+    document.getElementById('emp-btn-fichar').style.fontSize = '16px';
+    document.getElementById('emp-btn-fichar').style.padding = '14px';
+    document.getElementById('emp-btn-fichar').textContent = '■ Finalizar jornada';
+    document.getElementById('time-in').textContent = fmtTime(now);
+    document.getElementById('dot-in').className = 'tl-dot done';
+    document.getElementById('dot-break').className = 'tl-dot active';
+    document.getElementById('line1').className = 'tl-line done';
+    document.getElementById('emp-status-badge').className = 'badge badge-green';
+    document.getElementById('emp-status-badge').textContent = 'En jornada';
+    // live update
+    s._interval = setInterval(() => {
+      if (s.status !== 'working') { clearInterval(s._interval); return; }
+      const m = calcMins(s.clockIn, new Date());
+      s.workedMins = m;
+      document.getElementById('worked-disp').textContent = fmtMin(m);
+      const nowH = new Date().getHours()*60+new Date().getMinutes();
+      if (nowH >= 14*60 && nowH < 15*60) document.getElementById('break-disp').textContent = 'En pausa';
+      else if (nowH >= 15*60) document.getElementById('break-disp').textContent = 'Realizada (1h descontada)';
+      if (m >= s.maxMins) {
+        document.getElementById('emp-overtime-alert').style.display = 'block';
+        document.getElementById('emp-btn-fichar').disabled = true;
+      }
+    }, 5000);
+  } else if (s.status === 'working') {
+    s.status = 'ended'; s.clockOut = now;
+    s.workedMins = calcMins(s.clockIn, now);
+    clearInterval(s._interval);
+    document.getElementById('emp-btn-fichar').className = 'btn btn-ghost btn-full';
+    document.getElementById('emp-btn-fichar').textContent = '✓ Jornada finalizada';
+    document.getElementById('emp-btn-fichar').disabled = true;
+    document.getElementById('time-out').textContent = fmtTime(now);
+    document.getElementById('dot-out').className = 'tl-dot done';
+    document.getElementById('dot-break').className = 'tl-dot done';
+    document.getElementById('line2').className = 'tl-line done';
+    document.getElementById('worked-disp').textContent = fmtMin(s.workedMins);
+    document.getElementById('emp-status-badge').className = 'badge badge-blue';
+    document.getElementById('emp-status-badge').textContent = 'Pendiente imputación';
+    document.getElementById('emp-imputation-ok').style.display = 'block';
+    document.getElementById('emp-overtime-alert').style.display = 'none';
+    document.getElementById('imp-locked').style.display = 'none';
+    document.getElementById('imp-total').textContent = fmtMin(Math.min(s.workedMins, s.maxMins));
+    document.getElementById('imp-form').style.opacity = '1';
+    document.getElementById('imp-form').style.pointerEvents = 'auto';
+  }
+}
+
+function empTab(t) {
+  ['fichar','imputar','historial'].forEach(id => document.getElementById('etab-'+id).style.display = id===t?'block':'none');
+  document.querySelectorAll('#page-fichaje .inner-tab').forEach((el,i) => el.classList.toggle('active',['fichar','imputar','historial'][i]===t));
+  if (t==='imputar' && fichajeState.status !== 'ended') {
+    document.getElementById('imp-locked').style.display = 'block';
+    document.getElementById('imp-form').style.opacity = '.4';
+    document.getElementById('imp-form').style.pointerEvents = 'none';
+  }
+}
+
+function updateImpBar() {
+  const avail = Math.min(fichajeState.workedMins||480, fichajeState.maxMins);
+  const used = (['p1','p2','p3'].reduce((s,id)=>s+(parseFloat(document.getElementById(id).value)||0),0))*60;
+  const pct = Math.min(used/avail*100,100);
+  const bar = document.getElementById('imp-bar');
+  bar.style.width = pct+'%'; bar.className = 'hours-bar-fill'+(used>avail?' over':'');
+  document.getElementById('imp-used').textContent = fmtMin(Math.round(used));
+  const w = document.getElementById('imp-warn');
+  if (used > avail+15) { w.style.display='block'; w.textContent=`⚠️ Has imputado más horas de las disponibles.`; } else w.style.display='none';
+}
+
+function confirmImputation() {
+  const avail = Math.min(fichajeState.workedMins||480, fichajeState.maxMins);
+  const used = (['p1','p2','p3'].reduce((s,id)=>s+(parseFloat(document.getElementById(id).value)||0),0))*60;
+  if (used > avail+15) { alert('El tiempo imputado supera el disponible.'); return; }
+  document.getElementById('imp-done').style.display = 'block';
+  document.getElementById('imp-form').style.display = 'none';
+}
+
+function openOvertimeModal() { document.getElementById('overtime-modal').classList.add('show'); }
+function submitOvertimeRequest() {
+  const r = document.getElementById('ot-reason').value.trim();
+  if (!r) { alert('El motivo es obligatorio.'); return; }
+  closeModal('overtime-modal');
+  fichajeState.status = 'overtime_pending';
+  document.getElementById('emp-btn-fichar').disabled = false;
+  document.getElementById('emp-overtime-alert').style.display = 'none';
+  document.getElementById('emp-btn-fichar').className = 'btn btn-ghost btn-full';
+  document.getElementById('emp-btn-fichar').textContent = '⏳ Esperando aprobación de horas extra...';
+  document.getElementById('emp-btn-fichar').disabled = true;
+  document.getElementById('emp-status-badge').className = 'badge badge-yellow';
+  document.getElementById('emp-status-badge').textContent = 'H.Extra pendientes';
+  alert('✅ Solicitud enviada. Tu manager recibirá una notificación inmediata.');
+}
+
+// ===================== MANAGER: TEAM GRID =====================
+const teamMembers = [
+  { name:'Carlos Martínez', initials:'CM', color:'#4f46e5', status:'ok', time:'7h 23min', label:'En jornada' },
+  { name:'Ana Pérez', initials:'AP', color:'#10b981', status:'overtime', time:'8h 05min', label:'H.Extra pendiente' },
+  { name:'Sara Medina', initials:'SM', color:'#f59e0b', status:'incident', time:'8h 12min', label:'Incidencia GPS' },
+  { name:'Miguel Torres', initials:'MT', color:'#ef4444', status:'pending', time:'—', label:'Sin fichar' },
+  { name:'Pedro Ruiz', initials:'PR', color:'#8b5cf6', status:'ok', time:'7h 58min', label:'En jornada' },
+  { name:'Elena Castro', initials:'EC', color:'#06b6d4', status:'ok', time:'6h 30min', label:'En jornada' },
+  { name:'Javier Moreno', initials:'JM', color:'#10b981', status:'ok', time:'8h 00min', label:'Finalizada' },
+  { name:'María López', initials:'ML', color:'#ec4899', status:'pending', time:'—', label:'Vacaciones' },
+];
+
+function renderTeamGrid() {
+  const statusColor = { ok:'ok', incident:'incident', pending:'pending', overtime:'overtime' };
+  document.getElementById('team-grid').innerHTML = teamMembers.map(m => `
+    <div class="team-card ${statusColor[m.status]||''}">
+      <div class="user-avatar" style="background:${m.color};width:38px;height:38px;font-size:13px">${m.initials}</div>
+      <div class="tc-info">
+        <div class="tc-name">${m.name}</div>
+        <div class="tc-status">${m.label}</div>
+      </div>
+      <div class="tc-time">${m.time}</div>
+    </div>
+  `).join('');
+}
+
+// ===================== MANAGER: INCIDENCIAS =====================
+let openIncidents = [
+  { id:1, type:'missing', icon:'🕐', color:'#ef4444', name:'Miguel Torres', desc:'Sin fichar entrada · Hoy · Debía entrar a las 08:00' },
+  { id:2, type:'geo', icon:'📍', color:'#f59e0b', name:'Sara Medina', desc:'Fichaje fuera del radio · Hoy 08:12 · 420m de la oficina' },
+  { id:3, type:'short', icon:'⏰', color:'#ef4444', name:'Elena Castro', desc:'Jornada corta · Ayer · Registradas 5h 30min de 8h' },
+  { id:4, type:'missing_imp', icon:'📝', color:'#6b7280', name:'Pedro Ruiz', desc:'Sin imputación a proyectos · Ayer' },
+  { id:5, type:'missing_out', icon:'🕐', color:'#ef4444', name:'Javier Moreno', desc:'Sin fichar salida · Anteayer' },
+];
+
+function renderIncidents() {
+  const el = document.getElementById('incidents-list');
+  if (!el) return;
+  if (!openIncidents.length) { el.innerHTML = '<div class="card"><div class="empty-state"><div class="icon">✅</div>No hay incidencias abiertas. ¡Buen trabajo!</div></div>'; return; }
+  el.innerHTML = openIncidents.map(inc => `
+    <div class="incident-row ${inc.type==='geo'?'geo':''}" id="inc-row-${inc.id}">
+      <div class="ir-icon">${inc.icon}</div>
+      <div class="ir-info"><strong>${inc.name}</strong><span>${inc.desc}</span></div>
+      <div class="ir-actions">
+        <button class="btn btn-success btn-sm" onclick="resolveIncident(${inc.id},'excused')">✓ Excusar</button>
+        <button class="btn btn-danger btn-sm" onclick="resolveIncident(${inc.id},'rejected')">✗ Registrar</button>
+        <button class="btn btn-ghost btn-sm" onclick="openIncidentModal('${inc.type}','${inc.name}')">Ver</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function resolveIncident(id, action) {
+  openIncidents = openIncidents.filter(i => i.id !== id);
+  renderIncidents();
+  const dot = document.querySelector(`[onclick="showPage('manager-incidencias',this)"] .notif-dot`);
+  if (dot) dot.textContent = openIncidents.length || '';
+  alert(action === 'excused' ? '✅ Incidencia excusada y archivada.' : '📋 Incidencia registrada como incumplimiento.');
+}
+
+function resolveQuick(type) { alert('✅ Incidencia excusada correctamente.'); }
+
+function openIncidentModal(type, name) {
+  const types = {
+    missing: { title:'Sin fichaje de entrada', body:`<p style="font-size:14px;color:#6b7280;margin-bottom:16px">El empleado <strong>${name}</strong> no ha registrado entrada hoy.</p><div class="form-group"><label class="lbl">Comentario / justificación</label><textarea rows="3" placeholder="Ej: Confirmó presencia por email, trabajo remoto no registrado..."></textarea></div>` },
+    geo: { title:'Fichaje fuera del radio GPS', body:`<p style="font-size:14px;color:#6b7280;margin-bottom:16px"><strong>${name}</strong> fichó a 420m de la oficina.</p><div class="alert alert-yellow">📍 Coordenadas registradas: 40.4168° N, 3.7038° W</div><div class="form-group"><label class="lbl">Motivo</label><textarea rows="2" placeholder="Ej: Reunión externa, desplazamiento autorizado..."></textarea></div>` },
+    short: { title:'Jornada incompleta', body:`<p style="font-size:14px;color:#6b7280;margin-bottom:16px"><strong>${name}</strong> registró menos horas de las esperadas.</p><div class="form-group"><label class="lbl">Acción</label><select><option>Excusar (justificado)</option><option>Registrar como ausencia parcial</option><option>Solicitar aclaración al empleado</option></select></div>` },
+  };
+  const cfg = types[type] || types['missing'];
+  document.getElementById('inc-modal-title').textContent = cfg.title;
+  document.getElementById('inc-modal-body').innerHTML = cfg.body;
+  document.getElementById('incident-modal').classList.add('show');
+}
+
+function excuseIncident() { closeModal('incident-modal'); alert('✅ Incidencia excusada y archivada.'); }
+function rejectIncident() { closeModal('incident-modal'); alert('📋 Registrado como incumplimiento.'); }
+
+// ===================== HORAS EXTRA (MANAGER) =====================
+let overtimeRequests = [
+  { id:1, name:'Carlos Martínez', initials:'CM', color:'#4f46e5', hours:'1h 30min', reason:'Cierre de sprint urgente. El cliente necesita el build antes de las 20h.', date:'Hoy', level:1 },
+  { id:2, name:'Ana Pérez', initials:'AP', color:'#10b981', hours:'2h 00min', reason:'Entrega de diseños para presentación con cliente mañana 9h.', date:'Hoy', level:1 },
+];
+
+function renderOvertimeList() {
+  const el = document.getElementById('overtime-list');
+  if (!el) return;
+  if (!overtimeRequests.length) { el.innerHTML = '<div class="card"><div class="empty-state"><div class="icon">✅</div>No hay solicitudes de horas extra pendientes.</div></div>'; return; }
+  el.innerHTML = overtimeRequests.map(r => `
+    <div class="card" style="margin-bottom:16px" id="ot-card-${r.id}">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+        <div class="user-avatar" style="background:${r.color};width:44px;height:44px;font-size:15px">${r.initials}</div>
+        <div style="flex:1">
+          <div style="font-size:16px;font-weight:700">${r.name}</div>
+          <div style="font-size:13px;color:#6b7280">${r.date} · <strong>${r.hours} extra solicitadas</strong></div>
+        </div>
+        <span class="badge badge-yellow">Nivel 1 – Pendiente tuya</span>
+      </div>
+      <div class="alert alert-blue" style="margin-bottom:16px">
+        💬 <strong>Motivo:</strong> "${r.reason}"
+      </div>
+      <div style="margin-bottom:16px">
+        <div style="font-size:13px;font-weight:600;color:#6b7280;margin-bottom:8px">FLUJO DE APROBACIÓN</div>
+        <div class="approval-step"><div class="level level-active">1</div><div class="info"><strong>Manager directo (tú)</strong>Pendiente de tu aprobación</div><span class="badge badge-yellow">Pendiente</span></div>
+        <div class="approval-step"><div class="level level-waiting">2</div><div class="info"><strong>Director de área</strong>Roberto Sanz · En espera</div><span class="badge badge-gray">En espera</span></div>
+        <div class="approval-step"><div class="level level-waiting">3</div><div class="info"><strong>RRHH</strong>Aprobación final · En espera</div><span class="badge badge-gray">En espera</span></div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-danger btn-sm" onclick="managerRejectOT(${r.id})">✗ Rechazar</button>
+        <button class="btn btn-success" onclick="managerApproveOT(${r.id})">✓ Aprobar y pasar a nivel 2</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function managerApproveOT(id) {
+  const r = overtimeRequests.find(x=>x.id===id);
+  const card = document.getElementById('ot-card-'+id);
+  card.innerHTML = `
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
+      <div class="user-avatar" style="background:${r.color};width:44px;height:44px;font-size:15px">${r.initials}</div>
+      <div><div style="font-size:16px;font-weight:700">${r.name}</div><div style="font-size:13px;color:#6b7280">${r.hours} extra · ${r.date}</div></div>
+      <span class="badge badge-blue">Nivel 2 – Pendiente Director</span>
+    </div>
+    <div class="alert alert-green">✅ Aprobado por ti. Notificación enviada a Roberto Sanz (Nivel 2).</div>
+    <div class="approval-step"><div class="level level-done">1</div><div class="info"><strong>Manager directo</strong>Aprobado por Laura González</div><span class="badge badge-green">Aprobado</span></div>
+    <div class="approval-step"><div class="level level-active">2</div><div class="info"><strong>Director de área</strong>Roberto Sanz · Pendiente</div><span class="badge badge-yellow">Pendiente</span></div>
+    <div class="approval-step"><div class="level level-waiting">3</div><div class="info"><strong>RRHH</strong>En espera</div><span class="badge badge-gray">En espera</span></div>
+  `;
+  overtimeRequests = overtimeRequests.filter(x=>x.id!==id);
+  updateOvertimeNotif();
+}
+
+function managerRejectOT(id) {
+  const reason = prompt('Motivo del rechazo (se enviará al empleado):');
+  if (reason === null) return;
+  document.getElementById('ot-card-'+id).innerHTML = `<div class="alert alert-red">✗ Solicitud rechazada. El empleado ha sido notificado.</div>`;
+  overtimeRequests = overtimeRequests.filter(x=>x.id!==id);
+  updateOvertimeNotif();
+}
+
+function approveOvertime(name) {
+  const r = overtimeRequests.find(x=>x.name===name);
+  if (r) managerApproveOT(r.id);
+  else { alert(`✅ Solicitud de ${name} aprobada. Pasa al nivel 2.`); renderIncidents(); }
+}
+function rejectOvertime(name) {
+  const r = overtimeRequests.find(x=>x.name===name);
+  if (r) { const reason = prompt('Motivo del rechazo:'); if (reason===null) return; managerRejectOT(r.id); }
+  else alert(`✗ Solicitud de ${name} rechazada.`);
+}
+
+function updateOvertimeNotif() {
+  const dot = document.querySelector(`[onclick="showPage('manager-overtime',this)"] .notif-dot`);
+  if (dot) { dot.textContent = overtimeRequests.length; if (!overtimeRequests.length) dot.style.display='none'; }
+}
+
+function incTab(t) {
+  ['abiertas','resueltas'].forEach(id => document.getElementById('inc-'+id).style.display = id===t?'block':'none');
+  document.querySelectorAll('#page-manager-incidencias .inner-tab').forEach((el,i) => el.classList.toggle('active',['abiertas','resueltas'][i]===t));
+}
+
+// ===================== ADMIN: USUARIOS =====================
+const COLORS_ARR = ['#4f46e5','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#ec4899'];
 let users = [
   { id:1, nombre:'Laura', apellidos:'González Ruiz', email:'laura.gonzalez@empresa.com', dni:'12345678A', telefono:'+34 612 345 678', depto:'Tecnología', cargo:'Tech Lead', centro:'Madrid Centro', horario:'Jornada completa L-V (8h)', manager:'Roberto Sanz', rol:'manager', proyectos:['Alpha','Beta'], status:'activo', incorporacion:'2021-03-15' },
   { id:2, nombre:'Carlos', apellidos:'Martínez López', email:'carlos.martinez@empresa.com', dni:'87654321B', telefono:'+34 623 456 789', depto:'Desarrollo', cargo:'Desarrollador Senior', centro:'Madrid Centro', horario:'Jornada completa L-V (8h)', manager:'Laura González', rol:'empleado', proyectos:['Alpha','Gamma'], status:'activo', incorporacion:'2022-06-01' },
   { id:3, nombre:'Ana', apellidos:'Pérez Soto', email:'ana.perez@empresa.com', dni:'11223344C', telefono:'+34 634 567 890', depto:'Diseño', cargo:'UX Designer', centro:'Barcelona Oficina', horario:'Jornada intensiva (7h)', manager:'Laura González', rol:'empleado', proyectos:['Beta'], status:'activo', incorporacion:'2023-01-10' },
   { id:4, nombre:'Miguel', apellidos:'Torres Vega', email:'miguel.torres@empresa.com', dni:'44332211D', telefono:'', depto:'Ventas', cargo:'Account Manager', centro:'Madrid Centro', horario:'Jornada completa L-V (8h)', manager:'Roberto Sanz', rol:'empleado', proyectos:[], status:'pendiente', incorporacion:'2026-02-18' },
 ];
-let editingId = null;
-let currentModalTab = 'datos';
-const modalTabs = ['datos','laboral','acceso'];
 
-// --- NAVEGACIÓN SIDEBAR ---
-function goTo(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-  document.getElementById('page-' + page).classList.add('active');
-  event.currentTarget.classList.add('active');
-}
-
-// --- RELOJ (página fichaje) ---
-setInterval(() => {
-  const n = new Date();
-  const el = document.getElementById('clock2');
-  const d = document.getElementById('date2');
-  if (el) el.textContent = n.toTimeString().slice(0,8);
-  if (d) d.textContent = n.toLocaleDateString('es-ES',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-}, 1000);
-
-// --- RENDER TABLA ---
-function initials(u) { return (u.nombre[0] + u.apellidos[0]).toUpperCase(); }
-function colorFor(i) { return COLORS[i % COLORS.length]; }
-
-function renderTable(list) {
-  const tb = document.getElementById('users-table');
-  if (!list.length) {
-    tb.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="icon">🔍</div>No se encontraron empleados con ese criterio.</div></td></tr>';
-    return;
-  }
-  tb.innerHTML = list.map((u, i) => `
-    <tr>
-      <td>
-        <div class="user-cell">
-          <div class="user-avatar" style="background:${colorFor(u.id)}">${initials(u)}</div>
-          <div>
-            <div class="user-name">${u.nombre} ${u.apellidos}</div>
-            <div class="user-email">${u.email}</div>
-          </div>
-        </div>
-      </td>
-      <td>${roleBadge(u.rol)}</td>
-      <td>
-        <div style="font-size:13px;font-weight:500">${u.centro}</div>
-        <div style="font-size:12px;color:#9ca3af">${u.horario.split(' (')[0]}</div>
-      </td>
-      <td>${u.proyectos.length ? u.proyectos.map(p=>`<span class="tag">${p}</span>`).join('') : '<span style="color:#9ca3af;font-size:12px">Sin asignar</span>'}</td>
-      <td>${statusBadge(u.status)}</td>
-      <td>
-        <div style="display:flex;gap:6px">
-          <button class="btn btn-ghost btn-sm" onclick="viewUser(${u.id})">Ver</button>
-          <button class="btn btn-ghost btn-sm" onclick="editUser(${u.id})">✏️</button>
-          <button class="btn btn-danger btn-sm" onclick="confirmDelete(${u.id})">🗑</button>
-        </div>
-      </td>
-    </tr>
-  `).join('');
-}
-
+function initials(u) { return (u.nombre[0]+u.apellidos[0]).toUpperCase(); }
+function colorFor(i) { return COLORS_ARR[i % COLORS_ARR.length]; }
 function roleBadge(r) {
-  const m = {empleado:'badge-gray',manager:'badge-blue',rrhh:'badge-purple',admin:'badge-red'};
-  const l = {empleado:'Empleado',manager:'Manager',rrhh:'RRHH',admin:'Admin'};
+  const m={empleado:'badge-gray',manager:'badge-blue',rrhh:'badge-purple',admin:'badge-red'};
+  const l={empleado:'Empleado',manager:'Manager',rrhh:'RRHH',admin:'Admin'};
   return `<span class="badge ${m[r]||'badge-gray'}">${l[r]||r}</span>`;
 }
 function statusBadge(s) {
-  const m = {activo:'badge-green',pendiente:'badge-yellow',inactivo:'badge-red'};
-  const l = {activo:'Activo',pendiente:'Pendiente',inactivo:'Inactivo'};
+  const m={activo:'badge-green',pendiente:'badge-yellow',inactivo:'badge-red'};
+  const l={activo:'Activo',pendiente:'Pendiente',inactivo:'Inactivo'};
   return `<span class="badge ${m[s]||'badge-gray'}">${l[s]||s}</span>`;
 }
 
+function renderTable(list) {
+  const tb = document.getElementById('users-table');
+  if (!tb) return;
+  if (!list.length) { tb.innerHTML='<tr><td colspan="6"><div class="empty-state"><div class="icon">🔍</div>Sin resultados.</div></td></tr>'; return; }
+  tb.innerHTML = list.map(u => `
+    <tr>
+      <td><div class="user-cell"><div class="user-avatar" style="background:${colorFor(u.id)}">${initials(u)}</div><div><div class="user-name">${u.nombre} ${u.apellidos}</div><div class="user-email">${u.email}</div></div></div></td>
+      <td>${roleBadge(u.rol)}</td>
+      <td><div style="font-size:13px;font-weight:500">${u.centro}</div><div style="font-size:12px;color:#9ca3af">${u.horario.split(' (')[0]}</div></td>
+      <td>${u.proyectos.length?u.proyectos.map(p=>`<span class="tag">${p}</span>`).join(''):'<span style="color:#9ca3af;font-size:12px">—</span>'}</td>
+      <td>${statusBadge(u.status)}</td>
+      <td><div style="display:flex;gap:6px"><button class="btn btn-ghost btn-sm" onclick="editUser(${u.id})">✏️</button><button class="btn btn-danger btn-sm" onclick="confirmDelete(${u.id})">🗑</button></div></td>
+    </tr>`).join('');
+}
+
 function updateStats() {
-  document.getElementById('stat-total').textContent = users.length;
-  document.getElementById('stat-active').textContent = users.filter(u=>u.status==='activo').length;
-  document.getElementById('stat-pending').textContent = users.filter(u=>u.status==='pendiente').length;
-  document.getElementById('stat-inactive').textContent = users.filter(u=>u.status==='inactivo').length;
+  const el = id => document.getElementById(id);
+  if (el('stat-total')) { el('stat-total').textContent=users.length; el('stat-active').textContent=users.filter(u=>u.status==='activo').length; el('stat-pending').textContent=users.filter(u=>u.status==='pendiente').length; el('stat-inactive').textContent=users.filter(u=>u.status==='inactivo').length; }
 }
 
 function filterUsers() {
-  const q = document.getElementById('search-input').value.toLowerCase();
-  const rol = document.getElementById('filter-role').value;
-  const st = document.getElementById('filter-status').value;
-  let list = users.filter(u => {
-    const match = `${u.nombre} ${u.apellidos} ${u.email} ${u.depto}`.toLowerCase().includes(q);
-    const rMatch = !rol || u.rol === rol;
-    const sMatch = !st || u.status === st;
-    return match && rMatch && sMatch;
-  });
-  renderTable(list);
+  const q = document.getElementById('search-input')?.value.toLowerCase()||'';
+  const rol = document.getElementById('filter-role')?.value||'';
+  const st = document.getElementById('filter-status')?.value||'';
+  renderTable(users.filter(u => `${u.nombre} ${u.apellidos} ${u.email} ${u.depto}`.toLowerCase().includes(q) && (!rol||u.rol===rol) && (!st||u.status===st)));
 }
 
-// --- MODAL NUEVO USUARIO ---
 function openNewUser() {
   editingId = null;
-  currentModalTab = 'datos';
   document.getElementById('modal-title').textContent = 'Nuevo empleado';
   document.getElementById('modal-success').style.display = 'none';
   clearForm();
   showModalTab('datos');
   document.getElementById('user-modal').classList.add('show');
-  document.getElementById('btn-save').style.display = 'none';
-  document.getElementById('btn-next').style.display = 'inline-flex';
-  document.getElementById('btn-prev').style.display = 'none';
+  document.getElementById('btn-save').style.display='none';
+  document.getElementById('btn-next').style.display='inline-flex';
+  document.getElementById('btn-prev').style.display='none';
 }
 
 function editUser(id) {
-  editingId = id;
-  const u = users.find(x => x.id === id);
-  document.getElementById('modal-title').textContent = 'Editar empleado';
-  document.getElementById('modal-success').style.display = 'none';
+  editingId=id;
+  const u=users.find(x=>x.id===id);
+  document.getElementById('modal-title').textContent='Editar empleado';
+  document.getElementById('modal-success').style.display='none';
   fillForm(u);
-  currentModalTab = 'datos';
   showModalTab('datos');
   document.getElementById('user-modal').classList.add('show');
-  document.getElementById('btn-save').style.display = 'none';
-  document.getElementById('btn-next').style.display = 'inline-flex';
-  document.getElementById('btn-prev').style.display = 'none';
+  document.getElementById('btn-save').style.display='none';
+  document.getElementById('btn-next').style.display='inline-flex';
+  document.getElementById('btn-prev').style.display='none';
 }
 
-function openEditUser() { editUser(editingId); }
-
-function closeModal() {
-  document.getElementById('user-modal').classList.remove('show');
+function confirmDelete(id) {
+  const u=users.find(x=>x.id===id);
+  if(!confirm(`¿Eliminar a ${u.nombre} ${u.apellidos}?`)) return;
+  users=users.filter(x=>x.id!==id);
+  renderTable(users); updateStats();
 }
 
 function clearForm() {
-  ['f-nombre','f-apellidos','f-email','f-telefono','f-dni','f-depto','f-cargo','f-incorporacion'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
-  document.getElementById('f-nacimiento').value = '';
-  document.getElementById('f-centro').value = '';
-  document.getElementById('f-horario').value = '';
-  document.getElementById('f-manager').value = '';
-  document.getElementById('f-rol').value = 'empleado';
-  document.getElementById('f-activacion').value = 'email';
-  document.getElementById('f-2fa').checked = false;
-  document.getElementById('f-notify').checked = true;
-  document.querySelectorAll('#proj-tags input[type=checkbox]').forEach(c => c.checked = false);
-  ['err-nombre','err-apellidos','err-email','err-depto','err-centro','err-horario'].forEach(id => { document.getElementById(id).textContent = ''; });
+  ['f-nombre','f-apellidos','f-email','f-telefono','f-dni','f-depto','f-cargo','f-incorporacion'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['f-nacimiento','f-centro','f-horario','f-manager'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('f-rol').value='empleado';
+  document.getElementById('f-activacion').value='email';
+  ['cb-alpha','cb-beta','cb-gamma'].forEach(id=>{const el=document.getElementById(id);if(el)el.checked=false;});
+  ['err-nombre','err-apellidos','err-email','err-depto','err-centro','err-horario'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='';});
 }
 
 function fillForm(u) {
-  document.getElementById('f-nombre').value = u.nombre;
-  document.getElementById('f-apellidos').value = u.apellidos;
-  document.getElementById('f-email').value = u.email;
-  document.getElementById('f-telefono').value = u.telefono;
-  document.getElementById('f-dni').value = u.dni;
-  document.getElementById('f-depto').value = u.depto;
-  document.getElementById('f-cargo').value = u.cargo;
-  document.getElementById('f-centro').value = u.centro;
-  document.getElementById('f-horario').value = u.horario;
-  document.getElementById('f-incorporacion').value = u.incorporacion;
-  document.getElementById('f-rol').value = u.rol;
-  document.querySelectorAll('#proj-tags input[type=checkbox]').forEach(c => { c.checked = u.proyectos.includes(c.value); });
+  document.getElementById('f-nombre').value=u.nombre;
+  document.getElementById('f-apellidos').value=u.apellidos;
+  document.getElementById('f-email').value=u.email;
+  document.getElementById('f-telefono').value=u.telefono;
+  document.getElementById('f-dni').value=u.dni;
+  document.getElementById('f-depto').value=u.depto;
+  document.getElementById('f-cargo').value=u.cargo;
+  document.getElementById('f-centro').value=u.centro;
+  document.getElementById('f-horario').value=u.horario;
+  document.getElementById('f-incorporacion').value=u.incorporacion;
+  document.getElementById('f-rol').value=u.rol;
+  ['cb-alpha','cb-beta','cb-gamma'].forEach(id=>{const el=document.getElementById(id);if(el)el.checked=u.proyectos.includes(el.value);});
 }
 
-// --- TABS MODAL ---
 function showModalTab(t) {
-  modalTabs.forEach(id => {
-    document.getElementById('mtab-' + id).style.display = id === t ? 'block' : 'none';
-  });
-  document.querySelectorAll('.inner-tab').forEach((el, i) => {
-    el.classList.toggle('active', modalTabs[i] === t);
-  });
-}
-function modalTab(t) {
-  currentModalTab = t;
-  showModalTab(t);
-  const idx = modalTabs.indexOf(t);
-  document.getElementById('btn-prev').style.display = idx > 0 ? 'inline-flex' : 'none';
-  document.getElementById('btn-next').style.display = idx < modalTabs.length - 1 ? 'inline-flex' : 'none';
-  document.getElementById('btn-save').style.display = idx === modalTabs.length - 1 ? 'inline-flex' : 'none';
-}
-function nextModalTab() {
-  if (!validateCurrentTab()) return;
-  const idx = modalTabs.indexOf(currentModalTab);
-  if (idx < modalTabs.length - 1) modalTab(modalTabs[idx + 1]);
-}
-function prevModalTab() {
-  const idx = modalTabs.indexOf(currentModalTab);
-  if (idx > 0) modalTab(modalTabs[idx - 1]);
+  modalTabs.forEach(id=>{document.getElementById('mtab-'+id).style.display=id===t?'block':'none';});
+  document.querySelectorAll('#user-modal .inner-tab').forEach((el,i)=>el.classList.toggle('active',modalTabs[i]===t));
+  currentModalTab=t;
 }
 
-// --- VALIDACIÓN ---
+function modalTab(t) {
+  showModalTab(t);
+  const idx=modalTabs.indexOf(t);
+  document.getElementById('btn-prev').style.display=idx>0?'inline-flex':'none';
+  document.getElementById('btn-next').style.display=idx<modalTabs.length-1?'inline-flex':'none';
+  document.getElementById('btn-save').style.display=idx===modalTabs.length-1?'inline-flex':'none';
+}
+
+function nextModalTab() { if(!validateCurrentTab()) return; const idx=modalTabs.indexOf(currentModalTab); if(idx<modalTabs.length-1) modalTab(modalTabs[idx+1]); }
+function prevModalTab() { const idx=modalTabs.indexOf(currentModalTab); if(idx>0) modalTab(modalTabs[idx-1]); }
+
 function validateCurrentTab() {
-  let ok = true;
-  const clear = ids => ids.forEach(id => { document.getElementById(id).textContent = ''; document.getElementById(id.replace('err-','f-'))?.classList.remove('error'); });
-  if (currentModalTab === 'datos') {
-    clear(['err-nombre','err-apellidos','err-email']);
-    if (!document.getElementById('f-nombre').value.trim()) { document.getElementById('err-nombre').textContent = 'Campo obligatorio'; document.getElementById('f-nombre').classList.add('error'); ok = false; }
-    if (!document.getElementById('f-apellidos').value.trim()) { document.getElementById('err-apellidos').textContent = 'Campo obligatorio'; document.getElementById('f-apellidos').classList.add('error'); ok = false; }
-    const email = document.getElementById('f-email').value.trim();
-    if (!email) { document.getElementById('err-email').textContent = 'Campo obligatorio'; document.getElementById('f-email').classList.add('error'); ok = false; }
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { document.getElementById('err-email').textContent = 'Email no válido'; document.getElementById('f-email').classList.add('error'); ok = false; }
-    else if (!editingId && users.find(u => u.email === email)) { document.getElementById('err-email').textContent = 'Este email ya está registrado'; document.getElementById('f-email').classList.add('error'); ok = false; }
+  let ok=true;
+  if(currentModalTab==='datos'){
+    ['err-nombre','err-apellidos','err-email'].forEach(id=>{document.getElementById(id).textContent='';});
+    if(!document.getElementById('f-nombre').value.trim()){document.getElementById('err-nombre').textContent='Obligatorio';ok=false;}
+    if(!document.getElementById('f-apellidos').value.trim()){document.getElementById('err-apellidos').textContent='Obligatorio';ok=false;}
+    const email=document.getElementById('f-email').value.trim();
+    if(!email){document.getElementById('err-email').textContent='Obligatorio';ok=false;}
+    else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){document.getElementById('err-email').textContent='Email no válido';ok=false;}
+    else if(!editingId&&users.find(u=>u.email===email)){document.getElementById('err-email').textContent='Email ya registrado';ok=false;}
   }
-  if (currentModalTab === 'laboral') {
-    clear(['err-depto','err-centro','err-horario']);
-    if (!document.getElementById('f-depto').value.trim()) { document.getElementById('err-depto').textContent = 'Campo obligatorio'; ok = false; }
-    if (!document.getElementById('f-centro').value) { document.getElementById('err-centro').textContent = 'Selecciona un centro'; ok = false; }
-    if (!document.getElementById('f-horario').value) { document.getElementById('err-horario').textContent = 'Selecciona un horario'; ok = false; }
+  if(currentModalTab==='laboral'){
+    ['err-depto','err-centro','err-horario'].forEach(id=>{document.getElementById(id).textContent='';});
+    if(!document.getElementById('f-depto').value.trim()){document.getElementById('err-depto').textContent='Obligatorio';ok=false;}
+    if(!document.getElementById('f-centro').value){document.getElementById('err-centro').textContent='Selecciona un centro';ok=false;}
+    if(!document.getElementById('f-horario').value){document.getElementById('err-horario').textContent='Selecciona un horario';ok=false;}
   }
   return ok;
 }
 
-// --- GUARDAR ---
 function saveUser() {
-  if (!validateCurrentTab()) return;
-  const proyectos = [...document.querySelectorAll('#proj-tags input:checked')].map(c => c.value);
-  const data = {
-    nombre: document.getElementById('f-nombre').value.trim(),
-    apellidos: document.getElementById('f-apellidos').value.trim(),
-    email: document.getElementById('f-email').value.trim(),
-    telefono: document.getElementById('f-telefono').value.trim(),
-    dni: document.getElementById('f-dni').value.trim(),
-    depto: document.getElementById('f-depto').value.trim(),
-    cargo: document.getElementById('f-cargo').value.trim(),
-    centro: document.getElementById('f-centro').value,
-    horario: document.getElementById('f-horario').value,
-    incorporacion: document.getElementById('f-incorporacion').value,
-    manager: document.getElementById('f-manager').value,
-    rol: document.getElementById('f-rol').value,
-    proyectos,
-    status: editingId ? users.find(u=>u.id===editingId).status : 'pendiente'
-  };
-
-  if (editingId) {
-    const idx = users.findIndex(u => u.id === editingId);
-    users[idx] = { ...users[idx], ...data };
-  } else {
-    data.id = Date.now();
-    users.push(data);
-  }
-
-  document.getElementById('modal-success').style.display = 'block';
-  document.getElementById('btn-save').disabled = true;
-  document.getElementById('btn-save').textContent = '✓ Guardado';
-
-  setTimeout(() => {
-    closeModal();
-    document.getElementById('btn-save').disabled = false;
-    document.getElementById('btn-save').textContent = '✓ Dar de alta';
-    renderTable(users);
-    updateStats();
-  }, 1500);
+  if(!validateCurrentTab()) return;
+  const proyectos=[...document.querySelectorAll('#user-modal input[type=checkbox]:checked')].map(c=>c.value).filter(v=>['Alpha','Beta','Gamma'].includes(v));
+  const data={nombre:document.getElementById('f-nombre').value.trim(),apellidos:document.getElementById('f-apellidos').value.trim(),email:document.getElementById('f-email').value.trim(),telefono:document.getElementById('f-telefono').value.trim(),dni:document.getElementById('f-dni').value.trim(),depto:document.getElementById('f-depto').value.trim(),cargo:document.getElementById('f-cargo').value.trim(),centro:document.getElementById('f-centro').value,horario:document.getElementById('f-horario').value,incorporacion:document.getElementById('f-incorporacion').value,manager:document.getElementById('f-manager').value,rol:document.getElementById('f-rol').value,proyectos,status:editingId?users.find(u=>u.id===editingId).status:'pendiente'};
+  if(editingId){const idx=users.findIndex(u=>u.id===editingId);users[idx]={...users[idx],...data};}
+  else{data.id=Date.now();users.push(data);}
+  document.getElementById('modal-success').style.display='block';
+  document.getElementById('btn-save').disabled=true;
+  setTimeout(()=>{closeModal('user-modal');document.getElementById('btn-save').disabled=false;renderTable(users);updateStats();},1500);
 }
 
-// --- VER USUARIO ---
-function viewUser(id) {
-  editingId = id;
-  const u = users.find(x => x.id === id);
-  document.getElementById('view-title').textContent = `${u.nombre} ${u.apellidos}`;
-  document.getElementById('view-content').innerHTML = `
-    <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
-      <div class="user-avatar" style="background:${colorFor(u.id)};width:56px;height:56px;font-size:20px">${initials(u)}</div>
-      <div>
-        <div style="font-size:18px;font-weight:700">${u.nombre} ${u.apellidos}</div>
-        <div style="font-size:14px;color:#6b7280">${u.cargo} · ${u.depto}</div>
-        <div style="margin-top:6px">${roleBadge(u.rol)} ${statusBadge(u.status)}</div>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:14px">
-      <div><div style="color:#9ca3af;font-size:12px;font-weight:600;text-transform:uppercase;margin-bottom:2px">Email</div>${u.email}</div>
-      <div><div style="color:#9ca3af;font-size:12px;font-weight:600;text-transform:uppercase;margin-bottom:2px">Teléfono</div>${u.telefono||'—'}</div>
-      <div><div style="color:#9ca3af;font-size:12px;font-weight:600;text-transform:uppercase;margin-bottom:2px">DNI</div>${u.dni||'—'}</div>
-      <div><div style="color:#9ca3af;font-size:12px;font-weight:600;text-transform:uppercase;margin-bottom:2px">Incorporación</div>${u.incorporacion||'—'}</div>
-      <div><div style="color:#9ca3af;font-size:12px;font-weight:600;text-transform:uppercase;margin-bottom:2px">Centro</div>${u.centro}</div>
-      <div><div style="color:#9ca3af;font-size:12px;font-weight:600;text-transform:uppercase;margin-bottom:2px">Horario</div>${u.horario}</div>
-      <div style="grid-column:1/-1"><div style="color:#9ca3af;font-size:12px;font-weight:600;text-transform:uppercase;margin-bottom:4px">Proyectos</div>${u.proyectos.length ? u.proyectos.map(p=>`<span class="tag">${p}</span>`).join('') : '—'}</div>
-    </div>`;
-  document.getElementById('view-modal').classList.add('show');
-}
+function togglePwd() { document.getElementById('pwd-group').style.display=document.getElementById('f-activacion').value==='manual'?'flex':'none'; }
 
-function closeViewModal() {
-  document.getElementById('view-modal').classList.remove('show');
-}
+// ===================== UTILS =====================
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
-function deactivateUser() {
-  if (!confirm('¿Desactivar la cuenta de este empleado? Perderá acceso a la plataforma.')) return;
-  const u = users.find(x => x.id === editingId);
-  if (u) u.status = 'inactivo';
-  closeViewModal();
-  renderTable(users);
-  updateStats();
-}
-
-function confirmDelete(id) {
-  const u = users.find(x => x.id === id);
-  if (!confirm(`¿Eliminar a ${u.nombre} ${u.apellidos}? Esta acción no se puede deshacer.`)) return;
-  users = users.filter(x => x.id !== id);
-  renderTable(users);
-  updateStats();
-}
-
-// --- ACTIVACIÓN MANUAL ---
-document.getElementById('f-activacion').addEventListener('change', function() {
-  document.getElementById('pwd-group').style.display = this.value === 'manual' ? 'flex' : 'none';
-});
-
-function updateProjTags() {} // placeholder para extensión futura
-
-// --- INIT ---
+// ===================== INIT =====================
+switchRole('manager');
+showPage('manager-dashboard');
+renderTeamGrid();
+renderIncidents();
+renderOvertimeList();
 renderTable(users);
 updateStats();
 </script>
