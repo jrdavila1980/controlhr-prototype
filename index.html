@@ -5,491 +5,443 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ControlHR</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #1a1a2e; min-height: 100vh; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh;}
 
-nav { background: #1a1a2e; color: white; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 50; }
-nav .logo { font-weight: 700; font-size: 18px; letter-spacing: 1px; }
-nav .nav-right { display: flex; align-items: center; gap: 16px; }
-nav .user { display: flex; align-items: center; gap: 10px; font-size: 14px; }
-nav .avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; cursor: pointer; }
-.role-switcher { display: flex; gap: 4px; background: rgba(255,255,255,.1); padding: 4px; border-radius: 8px; }
-.role-btn { padding: 5px 12px; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; background: none; color: #9ca3af; transition: all .15s; }
-.role-btn.active { background: white; color: #1a1a2e; }
+/* LOGIN */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);}
+.login-box{background:white;border-radius:20px;padding:40px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.login-logo{text-align:center;font-size:28px;font-weight:700;color:#1a1a2e;margin-bottom:6px;}
+.login-logo span{color:#4f46e5;}
+.login-sub{text-align:center;font-size:14px;color:#9ca3af;margin-bottom:28px;}
+.login-users{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.login-user-btn{border:2px solid #e5e7eb;border-radius:10px;padding:12px 8px;cursor:pointer;text-align:center;transition:all .15s;background:white;}
+.login-user-btn:hover{border-color:#4f46e5;background:#f5f3ff;}
+.login-user-btn.selected{border-color:#4f46e5;background:#eef2ff;}
+.login-user-btn .lu-avatar{width:40px;height:40px;border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:white;}
+.login-user-btn .lu-name{font-size:13px;font-weight:600;}
+.login-user-btn .lu-role{font-size:11px;color:#9ca3af;}
+.login-divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:#9ca3af;font-size:13px;}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:#e5e7eb;}
+.login-form .fg{margin-bottom:14px;}
+.login-form label{font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:5px;}
+.login-form input{width:100%;padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:14px;transition:border .15s;}
+.login-form input:focus{outline:none;border-color:#4f46e5;}
+.login-error{color:#ef4444;font-size:13px;margin-bottom:10px;display:none;}
+.btn-login{width:100%;padding:12px;background:#4f46e5;color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s;margin-top:4px;}
+.btn-login:hover{background:#4338ca;}
 
-.layout { display: flex; min-height: calc(100vh - 56px); }
-.sidebar { width: 220px; background: white; border-right: 1px solid #e5e7eb; padding: 16px 0; flex-shrink: 0; }
-.sidebar-item { display: flex; align-items: center; gap: 10px; padding: 10px 20px; font-size: 14px; font-weight: 500; cursor: pointer; color: #6b7280; border-left: 3px solid transparent; transition: all .15s; user-select: none; }
-.sidebar-item:hover { background: #f9fafb; color: #1a1a2e; }
-.sidebar-item.active { color: #4f46e5; background: #eef2ff; border-left-color: #4f46e5; }
-.sidebar-icon { font-size: 16px; width: 20px; text-align: center; }
-.sidebar-section { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: #9ca3af; padding: 16px 20px 6px; }
-.notif-dot { background: #ef4444; color: white; border-radius: 10px; font-size: 11px; font-weight: 700; padding: 1px 6px; margin-left: auto; }
+/* APP */
+#app-screen{display:none;}
+nav{background:#1a1a2e;color:white;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:50;}
+nav .logo{font-weight:700;font-size:18px;letter-spacing:1px;}
+.nav-right{display:flex;align-items:center;gap:16px;}
+.nav-user{display:flex;align-items:center;gap:10px;font-size:14px;}
+.nav-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;}
+.logout-btn{background:rgba(255,255,255,.1);border:none;color:white;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;transition:background .15s;}
+.logout-btn:hover{background:rgba(255,255,255,.2);}
 
-.main { flex: 1; padding: 28px 32px; overflow-y: auto; max-width: 1100px; }
-.page { display: none; }
-.page.active { display: block; }
+.layout{display:flex;min-height:calc(100vh - 56px);}
+.sidebar{width:220px;background:white;border-right:1px solid #e5e7eb;padding:16px 0;flex-shrink:0;}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:14px;font-weight:500;cursor:pointer;color:#6b7280;border-left:3px solid transparent;transition:all .15s;user-select:none;}
+.sidebar-item:hover{background:#f9fafb;color:#1a1a2e;}
+.sidebar-item.active{color:#4f46e5;background:#eef2ff;border-left-color:#4f46e5;}
+.sidebar-icon{font-size:16px;width:20px;text-align:center;}
+.sidebar-section{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#9ca3af;padding:16px 20px 6px;}
+.notif-dot{background:#ef4444;color:white;border-radius:10px;font-size:11px;font-weight:700;padding:1px 6px;margin-left:auto;}
 
-.card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,.07); margin-bottom: 20px; }
-.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.card-header h2 { font-size: 16px; font-weight: 700; }
-.page-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
-.page-sub { font-size: 14px; color: #6b7280; margin-bottom: 24px; }
+.main{flex:1;padding:28px 32px;overflow-y:auto;}
+.page{display:none;}.page.active{display:block;}
+.page-title{font-size:22px;font-weight:700;margin-bottom:4px;}
+.page-sub{font-size:14px;color:#6b7280;margin-bottom:24px;}
 
-.btn { padding: 9px 18px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all .15s; display: inline-flex; align-items: center; gap: 6px; }
-.btn-primary { background: #4f46e5; color: white; }
-.btn-primary:hover { background: #4338ca; }
-.btn-success { background: #10b981; color: white; }
-.btn-success:hover { background: #059669; }
-.btn-danger-solid { background: #ef4444; color: white; }
-.btn-danger-solid:hover { background: #dc2626; }
-.btn-danger { background: #fee2e2; color: #991b1b; }
-.btn-danger:hover { background: #fecaca; }
-.btn-ghost { background: #f3f4f6; color: #374151; }
-.btn-ghost:hover { background: #e5e7eb; }
-.btn-sm { padding: 5px 12px; font-size: 12px; }
-.btn-full { width: 100%; justify-content: center; }
-.btn:disabled { opacity: .4; cursor: not-allowed; }
+.card{background:white;border-radius:12px;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:20px;}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+.card-header h2{font-size:16px;font-weight:700;}
 
-.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }
-.badge-green { background: #d1fae5; color: #065f46; }
-.badge-blue { background: #e0e7ff; color: #3730a3; }
-.badge-red { background: #fee2e2; color: #991b1b; }
-.badge-gray { background: #f3f4f6; color: #6b7280; }
-.badge-yellow { background: #fef3c7; color: #92400e; }
-.badge-purple { background: #f3e8ff; color: #6b21a8; }
-.badge-orange { background: #fff7ed; color: #9a3412; }
+.btn{padding:9px 18px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:#4f46e5;color:white;}.btn-primary:hover{background:#4338ca;}
+.btn-success{background:#10b981;color:white;}.btn-success:hover{background:#059669;}
+.btn-danger-solid{background:#ef4444;color:white;}.btn-danger-solid:hover{background:#dc2626;}
+.btn-danger{background:#fee2e2;color:#991b1b;}.btn-danger:hover{background:#fecaca;}
+.btn-ghost{background:#f3f4f6;color:#374151;}.btn-ghost:hover{background:#e5e7eb;}
+.btn-sm{padding:5px 12px;font-size:12px;}.btn-full{width:100%;justify-content:center;}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
 
-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-th { text-align: left; padding: 10px 12px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: #9ca3af; border-bottom: 1px solid #f3f4f6; }
-td { padding: 12px; border-bottom: 1px solid #f9fafb; vertical-align: middle; }
-tr:hover td { background: #fafafa; }
-tr:last-child td { border-bottom: none; }
-.user-cell { display: flex; align-items: center; gap: 10px; }
-.user-avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; color: white; flex-shrink: 0; }
-.user-name { font-weight: 600; font-size: 14px; }
-.user-email { font-size: 12px; color: #9ca3af; }
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;}
+.badge-green{background:#d1fae5;color:#065f46;}.badge-blue{background:#e0e7ff;color:#3730a3;}
+.badge-red{background:#fee2e2;color:#991b1b;}.badge-gray{background:#f3f4f6;color:#6b7280;}
+.badge-yellow{background:#fef3c7;color:#92400e;}.badge-purple{background:#f3e8ff;color:#6b21a8;}
+.badge-orange{background:#fff7ed;color:#9a3412;}
 
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-@media(max-width:600px) { .form-grid { grid-template-columns: 1fr; } }
-.form-group { display: flex; flex-direction: column; gap: 5px; }
-.form-group.full { grid-column: 1 / -1; }
-label.lbl { font-size: 13px; font-weight: 600; color: #374151; }
-label .req { color: #ef4444; }
-input, select, textarea { padding: 9px 12px; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 14px; font-family: inherit; transition: border .15s; background: white; }
-input:focus, select:focus, textarea:focus { outline: none; border-color: #4f46e5; }
-input.error, select.error { border-color: #ef4444; }
-.field-error { font-size: 12px; color: #ef4444; }
+table{width:100%;border-collapse:collapse;font-size:14px;}
+th{text-align:left;padding:10px 12px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#9ca3af;border-bottom:1px solid #f3f4f6;}
+td{padding:12px;border-bottom:1px solid #f9fafb;vertical-align:middle;}
+tr:hover td{background:#fafafa;}tr:last-child td{border-bottom:none;}
+.user-cell{display:flex;align-items:center;gap:10px;}
+.u-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:white;flex-shrink:0;}
+.u-name{font-weight:600;font-size:14px;}.u-email{font-size:12px;color:#9ca3af;}
 
-.search-bar { display: flex; gap: 10px; margin-bottom: 16px; align-items: center; flex-wrap: wrap; }
-.search-bar input { flex: 1; min-width: 180px; }
-.search-bar select { width: 160px; }
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr;}}
+.fg{display:flex;flex-direction:column;gap:5px;}.fg.full{grid-column:1/-1;}
+.lbl{font-size:13px;font-weight:600;color:#374151;}.req{color:#ef4444;}
+input[type=text],input[type=email],input[type=tel],input[type=date],input[type=password],input[type=number],select,textarea{padding:9px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:14px;font-family:inherit;transition:border .15s;background:white;width:100%;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#4f46e5;}
+.field-error{font-size:12px;color:#ef4444;}
 
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-@media(max-width:700px) { .stats { grid-template-columns: 1fr 1fr; } }
-.stat { background: white; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 4px rgba(0,0,0,.07); }
-.stat .val { font-size: 28px; font-weight: 700; margin-bottom: 2px; }
-.stat .lbl { font-size: 12px; color: #9ca3af; font-weight: 500; }
+.search-bar{display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap;}
+.search-bar input{flex:1;min-width:180px;}.search-bar select{width:160px;}
 
-.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto; }
-.overlay.show { display: flex; }
-.modal { background: white; border-radius: 16px; padding: 28px; width: 100%; max-width: 560px; }
-.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.modal-header h3 { font-size: 18px; font-weight: 700; }
-.modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: #9ca3af; line-height: 1; }
-.modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; padding-top: 16px; border-top: 1px solid #f3f4f6; }
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+@media(max-width:700px){.stats{grid-template-columns:1fr 1fr;}}
+.stat{background:white;border-radius:10px;padding:16px 20px;box-shadow:0 1px 4px rgba(0,0,0,.07);}
+.stat .val{font-size:28px;font-weight:700;margin-bottom:2px;}.stat .lbl{font-size:12px;color:#9ca3af;font-weight:500;}
 
-.alert { padding: 12px 16px; border-radius: 8px; font-size: 14px; margin-bottom: 16px; }
-.alert-green { background: #d1fae5; color: #065f46; border-left: 4px solid #10b981; }
-.alert-yellow { background: #fef3c7; color: #92400e; border-left: 4px solid #f59e0b; }
-.alert-red { background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
-.alert-blue { background: #e0e7ff; color: #3730a3; border-left: 4px solid #4f46e5; }
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto;}
+.overlay.show{display:flex;}
+.modal{background:white;border-radius:16px;padding:28px;width:100%;max-width:560px;}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+.modal-header h3{font-size:18px;font-weight:700;}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:#9ca3af;line-height:1;}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;padding-top:16px;border-top:1px solid #f3f4f6;}
 
-.inner-tabs { display: flex; gap: 4px; background: #f3f4f6; padding: 4px; border-radius: 10px; margin-bottom: 20px; width: fit-content; }
-.inner-tab { padding: 7px 16px; font-size: 13px; font-weight: 600; border-radius: 7px; cursor: pointer; color: #6b7280; border: none; background: none; transition: all .2s; }
-.inner-tab.active { background: white; color: #1a1a2e; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+.alert{padding:12px 16px;border-radius:8px;font-size:14px;margin-bottom:16px;}
+.alert-green{background:#d1fae5;color:#065f46;border-left:4px solid #10b981;}
+.alert-yellow{background:#fef3c7;color:#92400e;border-left:4px solid #f59e0b;}
+.alert-red{background:#fee2e2;color:#991b1b;border-left:4px solid #ef4444;}
+.alert-blue{background:#e0e7ff;color:#3730a3;border-left:4px solid #4f46e5;}
 
-.tag { display: inline-block; background: #f3f4f6; color: #374151; border-radius: 6px; padding: 2px 8px; font-size: 12px; margin: 2px; }
-.empty-state { text-align: center; padding: 40px; color: #9ca3af; font-size: 14px; }
-.empty-state .icon { font-size: 40px; margin-bottom: 12px; }
+.inner-tabs{display:flex;gap:4px;background:#f3f4f6;padding:4px;border-radius:10px;margin-bottom:20px;width:fit-content;}
+.inner-tab{padding:7px 16px;font-size:13px;font-weight:600;border-radius:7px;cursor:pointer;color:#6b7280;border:none;background:none;transition:all .2s;}
+.inner-tab.active{background:white;color:#1a1a2e;box-shadow:0 1px 3px rgba(0,0,0,.1);}
 
-/* MANAGER ESPECÍFICO */
-.team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 20px; }
-.team-card { background: white; border-radius: 10px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.07); display: flex; align-items: center; gap: 12px; border-left: 4px solid #e5e7eb; }
-.team-card.ok { border-left-color: #10b981; }
-.team-card.incident { border-left-color: #ef4444; }
-.team-card.pending { border-left-color: #f59e0b; }
-.team-card.overtime { border-left-color: #4f46e5; }
-.team-card .tc-info { flex: 1; min-width: 0; }
-.team-card .tc-name { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.team-card .tc-status { font-size: 12px; color: #6b7280; margin-top: 2px; }
-.team-card .tc-time { font-size: 13px; font-weight: 600; }
+.tag{display:inline-block;background:#f3f4f6;color:#374151;border-radius:6px;padding:2px 8px;font-size:12px;margin:2px;}
+.empty-state{text-align:center;padding:40px;color:#9ca3af;font-size:14px;}
+.empty-state .icon{font-size:40px;margin-bottom:12px;}
 
-.incident-row { border-left: 4px solid #ef4444; background: #fff; border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
-.incident-row.geo { border-left-color: #f59e0b; }
-.incident-row.overtime-row { border-left-color: #4f46e5; }
-.incident-row .ir-icon { font-size: 22px; flex-shrink: 0; }
-.incident-row .ir-info { flex: 1; }
-.incident-row .ir-info strong { display: block; font-size: 14px; }
-.incident-row .ir-info span { font-size: 12px; color: #6b7280; }
-.incident-row .ir-actions { display: flex; gap: 6px; flex-shrink: 0; }
+/* TEAM GRID */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:20px;}
+.team-card{background:white;border-radius:10px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.07);display:flex;align-items:center;gap:12px;border-left:4px solid #e5e7eb;}
+.team-card.ok{border-left-color:#10b981;}.team-card.incident{border-left-color:#ef4444;}
+.team-card.pending{border-left-color:#f59e0b;}.team-card.overtime{border-left-color:#4f46e5;}
+.tc-info{flex:1;min-width:0;}.tc-name{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tc-status{font-size:12px;color:#6b7280;margin-top:2px;}.tc-time{font-size:13px;font-weight:600;}
 
-.approval-step { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; background: #f8fafc; margin-bottom: 8px; }
-.approval-step .level { width: 28px; height: 28px; border-radius: 50%; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.level-pending { background: #e0e7ff; color: #4f46e5; }
-.level-done { background: #d1fae5; color: #065f46; }
-.level-active { background: #4f46e5; color: white; }
-.level-rejected { background: #fee2e2; color: #991b1b; }
-.level-waiting { background: #f3f4f6; color: #9ca3af; }
-.approval-step .info { flex: 1; font-size: 13px; }
-.approval-step .info strong { display: block; font-size: 14px; }
+.incident-row{border-left:4px solid #ef4444;background:white;border-radius:8px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.incident-row.geo{border-left-color:#f59e0b;}.incident-row.ot-row{border-left-color:#4f46e5;}
+.ir-icon{font-size:22px;flex-shrink:0;}.ir-info{flex:1;}
+.ir-info strong{display:block;font-size:14px;}.ir-info span{font-size:12px;color:#6b7280;}
+.ir-actions{display:flex;gap:6px;flex-shrink:0;}
 
-/* TIMELINE */
-.timeline { display: flex; align-items: center; margin: 16px 0; }
-.tl-item { flex: 1; text-align: center; font-size: 12px; color: #6b7280; }
-.tl-item strong { display: block; font-size: 15px; color: #1a1a2e; }
-.tl-line { flex: 1; height: 2px; background: #e5e7eb; }
-.tl-line.done { background: #10b981; }
-.tl-dot { width: 10px; height: 10px; border-radius: 50%; background: #e5e7eb; margin: 0 auto 4px; }
-.tl-dot.done { background: #10b981; }
-.tl-dot.active { background: #4f46e5; box-shadow: 0 0 0 3px #e0e7ff; }
+.approval-step{display:flex;align-items:center;gap:12px;padding:12px;border-radius:8px;background:#f8fafc;margin-bottom:8px;}
+.a-level{width:28px;height:28px;border-radius:50%;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lv-pending{background:#e0e7ff;color:#4f46e5;}.lv-done{background:#d1fae5;color:#065f46;}
+.lv-active{background:#4f46e5;color:white;}.lv-wait{background:#f3f4f6;color:#9ca3af;}
+.a-info{flex:1;font-size:13px;}.a-info strong{display:block;font-size:14px;}
 
-.hours-bar { height: 8px; border-radius: 4px; background: #e5e7eb; margin: 12px 0 6px; overflow: hidden; }
-.hours-bar-fill { height: 100%; border-radius: 4px; background: #4f46e5; transition: width .3s; }
-.hours-bar-fill.over { background: #ef4444; }
-.geo-status { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-top: 12px; padding: 10px 14px; border-radius: 8px; }
-.geo-ok { background: #d1fae5; color: #065f46; }
-.geo-warn { background: #fef3c7; color: #92400e; }
-.geo-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+/* FICHAJE */
+.schedule-info{background:#f8fafc;border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#374151;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.schedule-info span{display:flex;flex-direction:column;gap:2px;}.schedule-info strong{font-size:15px;color:#1a1a2e;}
+.clock-big{text-align:center;margin:8px 0 20px;}
+.clock-big .t{font-size:48px;font-weight:700;color:#1a1a2e;letter-spacing:2px;}
+.clock-big .d{font-size:14px;color:#6b7280;margin-top:4px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:640px){.grid2{grid-template-columns:1fr;}}
+.proj-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.proj-row label{flex:1;font-size:14px;font-weight:500;}
+.proj-row input[type=number]{width:80px;padding:8px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:14px;text-align:center;}
+.dot-c{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.hours-bar{height:8px;border-radius:4px;background:#e5e7eb;margin:12px 0 6px;overflow:hidden;}
+.hb-fill{height:100%;border-radius:4px;background:#4f46e5;transition:width .3s;}.hb-fill.over{background:#ef4444;}
+.geo-status{display:flex;align-items:center;gap:8px;font-size:13px;margin-top:12px;padding:10px 14px;border-radius:8px;}
+.geo-ok{background:#d1fae5;color:#065f46;}.geo-warn{background:#fef3c7;color:#92400e;}
+.geo-dot{width:8px;height:8px;border-radius:50%;background:currentColor;}
+.tl{display:flex;align-items:center;margin:16px 0;}
+.tl-i{flex:1;text-align:center;font-size:12px;color:#6b7280;}
+.tl-i strong{display:block;font-size:15px;color:#1a1a2e;}
+.tl-line{flex:1;height:2px;background:#e5e7eb;}.tl-line.done{background:#10b981;}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:#e5e7eb;margin:0 auto 4px;}
+.tl-dot.done{background:#10b981;}.tl-dot.active{background:#4f46e5;box-shadow:0 0 0 3px #e0e7ff;}
 
-/* FICHAJE EMPLEADO */
-.schedule-info { background: #f8fafc; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; font-size: 13px; color: #374151; display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
-.schedule-info span { display: flex; flex-direction: column; gap: 2px; }
-.schedule-info strong { font-size: 15px; color: #1a1a2e; }
-.clock-display { text-align: center; margin: 8px 0 20px; }
-.clock-display .time { font-size: 48px; font-weight: 700; color: #1a1a2e; letter-spacing: 2px; }
-.clock-display .date { font-size: 14px; color: #6b7280; margin-top: 4px; }
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-@media(max-width:640px) { .grid2 { grid-template-columns: 1fr; } }
-.project-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-.project-row label { flex: 1; font-size: 14px; font-weight: 500; }
-.project-row input[type=number] { width: 80px; padding: 8px; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 14px; text-align: center; }
-.project-row input:focus { outline: none; border-color: #4f46e5; }
-.dot-color { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+/* CHARTS (canvas) */
+.chart-wrap{position:relative;height:260px;margin-top:8px;}
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:700px){.chart-grid{grid-template-columns:1fr;}}
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}
+@media(max-width:600px){.kpi-grid{grid-template-columns:1fr 1fr;}}
+.kpi{background:white;border-radius:10px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.07);border-top:4px solid #4f46e5;}
+.kpi.green{border-top-color:#10b981;}.kpi.yellow{border-top-color:#f59e0b;}.kpi.red{border-top-color:#ef4444;}.kpi.purple{border-top-color:#8b5cf6;}
+.kpi .kv{font-size:26px;font-weight:700;margin-bottom:2px;}.kpi .kl{font-size:12px;color:#9ca3af;}
+.kpi .kt{font-size:12px;margin-top:4px;font-weight:600;}
+.kpi .kt.up{color:#10b981;}.kpi .kt.down{color:#ef4444;}
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="logo">⏱ ControlHR</div>
-  <div class="nav-right">
-    <!-- SELECTOR DE ROL (demo) -->
-    <div class="role-switcher">
-      <button class="role-btn" onclick="switchRole('empleado')">Empleado</button>
-      <button class="role-btn active" onclick="switchRole('manager')">Manager</button>
-      <button class="role-btn" onclick="switchRole('admin')">Admin RRHH</button>
-    </div>
-    <div class="user">
-      <div style="text-align:right">
-        <div style="font-weight:600;font-size:14px" id="nav-name">Laura González</div>
-        <div style="font-size:11px;color:#9ca3af" id="nav-role">Manager · Madrid</div>
-      </div>
-      <div class="avatar" id="nav-avatar" style="background:#10b981">LG</div>
+<!-- ==================== LOGIN ==================== -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">⏱ Control<span>HR</span></div>
+    <div class="login-sub">Selecciona un usuario demo o inicia sesión</div>
+    <div class="login-users" id="quick-users"></div>
+    <div class="login-divider">o entra con email</div>
+    <div class="login-form">
+      <div class="fg"><label>Email</label><input type="email" id="l-email" placeholder="tu@empresa.com"></div>
+      <div class="fg"><label>Contraseña</label><input type="password" id="l-pwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <div class="login-error" id="l-error">Email o contraseña incorrectos</div>
+      <button class="btn-login" onclick="doLogin()">Entrar</button>
     </div>
   </div>
-</nav>
+</div>
 
-<div class="layout">
-  <aside class="sidebar" id="sidebar"></aside>
-  <main class="main" id="main-content">
-
-    <!-- ===================== PÁGINAS EMPLEADO ===================== -->
-    <div id="page-fichaje" class="page">
-      <div class="page-title">Mi jornada</div>
-      <div class="page-sub">Registro horario y asignación de tiempo a proyectos</div>
-      <div class="inner-tabs">
-        <button class="inner-tab active" onclick="empTab('fichar')">Fichaje</button>
-        <button class="inner-tab" onclick="empTab('imputar')">Proyectos</button>
-        <button class="inner-tab" onclick="empTab('historial')">Historial</button>
+<!-- ==================== APP ==================== -->
+<div id="app-screen">
+  <nav>
+    <div class="logo">⏱ ControlHR</div>
+    <div class="nav-right">
+      <div class="nav-user">
+        <div style="text-align:right">
+          <div style="font-weight:600;font-size:14px" id="nav-name"></div>
+          <div style="font-size:11px;color:#9ca3af" id="nav-role"></div>
+        </div>
+        <div class="nav-avatar" id="nav-avatar"></div>
       </div>
-      <!-- Fichaje -->
-      <div id="etab-fichar">
-        <div class="grid2">
-          <div class="card">
-            <h2 style="font-size:15px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px">Control de fichaje</h2>
-            <div class="clock-display">
-              <div class="time" id="emp-clock">--:--:--</div>
-              <div class="date" id="emp-date"></div>
-            </div>
-            <div class="schedule-info">
-              <span>Entrada<strong>08:00</strong></span>
-              <span>Comida<strong>14–15h</strong></span>
-              <span>Salida<strong>17:00</strong></span>
-              <span>Máx.<strong>8h/día</strong></span>
-            </div>
-            <div id="emp-geo" class="geo-status geo-warn"><div class="geo-dot"></div>Obteniendo ubicación...</div>
-            <div style="margin-top:16px">
-              <button id="emp-btn-fichar" class="btn btn-success btn-full" style="font-size:16px;padding:14px" onclick="toggleFichaje()">▶ Iniciar jornada</button>
-            </div>
-            <div id="emp-overtime-alert" style="display:none;margin-top:12px">
-              <div class="alert alert-yellow">⚠️ Has alcanzado tu jornada máxima de <strong>8h</strong>. Para continuar necesitas aprobación.</div>
-              <button class="btn btn-primary btn-full" onclick="openOvertimeModal()" style="margin-top:6px">Solicitar horas extra</button>
-            </div>
-          </div>
-          <div class="card">
-            <h2 style="font-size:15px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px">Estado de hoy</h2>
-            <div class="timeline">
-              <div class="tl-item"><div class="tl-dot" id="dot-in"></div><div>Entrada</div><strong id="time-in">--:--</strong></div>
-              <div class="tl-line" id="line1"></div>
-              <div class="tl-item"><div class="tl-dot" id="dot-break"></div><div>Comida</div><strong>14–15h</strong></div>
-              <div class="tl-line" id="line2"></div>
-              <div class="tl-item"><div class="tl-dot" id="dot-out"></div><div>Salida</div><strong id="time-out">--:--</strong></div>
-            </div>
-            <div style="font-size:14px;margin-top:8px">
-              <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f3f4f6">
-                <span style="color:#6b7280">Tiempo trabajado</span><strong id="worked-disp">0h 00min</strong>
+      <button class="logout-btn" onclick="doLogout()">← Salir</button>
+    </div>
+  </nav>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main" id="main-content">
+
+      <!-- FICHAJE -->
+      <div id="page-fichaje" class="page">
+        <div class="page-title">Mi jornada</div>
+        <div class="page-sub">Registro horario y asignación de tiempo a proyectos</div>
+        <div class="inner-tabs">
+          <button class="inner-tab active" onclick="empTab('fichar')">Fichaje</button>
+          <button class="inner-tab" onclick="empTab('imputar')">Proyectos</button>
+          <button class="inner-tab" onclick="empTab('historial')">Historial</button>
+        </div>
+        <div id="etab-fichar">
+          <div class="grid2">
+            <div class="card">
+              <h2 style="font-size:14px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px">Control de fichaje</h2>
+              <div class="clock-big"><div class="t" id="emp-clock">--:--:--</div><div class="d" id="emp-date"></div></div>
+              <div class="schedule-info"><span>Entrada<strong>08:00</strong></span><span>Comida<strong>14–15h</strong></span><span>Salida<strong>17:00</strong></span><span>Máx.<strong>8h/día</strong></span></div>
+              <div id="emp-geo" class="geo-status geo-warn"><div class="geo-dot"></div>Obteniendo ubicación...</div>
+              <div style="margin-top:16px">
+                <button id="emp-btn-fichar" class="btn btn-success btn-full" style="font-size:16px;padding:14px" onclick="toggleFichaje()">▶ Iniciar jornada</button>
               </div>
-              <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f3f4f6">
-                <span style="color:#6b7280">Pausa comida</span><strong id="break-disp">No iniciada</strong>
-              </div>
-              <div style="display:flex;justify-content:space-between;padding:8px 0">
-                <span style="color:#6b7280">Estado</span><span id="emp-status-badge" class="badge badge-gray">Sin iniciar</span>
+              <div id="emp-ot-alert" style="display:none;margin-top:12px">
+                <div class="alert alert-yellow">⚠️ Has alcanzado tu jornada máxima de <strong>8h</strong>.</div>
+                <button class="btn btn-primary btn-full" onclick="openOTModal()" style="margin-top:6px">Solicitar horas extra</button>
               </div>
             </div>
-            <div id="emp-imputation-ok" class="alert alert-green" style="display:none;margin-top:12px">
-              ✅ Jornada finalizada. <a href="#" onclick="empTab('imputar');return false" style="color:#065f46;font-weight:700">Imputa tu tiempo →</a>
+            <div class="card">
+              <h2 style="font-size:14px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px">Estado de hoy</h2>
+              <div class="tl">
+                <div class="tl-i"><div class="tl-dot" id="dot-in"></div><div>Entrada</div><strong id="t-in">--:--</strong></div>
+                <div class="tl-line" id="l1"></div>
+                <div class="tl-i"><div class="tl-dot" id="dot-br"></div><div>Comida</div><strong>14–15h</strong></div>
+                <div class="tl-line" id="l2"></div>
+                <div class="tl-i"><div class="tl-dot" id="dot-out"></div><div>Salida</div><strong id="t-out">--:--</strong></div>
+              </div>
+              <div style="font-size:14px;margin-top:8px">
+                <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f3f4f6"><span style="color:#6b7280">Tiempo trabajado</span><strong id="worked-d">0h 00min</strong></div>
+                <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f3f4f6"><span style="color:#6b7280">Pausa comida</span><strong id="break-d">No iniciada</strong></div>
+                <div style="display:flex;justify-content:space-between;padding:8px 0"><span style="color:#6b7280">Estado</span><span id="emp-badge" class="badge badge-gray">Sin iniciar</span></div>
+              </div>
+              <div id="emp-imp-ok" class="alert alert-green" style="display:none;margin-top:12px">✅ Jornada finalizada. <a href="#" onclick="empTab('imputar');return false" style="color:#065f46;font-weight:700">Imputa tu tiempo →</a></div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Imputar -->
-      <div id="etab-imputar" style="display:none">
-        <div class="card">
-          <h2 style="font-size:15px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Imputación a proyectos</h2>
-          <div id="imp-locked" class="alert alert-yellow" style="margin-top:12px">⏳ Finaliza tu jornada antes de imputar tiempo.</div>
-          <div id="imp-done" class="alert alert-green" style="display:none">✅ Imputación confirmada correctamente.</div>
-          <div id="imp-form">
-            <div class="hours-bar"><div class="hours-bar-fill" id="imp-bar" style="width:0%"></div></div>
-            <div style="display:flex;justify-content:space-between;font-size:13px;color:#6b7280;margin-bottom:16px">
-              <span>Imputado: <strong id="imp-used">0h 00min</strong></span>
-              <span>Disponible: <strong id="imp-total">8h 00min</strong></span>
+        <div id="etab-imputar" style="display:none">
+          <div class="card">
+            <h2 style="font-size:14px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Imputación a proyectos</h2>
+            <div id="imp-locked" class="alert alert-yellow" style="margin-top:12px">⏳ Finaliza tu jornada antes de imputar.</div>
+            <div id="imp-done" class="alert alert-green" style="display:none">✅ Imputación confirmada.</div>
+            <div id="imp-form">
+              <div class="hours-bar"><div class="hb-fill" id="imp-bar" style="width:0%"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;color:#6b7280;margin-bottom:16px"><span>Imputado: <strong id="imp-used">0h 00min</strong></span><span>Disponible: <strong id="imp-total">8h 00min</strong></span></div>
+              <div class="proj-row"><div class="dot-c" style="background:#4f46e5"></div><label>Proyecto Alpha</label><input type="number" id="p1" min="0" max="10" step="0.5" value="0" oninput="updateImpBar()"> h</div>
+              <div class="proj-row"><div class="dot-c" style="background:#10b981"></div><label>Proyecto Beta</label><input type="number" id="p2" min="0" max="10" step="0.5" value="0" oninput="updateImpBar()"> h</div>
+              <div class="proj-row"><div class="dot-c" style="background:#f59e0b"></div><label>Proyecto Gamma</label><input type="number" id="p3" min="0" max="10" step="0.5" value="0" oninput="updateImpBar()"> h</div>
+              <div id="imp-warn" class="alert alert-red" style="display:none"></div>
+              <button class="btn btn-primary btn-full" style="margin-top:8px" onclick="confirmImp()">Confirmar imputación</button>
             </div>
-            <div class="project-row"><div class="dot-color" style="background:#4f46e5"></div><label>Proyecto Alpha</label><input type="number" id="p1" min="0" max="10" step="0.5" value="0" oninput="updateImpBar()"> h</div>
-            <div class="project-row"><div class="dot-color" style="background:#10b981"></div><label>Proyecto Beta</label><input type="number" id="p2" min="0" max="10" step="0.5" value="0" oninput="updateImpBar()"> h</div>
-            <div class="project-row"><div class="dot-color" style="background:#f59e0b"></div><label>Proyecto Gamma</label><input type="number" id="p3" min="0" max="10" step="0.5" value="0" oninput="updateImpBar()"> h</div>
-            <div id="imp-warn" class="alert alert-red" style="display:none"></div>
-            <button class="btn btn-primary btn-full" style="margin-top:8px" onclick="confirmImputation()">Confirmar imputación</button>
           </div>
         </div>
-      </div>
-      <!-- Historial -->
-      <div id="etab-historial" style="display:none">
-        <div class="card">
-          <h2 style="font-size:15px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px">Mis últimos registros</h2>
-          <table>
-            <thead><tr><th>Día</th><th>Entrada</th><th>Salida</th><th>Total</th><th>Proyectos</th><th>Estado</th></tr></thead>
+        <div id="etab-historial" style="display:none">
+          <div class="card">
+            <h2 style="font-size:14px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px">Mis últimos registros</h2>
+            <table><thead><tr><th>Día</th><th>Entrada</th><th>Salida</th><th>Total</th><th>Proyectos</th><th>Estado</th></tr></thead>
             <tbody>
               <tr><td>Lun 17 Feb</td><td>08:02</td><td>17:05</td><td>8h 03min</td><td><span class="tag">Alpha 4h</span><span class="tag">Beta 4h</span></td><td><span class="badge badge-green">Completa</span></td></tr>
-              <tr><td>Mar 18 Feb</td><td>07:58</td><td>18:32</td><td>9h 34min</td><td><span class="tag">Alpha 5h</span><span class="tag">Gamma 4h</span></td><td><span class="badge badge-blue">H.Extra aprobadas</span></td></tr>
+              <tr><td>Mar 18 Feb</td><td>07:58</td><td>18:32</td><td>9h 34min</td><td><span class="tag">Alpha 5h</span><span class="tag">Gamma 4h</span></td><td><span class="badge badge-blue">H.Extra ✓</span></td></tr>
               <tr><td>Mié 19 Feb</td><td>08:10</td><td>17:00</td><td>7h 50min</td><td><span class="tag">Beta 7h</span></td><td><span class="badge badge-yellow">Incidencia</span></td></tr>
               <tr><td>Jue 20 Feb</td><td>08:05</td><td>17:02</td><td>7h 57min</td><td><span class="tag">Alpha 4h</span><span class="tag">Beta 4h</span></td><td><span class="badge badge-green">Completa</span></td></tr>
-            </tbody>
-          </table>
+            </tbody></table>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- ===================== PÁGINAS MANAGER ===================== -->
-    <div id="page-manager-dashboard" class="page">
-      <div class="page-title">Dashboard del equipo</div>
-      <div class="page-sub">Resumen en tiempo real · Hoy, miércoles 19 de febrero</div>
-      <div class="stats">
-        <div class="stat"><div class="val" style="color:#10b981">6</div><div class="lbl">Fichados hoy</div></div>
-        <div class="stat"><div class="val" style="color:#ef4444">2</div><div class="lbl">Sin fichar</div></div>
-        <div class="stat"><div class="val" style="color:#f59e0b">3</div><div class="lbl">Incidencias abiertas</div></div>
-        <div class="stat"><div class="val" style="color:#4f46e5">2</div><div class="lbl">H.Extra pendientes</div></div>
-      </div>
-      <div class="card">
-        <div class="card-header"><h2>Estado del equipo ahora</h2></div>
-        <div class="team-grid" id="team-grid"></div>
-      </div>
-      <div class="card">
-        <div class="card-header"><h2>🚨 Requieren atención hoy</h2></div>
-        <div class="incident-row">
-          <div class="ir-icon">🕐</div>
-          <div class="ir-info"><strong>Miguel Torres – Sin fichar entrada</strong><span>Hoy · Debía entrar a las 08:00 · Sin actividad registrada</span></div>
-          <div class="ir-actions"><button class="btn btn-ghost btn-sm" onclick="openIncidentModal('missing','Miguel Torres')">Gestionar</button></div>
+      <!-- MANAGER DASHBOARD -->
+      <div id="page-manager-dashboard" class="page">
+        <div class="page-title">Dashboard del equipo</div>
+        <div class="page-sub">Resumen en tiempo real · Hoy, miércoles 19 de febrero</div>
+        <div class="stats">
+          <div class="stat"><div class="val" style="color:#10b981">6</div><div class="lbl">Fichados hoy</div></div>
+          <div class="stat"><div class="val" style="color:#ef4444">2</div><div class="lbl">Sin fichar</div></div>
+          <div class="stat"><div class="val" style="color:#f59e0b">3</div><div class="lbl">Incidencias abiertas</div></div>
+          <div class="stat"><div class="val" style="color:#4f46e5">2</div><div class="lbl">H.Extra pendientes</div></div>
         </div>
-        <div class="incident-row geo">
-          <div class="ir-icon">📍</div>
-          <div class="ir-info"><strong>Sara Medina – Fichaje fuera del radio</strong><span>Hoy 08:12 · Ubicación a 420m de la oficina</span></div>
-          <div class="ir-actions">
-            <button class="btn btn-success btn-sm" onclick="resolveQuick('geo')">✓ Excusar</button>
-            <button class="btn btn-ghost btn-sm" onclick="openIncidentModal('geo','Sara Medina')">Ver</button>
-          </div>
-        </div>
-        <div class="incident-row overtime-row">
-          <div class="ir-icon">⏱</div>
-          <div class="ir-info"><strong>Carlos Martínez – Solicitud horas extra</strong><span>Hoy · 1h 30min extra · "Cierre de sprint urgente"</span></div>
-          <div class="ir-actions">
-            <button class="btn btn-success btn-sm" onclick="approveOvertime('Carlos Martínez')">✓ Aprobar</button>
-            <button class="btn btn-danger btn-sm" onclick="rejectOvertime('Carlos Martínez')">✗ Rechazar</button>
-          </div>
-        </div>
-        <div class="incident-row overtime-row">
-          <div class="ir-icon">⏱</div>
-          <div class="ir-info"><strong>Ana Pérez – Solicitud horas extra</strong><span>Hoy · 2h extra · "Entrega diseño cliente"</span></div>
-          <div class="ir-actions">
-            <button class="btn btn-success btn-sm" onclick="approveOvertime('Ana Pérez')">✓ Aprobar</button>
-            <button class="btn btn-danger btn-sm" onclick="rejectOvertime('Ana Pérez')">✗ Rechazar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="page-manager-incidencias" class="page">
-      <div class="page-title">Incidencias del equipo</div>
-      <div class="page-sub">Gestiona y resuelve las incidencias de tu equipo</div>
-      <div class="inner-tabs">
-        <button class="inner-tab active" onclick="incTab('abiertas')">🔴 Abiertas <span class="notif-dot" style="display:inline;margin-left:4px">5</span></button>
-        <button class="inner-tab" onclick="incTab('resueltas')">✅ Resueltas</button>
-      </div>
-      <div id="inc-abiertas">
-        <div id="incidents-list"></div>
-      </div>
-      <div id="inc-resueltas" style="display:none">
+        <div class="card"><div class="card-header"><h2>Estado del equipo ahora</h2></div><div class="team-grid" id="team-grid"></div></div>
         <div class="card">
-          <table>
-            <thead><tr><th>Empleado</th><th>Tipo</th><th>Fecha</th><th>Resuelto por</th><th>Comentario</th></tr></thead>
-            <tbody>
-              <tr><td>Carlos Martínez</td><td><span class="badge badge-gray">Olvido fichaje</span></td><td>14 Feb</td><td>Laura González</td><td>Confirmó presencia por email</td></tr>
-              <tr><td>Sara Medina</td><td><span class="badge badge-gray">GPS fuera radio</span></td><td>12 Feb</td><td>Laura González</td><td>Reunión externa con cliente</td></tr>
-              <tr><td>Miguel Torres</td><td><span class="badge badge-gray">Exceso jornada</span></td><td>10 Feb</td><td>Laura González</td><td>H. extra aprobadas por RRHH</td></tr>
-            </tbody>
-          </table>
+          <div class="card-header"><h2>🚨 Requieren atención hoy</h2></div>
+          <div class="incident-row"><div class="ir-icon">🕐</div><div class="ir-info"><strong>Miguel Torres – Sin fichar entrada</strong><span>Hoy · Debía entrar a las 08:00</span></div><div class="ir-actions"><button class="btn btn-ghost btn-sm" onclick="openIncModal('missing','Miguel Torres')">Gestionar</button></div></div>
+          <div class="incident-row geo"><div class="ir-icon">📍</div><div class="ir-info"><strong>Sara Medina – Fichaje fuera del radio</strong><span>Hoy 08:12 · 420m de la oficina</span></div><div class="ir-actions"><button class="btn btn-success btn-sm" onclick="alert('✅ Incidencia excusada.')">✓ Excusar</button><button class="btn btn-ghost btn-sm" onclick="openIncModal('geo','Sara Medina')">Ver</button></div></div>
+          <div class="incident-row ot-row"><div class="ir-icon">⏱</div><div class="ir-info"><strong>Carlos Martínez – Solicitud horas extra</strong><span>Hoy · 1h 30min · "Cierre de sprint urgente"</span></div><div class="ir-actions"><button class="btn btn-success btn-sm" onclick="approveOT('Carlos Martínez')">✓ Aprobar</button><button class="btn btn-danger btn-sm" onclick="rejectOT('Carlos Martínez')">✗ Rechazar</button></div></div>
         </div>
       </div>
-    </div>
 
-    <div id="page-manager-overtime" class="page">
-      <div class="page-title">Horas extra</div>
-      <div class="page-sub">Solicitudes de horas extra pendientes de aprobación en el nivel 1</div>
-      <div id="overtime-list"></div>
-    </div>
-
-    <div id="page-manager-horario" class="page">
-      <div class="page-title">Control horario del equipo</div>
-      <div class="page-sub">Registro de jornada de todos los miembros del equipo</div>
-      <div class="card">
-        <div class="search-bar">
-          <input type="text" placeholder="🔍 Buscar empleado...">
-          <select><option>Esta semana</option><option>Semana pasada</option><option>Este mes</option></select>
+      <!-- MANAGER INCIDENCIAS -->
+      <div id="page-manager-incidencias" class="page">
+        <div class="page-title">Incidencias del equipo</div>
+        <div class="page-sub">Gestiona y resuelve las incidencias abiertas</div>
+        <div class="inner-tabs"><button class="inner-tab active" onclick="incTab('abiertas')">🔴 Abiertas</button><button class="inner-tab" onclick="incTab('resueltas')">✅ Resueltas</button></div>
+        <div id="inc-abiertas"><div id="incidents-list"></div></div>
+        <div id="inc-resueltas" style="display:none">
+          <div class="card"><table><thead><tr><th>Empleado</th><th>Tipo</th><th>Fecha</th><th>Resuelto por</th><th>Comentario</th></tr></thead>
+          <tbody><tr><td>Carlos Martínez</td><td><span class="badge badge-gray">Olvido fichaje</span></td><td>14 Feb</td><td>Laura González</td><td>Confirmó presencia por email</td></tr>
+          <tr><td>Sara Medina</td><td><span class="badge badge-gray">GPS fuera radio</span></td><td>12 Feb</td><td>Laura González</td><td>Reunión externa</td></tr></tbody></table></div>
         </div>
-        <table>
-          <thead><tr><th>Empleado</th><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th><th>Total</th><th>Estado</th></tr></thead>
+      </div>
+
+      <!-- MANAGER HORAS EXTRA -->
+      <div id="page-manager-overtime" class="page">
+        <div class="page-title">Horas extra</div>
+        <div class="page-sub">Solicitudes pendientes de aprobación en el nivel 1</div>
+        <div id="overtime-list"></div>
+      </div>
+
+      <!-- MANAGER HORARIO EQUIPO -->
+      <div id="page-manager-horario" class="page">
+        <div class="page-title">Control horario del equipo</div>
+        <div class="page-sub">Registro de jornada semanal</div>
+        <div class="card">
+          <div class="search-bar"><input type="text" placeholder="🔍 Buscar empleado..."><select><option>Esta semana</option><option>Semana pasada</option><option>Este mes</option></select></div>
+          <table><thead><tr><th>Empleado</th><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th><th>Total</th><th>Estado</th></tr></thead>
           <tbody>
             <tr><td><strong>Carlos Martínez</strong></td><td>8h 03m</td><td>9h 34m ⭐</td><td>8h 01m</td><td>7h 57m</td><td>—</td><td>33h 35m</td><td><span class="badge badge-green">OK</span></td></tr>
-            <tr><td><strong>Ana Pérez</strong></td><td>7h 00m</td><td>7h 00m</td><td>7h 00m</td><td>7h 00m</td><td>—</td><td>28h 00m</td><td><span class="badge badge-green">OK</span></td></tr>
-            <tr><td><strong>Sara Medina</strong></td><td>8h 00m</td><td>8h 00m</td><td>8h 12m</td><td>8h 00m</td><td>—</td><td>32h 12m</td><td><span class="badge badge-yellow">Incidencia</span></td></tr>
-            <tr><td><strong>Miguel Torres</strong></td><td>8h 00m</td><td>8h 00m</td><td>—</td><td>—</td><td>—</td><td>16h 00m</td><td><span class="badge badge-red">Sin fichar</span></td></tr>
-            <tr><td><strong>Pedro Ruiz</strong></td><td>8h 00m</td><td>8h 00m</td><td>8h 00m</td><td>8h 00m</td><td>—</td><td>32h 00m</td><td><span class="badge badge-green">OK</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ===================== PÁGINAS ADMIN ===================== -->
-    <div id="page-usuarios" class="page">
-      <div class="page-title">Gestión de usuarios</div>
-      <div class="page-sub">Alta, edición y configuración de empleados</div>
-      <div class="stats">
-        <div class="stat"><div class="val" id="stat-total">4</div><div class="lbl">Total empleados</div></div>
-        <div class="stat"><div class="val" style="color:#10b981" id="stat-active">3</div><div class="lbl">Activos</div></div>
-        <div class="stat"><div class="val" style="color:#f59e0b" id="stat-pending">1</div><div class="lbl">Pendientes</div></div>
-        <div class="stat"><div class="val" style="color:#ef4444" id="stat-inactive">0</div><div class="lbl">Inactivos</div></div>
-      </div>
-      <div class="card">
-        <div class="card-header"><h2>Empleados</h2><button class="btn btn-primary" onclick="openNewUser()">＋ Nuevo empleado</button></div>
-        <div class="search-bar">
-          <input type="text" id="search-input" placeholder="🔍 Buscar..." oninput="filterUsers()">
-          <select id="filter-role" onchange="filterUsers()"><option value="">Todos los roles</option><option value="empleado">Empleado</option><option value="manager">Manager</option><option value="rrhh">RRHH</option><option value="admin">Admin</option></select>
-          <select id="filter-status" onchange="filterUsers()"><option value="">Todos los estados</option><option value="activo">Activo</option><option value="pendiente">Pendiente</option><option value="inactivo">Inactivo</option></select>
+            <tr><td><strong>Ana Pérez</strong></td><td>7h</td><td>7h</td><td>7h</td><td>7h</td><td>—</td><td>28h</td><td><span class="badge badge-green">OK</span></td></tr>
+            <tr><td><strong>Sara Medina</strong></td><td>8h</td><td>8h</td><td>8h 12m</td><td>8h</td><td>—</td><td>32h 12m</td><td><span class="badge badge-yellow">Incidencia</span></td></tr>
+            <tr><td><strong>Miguel Torres</strong></td><td>8h</td><td>8h</td><td>—</td><td>—</td><td>—</td><td>16h</td><td><span class="badge badge-red">Sin fichar</span></td></tr>
+          </tbody></table>
         </div>
-        <table><thead><tr><th>Empleado</th><th>Rol</th><th>Centro / Horario</th><th>Proyectos</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="users-table"></tbody></table>
       </div>
-    </div>
 
-    <div id="page-horarios" class="page">
-      <div class="page-title">Horarios</div>
-      <div class="page-sub">Turnos y jornadas disponibles</div>
-      <div class="card">
-        <table><thead><tr><th>Nombre</th><th>Entrada</th><th>Pausa</th><th>Salida</th><th>Horas/día</th><th>Empleados</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Jornada completa L-V</strong></td><td>08:00</td><td>14:00–15:00</td><td>17:00</td><td>8h</td><td>3</td></tr>
-          <tr><td><strong>Jornada intensiva</strong></td><td>08:00</td><td>—</td><td>15:00</td><td>7h</td><td>1</td></tr>
-          <tr><td><strong>Turno mañana</strong></td><td>06:00</td><td>10:00–10:30</td><td>14:00</td><td>7.5h</td><td>0</td></tr>
-        </tbody></table>
+      <!-- ADMIN USUARIOS -->
+      <div id="page-usuarios" class="page">
+        <div class="page-title">Gestión de usuarios</div>
+        <div class="page-sub">Alta, edición y configuración de empleados</div>
+        <div class="stats">
+          <div class="stat"><div class="val" id="stat-total">0</div><div class="lbl">Total</div></div>
+          <div class="stat"><div class="val" style="color:#10b981" id="stat-active">0</div><div class="lbl">Activos</div></div>
+          <div class="stat"><div class="val" style="color:#f59e0b" id="stat-pending">0</div><div class="lbl">Pendientes</div></div>
+          <div class="stat"><div class="val" style="color:#ef4444" id="stat-inactive">0</div><div class="lbl">Inactivos</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h2>Empleados</h2><button class="btn btn-primary" onclick="openNewUser()">＋ Nuevo empleado</button></div>
+          <div class="search-bar">
+            <input type="text" id="search-input" placeholder="🔍 Buscar..." oninput="filterUsers()">
+            <select id="filter-role" onchange="filterUsers()"><option value="">Todos los roles</option><option value="empleado">Empleado</option><option value="manager">Manager</option><option value="rrhh">RRHH</option><option value="admin">Admin</option></select>
+            <select id="filter-status" onchange="filterUsers()"><option value="">Todos los estados</option><option value="activo">Activo</option><option value="pendiente">Pendiente</option><option value="inactivo">Inactivo</option></select>
+          </div>
+          <table><thead><tr><th>Empleado</th><th>Rol</th><th>Centro / Horario</th><th>Proyectos</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="users-table"></tbody></table>
+        </div>
       </div>
-    </div>
 
-    <div id="page-proyectos-admin" class="page">
-      <div class="page-title">Proyectos</div>
-      <div class="page-sub">Gestión y asignación de proyectos</div>
-      <div class="card">
-        <table><thead><tr><th>Proyecto</th><th>Código</th><th>Asignados</th><th>Estado</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Proyecto Alpha</strong></td><td><span class="tag">PRY-001</span></td><td>3</td><td><span class="badge badge-green">Activo</span></td></tr>
-          <tr><td><strong>Proyecto Beta</strong></td><td><span class="tag">PRY-002</span></td><td>2</td><td><span class="badge badge-green">Activo</span></td></tr>
-          <tr><td><strong>Proyecto Gamma</strong></td><td><span class="tag">PRY-003</span></td><td>1</td><td><span class="badge badge-yellow">En pausa</span></td></tr>
-        </tbody></table>
+      <!-- ADMIN INFORMES -->
+      <div id="page-informes" class="page">
+        <div class="page-title">Informes y analítica</div>
+        <div class="page-sub">Resumen ejecutivo de RRHH · Febrero 2026</div>
+        <div class="kpi-grid">
+          <div class="kpi green"><div class="kv">38.4h</div><div class="kl">Media horas/semana</div><div class="kt up">▲ +0.6h vs enero</div></div>
+          <div class="kpi yellow"><div class="kv">4.2%</div><div class="kl">Tasa de absentismo</div><div class="kt down">▼ -0.8% vs enero</div></div>
+          <div class="kpi"><div class="kv">23</div><div class="kl">H. extra este mes</div><div class="kt up">▲ +5 vs enero</div></div>
+          <div class="kpi red"><div class="kv">12</div><div class="kl">Incidencias abiertas</div><div class="kt down">▲ +3 vs enero</div></div>
+          <div class="kpi purple"><div class="kv">87%</div><div class="kl">Imputaciones al día</div><div class="kt up">▲ +4% vs enero</div></div>
+          <div class="kpi green"><div class="kv">2.3h</div><div class="kl">Media H.Extra/empleado</div><div class="kt">→ Sin cambio</div></div>
+        </div>
+        <div class="chart-grid">
+          <div class="card"><h2 style="font-size:15px;font-weight:700;margin-bottom:4px">Horas por proyecto (Feb)</h2><p style="font-size:13px;color:#9ca3af;margin-bottom:8px">Total imputado por proyecto este mes</p><div class="chart-wrap"><canvas id="chart-proyectos"></canvas></div></div>
+          <div class="card"><h2 style="font-size:15px;font-weight:700;margin-bottom:4px">Horas trabajadas por semana</h2><p style="font-size:13px;color:#9ca3af;margin-bottom:8px">Media del equipo vs horas contratadas</p><div class="chart-wrap"><canvas id="chart-semanas"></canvas></div></div>
+          <div class="card"><h2 style="font-size:15px;font-weight:700;margin-bottom:4px">Tipos de incidencias</h2><p style="font-size:13px;color:#9ca3af;margin-bottom:8px">Distribución de incidencias del mes</p><div class="chart-wrap"><canvas id="chart-incidencias"></canvas></div></div>
+          <div class="card"><h2 style="font-size:15px;font-weight:700;margin-bottom:4px">Horas extra por empleado</h2><p style="font-size:13px;color:#9ca3af;margin-bottom:8px">Acumulado del mes</p><div class="chart-wrap"><canvas id="chart-overtime"></canvas></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h2>Exportar informes</h2></div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <button class="btn btn-ghost" onclick="alert('📄 Generando informe PDF de jornada...')">📄 Jornada laboral (PDF)</button>
+            <button class="btn btn-ghost" onclick="alert('📊 Exportando Excel de proyectos...')">📊 Horas por proyecto (Excel)</button>
+            <button class="btn btn-ghost" onclick="alert('📋 Exportando informe de incidencias...')">📋 Incidencias (PDF)</button>
+            <button class="btn btn-ghost" onclick="alert('⏱ Exportando horas extra...')">⏱ Horas extra (Excel)</button>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div id="page-centros" class="page">
-      <div class="page-title">Centros de trabajo</div>
-      <div class="page-sub">Sedes y configuración geográfica</div>
-      <div class="card">
-        <table><thead><tr><th>Centro</th><th>Dirección</th><th>CCAA</th><th>Radio GPS</th><th>Empleados</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Madrid Centro</strong></td><td>C/ Gran Vía 28</td><td>Madrid</td><td>200m</td><td>3</td></tr>
-          <tr><td><strong>Barcelona Oficina</strong></td><td>Av. Diagonal 405</td><td>Cataluña</td><td>150m</td><td>1</td></tr>
-          <tr><td><strong>Sevilla Hub</strong></td><td>C/ Sierpes 10</td><td>Andalucía</td><td>200m</td><td>0</td></tr>
-        </tbody></table>
+      <!-- ADMIN HORARIOS -->
+      <div id="page-horarios" class="page">
+        <div class="page-title">Horarios</div><div class="page-sub">Turnos y jornadas disponibles</div>
+        <div class="card"><table><thead><tr><th>Nombre</th><th>Entrada</th><th>Pausa</th><th>Salida</th><th>Horas/día</th><th>Empleados</th></tr></thead>
+        <tbody><tr><td><strong>Jornada completa L-V</strong></td><td>08:00</td><td>14:00–15:00</td><td>17:00</td><td>8h</td><td>3</td></tr>
+        <tr><td><strong>Jornada intensiva</strong></td><td>08:00</td><td>—</td><td>15:00</td><td>7h</td><td>1</td></tr></tbody></table></div>
       </div>
-    </div>
 
-  </main>
+      <!-- ADMIN PROYECTOS -->
+      <div id="page-proyectos-admin" class="page">
+        <div class="page-title">Proyectos</div><div class="page-sub">Gestión de proyectos activos</div>
+        <div class="card"><table><thead><tr><th>Proyecto</th><th>Código</th><th>Asignados</th><th>Estado</th></tr></thead>
+        <tbody><tr><td><strong>Proyecto Alpha</strong></td><td><span class="tag">PRY-001</span></td><td>3</td><td><span class="badge badge-green">Activo</span></td></tr>
+        <tr><td><strong>Proyecto Beta</strong></td><td><span class="tag">PRY-002</span></td><td>2</td><td><span class="badge badge-green">Activo</span></td></tr></tbody></table></div>
+      </div>
+
+      <!-- ADMIN CENTROS -->
+      <div id="page-centros" class="page">
+        <div class="page-title">Centros de trabajo</div><div class="page-sub">Sedes y configuración geográfica</div>
+        <div class="card"><table><thead><tr><th>Centro</th><th>Dirección</th><th>CCAA</th><th>Radio GPS</th></tr></thead>
+        <tbody><tr><td><strong>Madrid Centro</strong></td><td>C/ Gran Vía 28</td><td>Madrid</td><td>200m</td></tr>
+        <tr><td><strong>Barcelona Oficina</strong></td><td>Av. Diagonal 405</td><td>Cataluña</td><td>150m</td></tr></tbody></table></div>
+      </div>
+
+    </main>
+  </div>
 </div>
 
 <!-- MODAL INCIDENCIA -->
-<div class="overlay" id="incident-modal">
+<div class="overlay" id="inc-modal">
   <div class="modal">
-    <div class="modal-header"><h3 id="inc-modal-title">Gestionar incidencia</h3><button class="modal-close" onclick="closeModal('incident-modal')">✕</button></div>
+    <div class="modal-header"><h3 id="inc-modal-title">Gestionar incidencia</h3><button class="modal-close" onclick="closeModal('inc-modal')">✕</button></div>
     <div id="inc-modal-body"></div>
     <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('incident-modal')">Cancelar</button>
-      <button class="btn btn-danger" onclick="rejectIncident()">✗ Registrar incumplimiento</button>
-      <button class="btn btn-success" onclick="excuseIncident()">✓ Excusar / Justificar</button>
+      <button class="btn btn-ghost" onclick="closeModal('inc-modal')">Cancelar</button>
+      <button class="btn btn-danger" onclick="closeModal('inc-modal');alert('📋 Registrado como incumplimiento.')">✗ Registrar</button>
+      <button class="btn btn-success" onclick="closeModal('inc-modal');alert('✅ Incidencia excusada.')">✓ Excusar</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL HORAS EXTRA (empleado) -->
-<div class="overlay" id="overtime-modal">
+<!-- MODAL HORAS EXTRA EMPLEADO -->
+<div class="overlay" id="ot-modal">
   <div class="modal">
-    <div class="modal-header"><h3>Solicitar horas extra</h3><button class="modal-close" onclick="closeModal('overtime-modal')">✕</button></div>
-    <p style="font-size:14px;color:#6b7280;margin-bottom:20px">La solicitud pasará por 3 niveles de aprobación antes de activarse.</p>
-    <div class="form-group" style="margin-bottom:16px">
-      <label class="lbl">Horas extra solicitadas</label>
-      <input type="number" id="ot-hours" min="0.5" max="4" step="0.5" value="1" style="width:100px">
-    </div>
-    <div class="form-group">
-      <label class="lbl">Motivo <span class="req">*</span></label>
-      <textarea id="ot-reason" rows="3" placeholder="Explica brevemente el motivo..."></textarea>
-    </div>
+    <div class="modal-header"><h3>Solicitar horas extra</h3><button class="modal-close" onclick="closeModal('ot-modal')">✕</button></div>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:20px">La solicitud pasará por 3 niveles de aprobación.</p>
+    <div class="fg" style="margin-bottom:16px"><label class="lbl">Horas extra</label><input type="number" id="ot-hours" min="0.5" max="4" step="0.5" value="1" style="width:100px"></div>
+    <div class="fg"><label class="lbl">Motivo <span class="req">*</span></label><textarea id="ot-reason" rows="3" placeholder="Explica el motivo..."></textarea></div>
     <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('overtime-modal')">Cancelar</button>
-      <button class="btn btn-primary" onclick="submitOvertimeRequest()">Enviar solicitud</button>
+      <button class="btn btn-ghost" onclick="closeModal('ot-modal')">Cancelar</button>
+      <button class="btn btn-primary" onclick="submitOTReq()">Enviar solicitud</button>
     </div>
   </div>
 </div>
@@ -498,7 +450,7 @@ input.error, select.error { border-color: #ef4444; }
 <div class="overlay" id="user-modal">
   <div class="modal">
     <div class="modal-header"><h3 id="modal-title">Nuevo empleado</h3><button class="modal-close" onclick="closeModal('user-modal')">✕</button></div>
-    <div id="modal-success" class="alert alert-green" style="display:none">✅ Empleado dado de alta. Se ha enviado email de activación.</div>
+    <div id="modal-success" class="alert alert-green" style="display:none">✅ Empleado dado de alta. Se enviará email de activación.</div>
     <div class="inner-tabs">
       <button class="inner-tab active" onclick="modalTab('datos')">👤 Datos</button>
       <button class="inner-tab" onclick="modalTab('laboral')">💼 Laboral</button>
@@ -506,599 +458,462 @@ input.error, select.error { border-color: #ef4444; }
     </div>
     <div id="mtab-datos">
       <div class="form-grid">
-        <div class="form-group"><label class="lbl">Nombre <span class="req">*</span></label><input type="text" id="f-nombre" placeholder="Ej: Carlos"><span class="field-error" id="err-nombre"></span></div>
-        <div class="form-group"><label class="lbl">Apellidos <span class="req">*</span></label><input type="text" id="f-apellidos" placeholder="Ej: Martínez López"><span class="field-error" id="err-apellidos"></span></div>
-        <div class="form-group"><label class="lbl">Email corporativo <span class="req">*</span></label><input type="email" id="f-email" placeholder="carlos@empresa.com"><span class="field-error" id="err-email"></span></div>
-        <div class="form-group"><label class="lbl">Teléfono</label><input type="tel" id="f-telefono" placeholder="+34 600 000 000"></div>
-        <div class="form-group"><label class="lbl">DNI / NIE</label><input type="text" id="f-dni" placeholder="12345678A"></div>
-        <div class="form-group"><label class="lbl">Fecha de nacimiento</label><input type="date" id="f-nacimiento"></div>
+        <div class="fg"><label class="lbl">Nombre <span class="req">*</span></label><input type="text" id="f-nombre" placeholder="Ej: Carlos"><span class="field-error" id="err-nombre"></span></div>
+        <div class="fg"><label class="lbl">Apellidos <span class="req">*</span></label><input type="text" id="f-apellidos" placeholder="Ej: Martínez"><span class="field-error" id="err-apellidos"></span></div>
+        <div class="fg"><label class="lbl">Email <span class="req">*</span></label><input type="email" id="f-email" placeholder="carlos@empresa.com"><span class="field-error" id="err-email"></span></div>
+        <div class="fg"><label class="lbl">Teléfono</label><input type="tel" id="f-telefono" placeholder="+34 600 000 000"></div>
+        <div class="fg"><label class="lbl">DNI / NIE</label><input type="text" id="f-dni" placeholder="12345678A"></div>
+        <div class="fg"><label class="lbl">Fecha de nacimiento</label><input type="date" id="f-nacimiento"></div>
       </div>
     </div>
     <div id="mtab-laboral" style="display:none">
       <div class="form-grid">
-        <div class="form-group"><label class="lbl">Departamento <span class="req">*</span></label><input type="text" id="f-depto" placeholder="Ej: Desarrollo"><span class="field-error" id="err-depto"></span></div>
-        <div class="form-group"><label class="lbl">Cargo</label><input type="text" id="f-cargo" placeholder="Ej: Desarrollador Senior"></div>
-        <div class="form-group"><label class="lbl">Centro de trabajo <span class="req">*</span></label><select id="f-centro"><option value="">— Seleccionar —</option><option>Madrid Centro</option><option>Barcelona Oficina</option><option>Sevilla Hub</option></select><span class="field-error" id="err-centro"></span></div>
-        <div class="form-group"><label class="lbl">Horario <span class="req">*</span></label><select id="f-horario"><option value="">— Seleccionar —</option><option>Jornada completa L-V (8h)</option><option>Jornada intensiva (7h)</option><option>Turno mañana (7.5h)</option></select><span class="field-error" id="err-horario"></span></div>
-        <div class="form-group"><label class="lbl">Incorporación</label><input type="date" id="f-incorporacion"></div>
-        <div class="form-group"><label class="lbl">Manager directo</label><select id="f-manager"><option value="">— Sin asignar —</option><option>Laura González</option><option>Roberto Sanz</option></select></div>
-        <div class="form-group full"><label class="lbl">Proyectos</label>
+        <div class="fg"><label class="lbl">Departamento <span class="req">*</span></label><input type="text" id="f-depto" placeholder="Ej: Desarrollo"><span class="field-error" id="err-depto"></span></div>
+        <div class="fg"><label class="lbl">Cargo</label><input type="text" id="f-cargo" placeholder="Ej: Desarrollador Senior"></div>
+        <div class="fg"><label class="lbl">Centro <span class="req">*</span></label><select id="f-centro"><option value="">— Seleccionar —</option><option>Madrid Centro</option><option>Barcelona Oficina</option><option>Sevilla Hub</option></select><span class="field-error" id="err-centro"></span></div>
+        <div class="fg"><label class="lbl">Horario <span class="req">*</span></label><select id="f-horario"><option value="">— Seleccionar —</option><option>Jornada completa L-V (8h)</option><option>Jornada intensiva (7h)</option></select><span class="field-error" id="err-horario"></span></div>
+        <div class="fg"><label class="lbl">Incorporación</label><input type="date" id="f-incorporacion"></div>
+        <div class="fg"><label class="lbl">Manager directo</label><select id="f-manager"><option value="">— Sin asignar —</option><option>Laura González</option><option>Roberto Sanz</option></select></div>
+        <div class="fg full"><label class="lbl">Proyectos</label>
           <div style="display:flex;gap:16px;padding:10px;border:1.5px solid #e5e7eb;border-radius:8px">
-            <label style="font-weight:400;display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" value="Alpha" id="cb-alpha"> Alpha</label>
-            <label style="font-weight:400;display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" value="Beta" id="cb-beta"> Beta</label>
-            <label style="font-weight:400;display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" value="Gamma" id="cb-gamma"> Gamma</label>
+            <label style="font-weight:400;display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" id="cb-alpha" value="Alpha"> Alpha</label>
+            <label style="font-weight:400;display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" id="cb-beta" value="Beta"> Beta</label>
+            <label style="font-weight:400;display:flex;align-items:center;gap:5px;cursor:pointer"><input type="checkbox" id="cb-gamma" value="Gamma"> Gamma</label>
           </div>
         </div>
       </div>
     </div>
     <div id="mtab-acceso" style="display:none">
       <div class="form-grid">
-        <div class="form-group full"><label class="lbl">Rol <span class="req">*</span></label>
-          <select id="f-rol">
-            <option value="empleado">👤 Empleado</option>
-            <option value="manager">👔 Manager</option>
-            <option value="rrhh">🏢 RRHH</option>
-            <option value="admin">⚙️ Admin</option>
-          </select>
+        <div class="fg full"><label class="lbl">Contraseña temporal <span class="req">*</span></label><input type="password" id="f-pwd" placeholder="Mínimo 8 caracteres"><span class="field-error" id="err-pwd"></span></div>
+        <div class="fg full"><label class="lbl">Rol <span class="req">*</span></label>
+          <select id="f-rol"><option value="empleado">👤 Empleado</option><option value="manager">👔 Manager</option><option value="rrhh">🏢 RRHH</option><option value="admin">⚙️ Admin</option></select>
         </div>
-        <div class="form-group full"><label class="lbl">Activación</label>
-          <select id="f-activacion" onchange="togglePwd()">
-            <option value="email">📧 Email de bienvenida</option>
-            <option value="manual">🔑 Contraseña manual</option>
-            <option value="sso">🔗 SSO corporativo</option>
-          </select>
-        </div>
-        <div class="form-group full" id="pwd-group" style="display:none"><label class="lbl">Contraseña temporal</label><input type="password" id="f-pwd" placeholder="Mínimo 8 caracteres"></div>
-        <div class="form-group full"><label style="font-weight:400;display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="f-2fa"> Requerir 2FA al primer inicio</label></div>
+        <div class="fg full"><label style="font-weight:400;display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="f-2fa"> Requerir 2FA al primer inicio</label></div>
       </div>
-      <div class="alert alert-yellow" style="margin-top:8px">⚠️ El acceso estará activo tras confirmar el email de bienvenida.</div>
+      <div class="alert alert-yellow" style="margin-top:8px">⚠️ El usuario podrá iniciar sesión con el email y la contraseña que establezcas aquí.</div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('user-modal')">Cancelar</button>
-      <button class="btn btn-ghost" onclick="prevModalTab()" id="btn-prev" style="display:none">← Anterior</button>
-      <button class="btn btn-primary" onclick="nextModalTab()" id="btn-next">Siguiente →</button>
-      <button class="btn btn-primary" onclick="saveUser()" id="btn-save" style="display:none">✓ Dar de alta</button>
+      <button class="btn btn-ghost" id="btn-prev" style="display:none" onclick="prevMTab()">← Anterior</button>
+      <button class="btn btn-primary" id="btn-next" onclick="nextMTab()">Siguiente →</button>
+      <button class="btn btn-primary" id="btn-save" style="display:none" onclick="saveUser()">✓ Dar de alta</button>
     </div>
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
-// ===================== CONFIG ROLES =====================
-const ROLES = {
+// ===================== DATOS USUARIOS =====================
+const COLORS = ['#4f46e5','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#ec4899'];
+
+let users = [
+  { id:1, nombre:'Carlos', apellidos:'Martínez López', email:'carlos@empresa.com', pwd:'1234', dni:'12345678A', telefono:'+34 623 456 789', depto:'Desarrollo', cargo:'Desarrollador Senior', centro:'Madrid Centro', horario:'Jornada completa L-V (8h)', manager:'Laura González', rol:'empleado', proyectos:['Alpha','Gamma'], status:'activo', incorporacion:'2022-06-01' },
+  { id:2, nombre:'Laura', apellidos:'González Ruiz', email:'laura@empresa.com', pwd:'1234', dni:'87654321B', telefono:'+34 612 345 678', depto:'Tecnología', cargo:'Tech Lead', centro:'Madrid Centro', horario:'Jornada completa L-V (8h)', manager:'Roberto Sanz', rol:'manager', proyectos:['Alpha','Beta'], status:'activo', incorporacion:'2021-03-15' },
+  { id:3, nombre:'Admin', apellidos:'RRHH', email:'admin@empresa.com', pwd:'1234', dni:'11223344C', telefono:'+34 900 000 000', depto:'RRHH', cargo:'Responsable RRHH', centro:'Madrid Centro', horario:'Jornada completa L-V (8h)', manager:'', rol:'admin', proyectos:[], status:'activo', incorporacion:'2020-01-01' },
+  { id:4, nombre:'Ana', apellidos:'Pérez Soto', email:'ana@empresa.com', pwd:'1234', dni:'44332211D', telefono:'+34 634 567 890', depto:'Diseño', cargo:'UX Designer', centro:'Barcelona Oficina', horario:'Jornada intensiva (7h)', manager:'Laura González', rol:'empleado', proyectos:['Beta'], status:'activo', incorporacion:'2023-01-10' },
+];
+
+const ROLE_CFG = {
   empleado: {
-    navName: 'Carlos Martínez', navRole: 'Empleado · Madrid', avatarColor: '#4f46e5', avatarInitials: 'CM',
-    sidebar: [
-      { id:'fichaje', icon:'⏱', label:'Mi fichaje', section:'Principal' },
-    ]
+    sidebarSections:[{section:'Personal',items:[{id:'fichaje',icon:'⏱',label:'Mi fichaje'}]}]
   },
   manager: {
-    navName: 'Laura González', navRole: 'Manager · Madrid', avatarColor: '#10b981', avatarInitials: 'LG',
-    sidebar: [
-      { id:'manager-dashboard', icon:'📊', label:'Dashboard', section:'Mi equipo', notif:2 },
-      { id:'manager-incidencias', icon:'🚨', label:'Incidencias', notif:5 },
-      { id:'manager-overtime', icon:'⏱', label:'Horas extra', notif:2 },
-      { id:'manager-horario', icon:'📅', label:'Control horario' },
-      { id:'fichaje', icon:'🕐', label:'Mi fichaje', section:'Personal' },
+    sidebarSections:[
+      {section:'Mi equipo',items:[{id:'manager-dashboard',icon:'📊',label:'Dashboard',notif:2},{id:'manager-incidencias',icon:'🚨',label:'Incidencias',notif:5},{id:'manager-overtime',icon:'⏱',label:'Horas extra',notif:2},{id:'manager-horario',icon:'📅',label:'Control horario'}]},
+      {section:'Personal',items:[{id:'fichaje',icon:'🕐',label:'Mi fichaje'}]}
+    ]
+  },
+  rrhh: {
+    sidebarSections:[
+      {section:'Principal',items:[{id:'usuarios',icon:'👥',label:'Usuarios'},{id:'informes',icon:'📈',label:'Informes'}]},
+      {section:'Configuración',items:[{id:'horarios',icon:'🗓',label:'Horarios'},{id:'proyectos-admin',icon:'📁',label:'Proyectos'},{id:'centros',icon:'🏢',label:'Centros'}]}
     ]
   },
   admin: {
-    navName: 'Admin RRHH', navRole: 'Recursos Humanos', avatarColor: '#8b5cf6', avatarInitials: 'RH',
-    sidebar: [
-      { id:'usuarios', icon:'👥', label:'Usuarios', section:'Principal' },
-      { id:'horarios', icon:'🗓', label:'Horarios', section:'Configuración' },
-      { id:'proyectos-admin', icon:'📁', label:'Proyectos' },
-      { id:'centros', icon:'🏢', label:'Centros' },
+    sidebarSections:[
+      {section:'Principal',items:[{id:'usuarios',icon:'👥',label:'Usuarios'},{id:'informes',icon:'📈',label:'Informes'}]},
+      {section:'Configuración',items:[{id:'horarios',icon:'🗓',label:'Horarios'},{id:'proyectos-admin',icon:'📁',label:'Proyectos'},{id:'centros',icon:'🏢',label:'Centros'}]}
     ]
   }
 };
 
-let currentRole = 'manager';
-let currentPage = 'manager-dashboard';
+let currentUser = null;
 let editingId = null;
-let currentModalTab = 'datos';
-const modalTabs = ['datos','laboral','acceso'];
+let currentMTab = 'datos';
+const mTabs = ['datos','laboral','acceso'];
 
-// ===================== SWITCH ROLE =====================
-function switchRole(role) {
-  currentRole = role;
-  document.querySelectorAll('.role-btn').forEach(b => {
-    b.classList.toggle('active', b.textContent.trim().toLowerCase() === role ||
-      (role === 'admin' && b.textContent.trim() === 'Admin RRHH') ||
-      (role === 'manager' && b.textContent.trim() === 'Manager') ||
-      (role === 'empleado' && b.textContent.trim() === 'Empleado'));
-  });
-  const cfg = ROLES[role];
-  document.getElementById('nav-name').textContent = cfg.navName;
-  document.getElementById('nav-role').textContent = cfg.navRole;
-  document.getElementById('nav-avatar').textContent = cfg.avatarInitials;
-  document.getElementById('nav-avatar').style.background = cfg.avatarColor;
-  buildSidebar(cfg.sidebar);
-  const firstPage = cfg.sidebar[0].id;
+// ===================== LOGIN =====================
+function buildQuickUsers() {
+  const el = document.getElementById('quick-users');
+  el.innerHTML = users.filter(u=>u.status==='activo').slice(0,4).map(u=>`
+    <div class="login-user-btn" onclick="quickLogin(${u.id})">
+      <div class="lu-avatar" style="background:${COLORS[u.id%COLORS.length]}">${u.nombre[0]}${u.apellidos[0]}</div>
+      <div class="lu-name">${u.nombre}</div>
+      <div class="lu-role">${roleName(u.rol)}</div>
+    </div>`).join('');
+}
+
+function quickLogin(id) {
+  const u = users.find(x=>x.id===id);
+  document.querySelectorAll('.login-user-btn').forEach(b=>b.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  document.getElementById('l-email').value = u.email;
+  document.getElementById('l-pwd').value = u.pwd;
+}
+
+function doLogin() {
+  const email = document.getElementById('l-email').value.trim().toLowerCase();
+  const pwd = document.getElementById('l-pwd').value;
+  const u = users.find(x=>x.email.toLowerCase()===email && x.pwd===pwd && x.status==='activo');
+  if (!u) { document.getElementById('l-error').style.display='block'; return; }
+  document.getElementById('l-error').style.display='none';
+  currentUser = u;
+  startApp();
+}
+
+function doLogout() {
+  currentUser = null;
+  document.getElementById('app-screen').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('l-email').value='';
+  document.getElementById('l-pwd').value='';
+  document.querySelectorAll('.login-user-btn').forEach(b=>b.classList.remove('selected'));
+  chartsInitialized = false;
+}
+
+function startApp() {
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app-screen').style.display='block';
+  const u = currentUser;
+  document.getElementById('nav-name').textContent = u.nombre+' '+u.apellidos;
+  document.getElementById('nav-role').textContent = roleName(u.rol)+' · '+(u.centro||'');
+  document.getElementById('nav-avatar').textContent = u.nombre[0]+u.apellidos[0];
+  document.getElementById('nav-avatar').style.background = COLORS[u.id%COLORS.length];
+  buildSidebar();
+  const role = u.rol==='rrhh'?'rrhh':u.rol;
+  const cfg = ROLE_CFG[role]||ROLE_CFG.empleado;
+  const firstPage = cfg.sidebarSections[0].items[0].id;
   showPage(firstPage);
+  renderTeamGrid();
+  renderIncidents();
+  renderOTList();
+  renderTable(users);
+  updateStats();
+  // geo simulada
+  setTimeout(()=>{
+    const el=document.getElementById('emp-geo');if(!el)return;
+    const ok=Math.random()>.2;
+    el.className='geo-status '+(ok?'geo-ok':'geo-warn');
+    el.innerHTML='<div class="geo-dot"></div>'+(ok?'Ubicación verificada · Oficina (38m)':'Fuera del radio · 420m · Se registrará incidencia');
+  },1500);
 }
 
-function buildSidebar(items) {
-  const sb = document.getElementById('sidebar');
-  let html = '';
-  let lastSection = '';
-  items.forEach(item => {
-    if (item.section && item.section !== lastSection) {
-      html += `<div class="sidebar-section">${item.section}</div>`;
-      lastSection = item.section;
-    }
-    const notif = item.notif ? `<span class="notif-dot">${item.notif}</span>` : '';
-    html += `<div class="sidebar-item" id="si-${item.id}" onclick="showPage('${item.id}',this)">${'<span class="sidebar-icon">'+item.icon+'</span>'} ${item.label} ${notif}</div>`;
+function roleName(r){return{empleado:'Empleado',manager:'Manager',rrhh:'RRHH',admin:'Admin RRHH'}[r]||r;}
+
+// ===================== SIDEBAR =====================
+function buildSidebar() {
+  const role = currentUser.rol==='rrhh'?'rrhh':currentUser.rol;
+  const cfg = ROLE_CFG[role]||ROLE_CFG.empleado;
+  let html='';
+  cfg.sidebarSections.forEach(s=>{
+    html+=`<div class="sidebar-section">${s.section}</div>`;
+    s.items.forEach(item=>{
+      const notif=item.notif?`<span class="notif-dot">${item.notif}</span>`:'';
+      html+=`<div class="sidebar-item" id="si-${item.id}" onclick="showPage('${item.id}',this)"><span class="sidebar-icon">${item.icon}</span>${item.label}${notif}</div>`;
+    });
   });
-  sb.innerHTML = html;
-  // Mark first active
-  const first = sb.querySelector('.sidebar-item');
-  if (first) first.classList.add('active');
+  document.getElementById('sidebar').innerHTML=html;
 }
 
-function showPage(pageId, el) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-  const pg = document.getElementById('page-' + pageId);
-  if (pg) pg.classList.add('active');
-  if (el) el.classList.add('active');
-  else { const si = document.getElementById('si-' + pageId); if (si) si.classList.add('active'); }
-  currentPage = pageId;
+function showPage(id, el) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
+  const pg=document.getElementById('page-'+id);
+  if(pg) pg.classList.add('active');
+  if(el) el.classList.add('active');
+  else { const si=document.getElementById('si-'+id); if(si) si.classList.add('active'); }
+  if(id==='informes') initCharts();
 }
 
 // ===================== RELOJ =====================
-setInterval(() => {
-  const n = new Date(), t = n.toTimeString().slice(0,8);
-  const el = document.getElementById('emp-clock'); if (el) el.textContent = t;
-  const d = document.getElementById('emp-date');
-  if (d) d.textContent = n.toLocaleDateString('es-ES',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-}, 1000);
+setInterval(()=>{
+  const n=new Date();
+  const ec=document.getElementById('emp-clock');if(ec)ec.textContent=n.toTimeString().slice(0,8);
+  const ed=document.getElementById('emp-date');if(ed)ed.textContent=n.toLocaleDateString('es-ES',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+},1000);
 
 // ===================== FICHAJE =====================
-let fichajeState = { status:'idle', clockIn:null, clockOut:null, workedMins:0, maxMins:480 };
-
-setTimeout(() => {
-  const el = document.getElementById('emp-geo');
-  if (!el) return;
-  const ok = Math.random() > 0.2;
-  el.className = 'geo-status ' + (ok ? 'geo-ok' : 'geo-warn');
-  el.innerHTML = '<div class="geo-dot"></div>' + (ok ? 'Ubicación verificada · Oficina Madrid (38m)' : 'Fuera del radio de oficina (420m) · Se registrará incidencia');
-}, 1500);
-
-function fmtMin(m) { return `${Math.floor(m/60)}h ${String(m%60).padStart(2,'0')}min`; }
-function fmtTime(d) { return d.toTimeString().slice(0,5); }
-
-function calcMins(inT, outT) {
-  let m = Math.floor((outT - inT) / 60000);
-  const i = inT.getHours()*60+inT.getMinutes(), o = outT.getHours()*60+outT.getMinutes();
-  const bs = 14*60, be = 15*60;
-  if (i < be && o > bs) m -= Math.max(0, Math.min(o,be) - Math.max(i,bs));
-  return Math.max(0, m);
+let fs={status:'idle',clockIn:null,workedMins:0,maxMins:480,_iv:null};
+function fmtMin(m){return`${Math.floor(m/60)}h ${String(m%60).padStart(2,'0')}min`;}
+function fmtTime(d){return d.toTimeString().slice(0,5);}
+function calcMins(a,b){
+  let m=Math.floor((b-a)/60000);
+  const i=a.getHours()*60+a.getMinutes(),o=b.getHours()*60+b.getMinutes(),bs=840,be=900;
+  if(i<be&&o>bs) m-=Math.max(0,Math.min(o,be)-Math.max(i,bs));
+  return Math.max(0,m);
 }
-
-function toggleFichaje() {
-  const now = new Date();
-  const s = fichajeState;
-  if (s.status === 'idle') {
-    s.status = 'working'; s.clockIn = now;
-    document.getElementById('emp-btn-fichar').className = 'btn btn-danger-solid btn-full';
-    document.getElementById('emp-btn-fichar').style.fontSize = '16px';
-    document.getElementById('emp-btn-fichar').style.padding = '14px';
-    document.getElementById('emp-btn-fichar').textContent = '■ Finalizar jornada';
-    document.getElementById('time-in').textContent = fmtTime(now);
-    document.getElementById('dot-in').className = 'tl-dot done';
-    document.getElementById('dot-break').className = 'tl-dot active';
-    document.getElementById('line1').className = 'tl-line done';
-    document.getElementById('emp-status-badge').className = 'badge badge-green';
-    document.getElementById('emp-status-badge').textContent = 'En jornada';
-    // live update
-    s._interval = setInterval(() => {
-      if (s.status !== 'working') { clearInterval(s._interval); return; }
-      const m = calcMins(s.clockIn, new Date());
-      s.workedMins = m;
-      document.getElementById('worked-disp').textContent = fmtMin(m);
-      const nowH = new Date().getHours()*60+new Date().getMinutes();
-      if (nowH >= 14*60 && nowH < 15*60) document.getElementById('break-disp').textContent = 'En pausa';
-      else if (nowH >= 15*60) document.getElementById('break-disp').textContent = 'Realizada (1h descontada)';
-      if (m >= s.maxMins) {
-        document.getElementById('emp-overtime-alert').style.display = 'block';
-        document.getElementById('emp-btn-fichar').disabled = true;
-      }
-    }, 5000);
-  } else if (s.status === 'working') {
-    s.status = 'ended'; s.clockOut = now;
-    s.workedMins = calcMins(s.clockIn, now);
-    clearInterval(s._interval);
-    document.getElementById('emp-btn-fichar').className = 'btn btn-ghost btn-full';
-    document.getElementById('emp-btn-fichar').textContent = '✓ Jornada finalizada';
-    document.getElementById('emp-btn-fichar').disabled = true;
-    document.getElementById('time-out').textContent = fmtTime(now);
-    document.getElementById('dot-out').className = 'tl-dot done';
-    document.getElementById('dot-break').className = 'tl-dot done';
-    document.getElementById('line2').className = 'tl-line done';
-    document.getElementById('worked-disp').textContent = fmtMin(s.workedMins);
-    document.getElementById('emp-status-badge').className = 'badge badge-blue';
-    document.getElementById('emp-status-badge').textContent = 'Pendiente imputación';
-    document.getElementById('emp-imputation-ok').style.display = 'block';
-    document.getElementById('emp-overtime-alert').style.display = 'none';
-    document.getElementById('imp-locked').style.display = 'none';
-    document.getElementById('imp-total').textContent = fmtMin(Math.min(s.workedMins, s.maxMins));
-    document.getElementById('imp-form').style.opacity = '1';
-    document.getElementById('imp-form').style.pointerEvents = 'auto';
+function toggleFichaje(){
+  const now=new Date();
+  if(fs.status==='idle'){
+    fs.status='working';fs.clockIn=now;
+    document.getElementById('emp-btn-fichar').className='btn btn-danger-solid btn-full';
+    document.getElementById('emp-btn-fichar').style.cssText='font-size:16px;padding:14px';
+    document.getElementById('emp-btn-fichar').textContent='■ Finalizar jornada';
+    document.getElementById('t-in').textContent=fmtTime(now);
+    document.getElementById('dot-in').className='tl-dot done';
+    document.getElementById('dot-br').className='tl-dot active';
+    document.getElementById('l1').className='tl-line done';
+    document.getElementById('emp-badge').className='badge badge-green';
+    document.getElementById('emp-badge').textContent='En jornada';
+    fs._iv=setInterval(()=>{
+      if(fs.status!=='working')return;
+      const m=calcMins(fs.clockIn,new Date());fs.workedMins=m;
+      document.getElementById('worked-d').textContent=fmtMin(m);
+      const nh=new Date().getHours()*60+new Date().getMinutes();
+      if(nh>=840&&nh<900)document.getElementById('break-d').textContent='En pausa';
+      else if(nh>=900)document.getElementById('break-d').textContent='Realizada (1h descontada)';
+      if(m>=fs.maxMins){document.getElementById('emp-ot-alert').style.display='block';document.getElementById('emp-btn-fichar').disabled=true;}
+    },5000);
+  } else if(fs.status==='working'){
+    fs.status='ended';fs.workedMins=calcMins(fs.clockIn,now);clearInterval(fs._iv);
+    document.getElementById('emp-btn-fichar').className='btn btn-ghost btn-full';
+    document.getElementById('emp-btn-fichar').textContent='✓ Jornada finalizada';
+    document.getElementById('emp-btn-fichar').disabled=true;
+    document.getElementById('t-out').textContent=fmtTime(now);
+    document.getElementById('dot-out').className='tl-dot done';
+    document.getElementById('dot-br').className='tl-dot done';
+    document.getElementById('l2').className='tl-line done';
+    document.getElementById('worked-d').textContent=fmtMin(fs.workedMins);
+    document.getElementById('emp-badge').className='badge badge-blue';
+    document.getElementById('emp-badge').textContent='Pendiente imputación';
+    document.getElementById('emp-imp-ok').style.display='block';
+    document.getElementById('emp-ot-alert').style.display='none';
+    document.getElementById('imp-locked').style.display='none';
+    document.getElementById('imp-total').textContent=fmtMin(Math.min(fs.workedMins,fs.maxMins));
+    document.getElementById('imp-form').style.opacity='1';
+    document.getElementById('imp-form').style.pointerEvents='auto';
   }
 }
-
-function empTab(t) {
-  ['fichar','imputar','historial'].forEach(id => document.getElementById('etab-'+id).style.display = id===t?'block':'none');
-  document.querySelectorAll('#page-fichaje .inner-tab').forEach((el,i) => el.classList.toggle('active',['fichar','imputar','historial'][i]===t));
-  if (t==='imputar' && fichajeState.status !== 'ended') {
-    document.getElementById('imp-locked').style.display = 'block';
-    document.getElementById('imp-form').style.opacity = '.4';
-    document.getElementById('imp-form').style.pointerEvents = 'none';
-  }
+function empTab(t){
+  ['fichar','imputar','historial'].forEach(id=>document.getElementById('etab-'+id).style.display=id===t?'block':'none');
+  document.querySelectorAll('#page-fichaje .inner-tab').forEach((el,i)=>el.classList.toggle('active',['fichar','imputar','historial'][i]===t));
+  if(t==='imputar'&&fs.status!=='ended'){document.getElementById('imp-locked').style.display='block';document.getElementById('imp-form').style.opacity='.4';document.getElementById('imp-form').style.pointerEvents='none';}
+}
+function updateImpBar(){
+  const avail=Math.min(fs.workedMins||480,fs.maxMins);
+  const used=(['p1','p2','p3'].reduce((s,id)=>s+(parseFloat(document.getElementById(id).value)||0),0))*60;
+  const pct=Math.min(used/avail*100,100);
+  const bar=document.getElementById('imp-bar');bar.style.width=pct+'%';bar.className='hb-fill'+(used>avail?' over':'');
+  document.getElementById('imp-used').textContent=fmtMin(Math.round(used));
+  const w=document.getElementById('imp-warn');
+  if(used>avail+15){w.style.display='block';w.textContent='⚠️ Has imputado más horas de las disponibles.';}else w.style.display='none';
+}
+function confirmImp(){
+  const avail=Math.min(fs.workedMins||480,fs.maxMins);
+  const used=(['p1','p2','p3'].reduce((s,id)=>s+(parseFloat(document.getElementById(id).value)||0),0))*60;
+  if(used>avail+15){alert('El tiempo imputado supera el disponible.');return;}
+  document.getElementById('imp-done').style.display='block';document.getElementById('imp-form').style.display='none';
+}
+function openOTModal(){document.getElementById('ot-modal').classList.add('show');}
+function submitOTReq(){
+  if(!document.getElementById('ot-reason').value.trim()){alert('El motivo es obligatorio.');return;}
+  closeModal('ot-modal');fs.status='ot_pending';
+  document.getElementById('emp-btn-fichar').textContent='⏳ Esperando aprobación...';
+  document.getElementById('emp-btn-fichar').disabled=true;document.getElementById('emp-ot-alert').style.display='none';
+  document.getElementById('emp-badge').className='badge badge-yellow';document.getElementById('emp-badge').textContent='H.Extra pendientes';
+  alert('✅ Solicitud enviada. Tu manager recibirá una notificación.');
 }
 
-function updateImpBar() {
-  const avail = Math.min(fichajeState.workedMins||480, fichajeState.maxMins);
-  const used = (['p1','p2','p3'].reduce((s,id)=>s+(parseFloat(document.getElementById(id).value)||0),0))*60;
-  const pct = Math.min(used/avail*100,100);
-  const bar = document.getElementById('imp-bar');
-  bar.style.width = pct+'%'; bar.className = 'hours-bar-fill'+(used>avail?' over':'');
-  document.getElementById('imp-used').textContent = fmtMin(Math.round(used));
-  const w = document.getElementById('imp-warn');
-  if (used > avail+15) { w.style.display='block'; w.textContent=`⚠️ Has imputado más horas de las disponibles.`; } else w.style.display='none';
-}
-
-function confirmImputation() {
-  const avail = Math.min(fichajeState.workedMins||480, fichajeState.maxMins);
-  const used = (['p1','p2','p3'].reduce((s,id)=>s+(parseFloat(document.getElementById(id).value)||0),0))*60;
-  if (used > avail+15) { alert('El tiempo imputado supera el disponible.'); return; }
-  document.getElementById('imp-done').style.display = 'block';
-  document.getElementById('imp-form').style.display = 'none';
-}
-
-function openOvertimeModal() { document.getElementById('overtime-modal').classList.add('show'); }
-function submitOvertimeRequest() {
-  const r = document.getElementById('ot-reason').value.trim();
-  if (!r) { alert('El motivo es obligatorio.'); return; }
-  closeModal('overtime-modal');
-  fichajeState.status = 'overtime_pending';
-  document.getElementById('emp-btn-fichar').disabled = false;
-  document.getElementById('emp-overtime-alert').style.display = 'none';
-  document.getElementById('emp-btn-fichar').className = 'btn btn-ghost btn-full';
-  document.getElementById('emp-btn-fichar').textContent = '⏳ Esperando aprobación de horas extra...';
-  document.getElementById('emp-btn-fichar').disabled = true;
-  document.getElementById('emp-status-badge').className = 'badge badge-yellow';
-  document.getElementById('emp-status-badge').textContent = 'H.Extra pendientes';
-  alert('✅ Solicitud enviada. Tu manager recibirá una notificación inmediata.');
-}
-
-// ===================== MANAGER: TEAM GRID =====================
-const teamMembers = [
-  { name:'Carlos Martínez', initials:'CM', color:'#4f46e5', status:'ok', time:'7h 23min', label:'En jornada' },
-  { name:'Ana Pérez', initials:'AP', color:'#10b981', status:'overtime', time:'8h 05min', label:'H.Extra pendiente' },
-  { name:'Sara Medina', initials:'SM', color:'#f59e0b', status:'incident', time:'8h 12min', label:'Incidencia GPS' },
-  { name:'Miguel Torres', initials:'MT', color:'#ef4444', status:'pending', time:'—', label:'Sin fichar' },
-  { name:'Pedro Ruiz', initials:'PR', color:'#8b5cf6', status:'ok', time:'7h 58min', label:'En jornada' },
-  { name:'Elena Castro', initials:'EC', color:'#06b6d4', status:'ok', time:'6h 30min', label:'En jornada' },
-  { name:'Javier Moreno', initials:'JM', color:'#10b981', status:'ok', time:'8h 00min', label:'Finalizada' },
-  { name:'María López', initials:'ML', color:'#ec4899', status:'pending', time:'—', label:'Vacaciones' },
+// ===================== MANAGER =====================
+const teamMembers=[
+  {name:'Carlos Martínez',i:'CM',c:'#4f46e5',s:'ok',time:'7h 23min',label:'En jornada'},
+  {name:'Ana Pérez',i:'AP',c:'#10b981',s:'overtime',time:'8h 05min',label:'H.Extra pendiente'},
+  {name:'Sara Medina',i:'SM',c:'#f59e0b',s:'incident',time:'8h 12min',label:'Incidencia GPS'},
+  {name:'Miguel Torres',i:'MT',c:'#ef4444',s:'pending',time:'—',label:'Sin fichar'},
+  {name:'Pedro Ruiz',i:'PR',c:'#8b5cf6',s:'ok',time:'7h 58min',label:'En jornada'},
+  {name:'Elena Castro',i:'EC',c:'#06b6d4',s:'ok',time:'6h 30min',label:'En jornada'},
 ];
-
-function renderTeamGrid() {
-  const statusColor = { ok:'ok', incident:'incident', pending:'pending', overtime:'overtime' };
-  document.getElementById('team-grid').innerHTML = teamMembers.map(m => `
-    <div class="team-card ${statusColor[m.status]||''}">
-      <div class="user-avatar" style="background:${m.color};width:38px;height:38px;font-size:13px">${m.initials}</div>
-      <div class="tc-info">
-        <div class="tc-name">${m.name}</div>
-        <div class="tc-status">${m.label}</div>
-      </div>
-      <div class="tc-time">${m.time}</div>
-    </div>
-  `).join('');
+function renderTeamGrid(){
+  const el=document.getElementById('team-grid');if(!el)return;
+  el.innerHTML=teamMembers.map(m=>`<div class="team-card ${m.s}"><div class="u-avatar" style="background:${m.c};width:38px;height:38px;font-size:13px">${m.i}</div><div class="tc-info"><div class="tc-name">${m.name}</div><div class="tc-status">${m.label}</div></div><div class="tc-time">${m.time}</div></div>`).join('');
 }
 
-// ===================== MANAGER: INCIDENCIAS =====================
-let openIncidents = [
-  { id:1, type:'missing', icon:'🕐', color:'#ef4444', name:'Miguel Torres', desc:'Sin fichar entrada · Hoy · Debía entrar a las 08:00' },
-  { id:2, type:'geo', icon:'📍', color:'#f59e0b', name:'Sara Medina', desc:'Fichaje fuera del radio · Hoy 08:12 · 420m de la oficina' },
-  { id:3, type:'short', icon:'⏰', color:'#ef4444', name:'Elena Castro', desc:'Jornada corta · Ayer · Registradas 5h 30min de 8h' },
-  { id:4, type:'missing_imp', icon:'📝', color:'#6b7280', name:'Pedro Ruiz', desc:'Sin imputación a proyectos · Ayer' },
-  { id:5, type:'missing_out', icon:'🕐', color:'#ef4444', name:'Javier Moreno', desc:'Sin fichar salida · Anteayer' },
+let openIncidents=[
+  {id:1,type:'missing',icon:'🕐',name:'Miguel Torres',desc:'Sin fichar entrada · Hoy · Debía entrar a las 08:00'},
+  {id:2,type:'geo',icon:'📍',name:'Sara Medina',desc:'Fichaje fuera del radio · Hoy 08:12 · 420m de la oficina'},
+  {id:3,type:'short',icon:'⏰',name:'Elena Castro',desc:'Jornada corta · Ayer · 5h 30min de 8h'},
+  {id:4,type:'missing_imp',icon:'📝',name:'Pedro Ruiz',desc:'Sin imputación a proyectos · Ayer'},
 ];
-
-function renderIncidents() {
-  const el = document.getElementById('incidents-list');
-  if (!el) return;
-  if (!openIncidents.length) { el.innerHTML = '<div class="card"><div class="empty-state"><div class="icon">✅</div>No hay incidencias abiertas. ¡Buen trabajo!</div></div>'; return; }
-  el.innerHTML = openIncidents.map(inc => `
-    <div class="incident-row ${inc.type==='geo'?'geo':''}" id="inc-row-${inc.id}">
-      <div class="ir-icon">${inc.icon}</div>
-      <div class="ir-info"><strong>${inc.name}</strong><span>${inc.desc}</span></div>
-      <div class="ir-actions">
-        <button class="btn btn-success btn-sm" onclick="resolveIncident(${inc.id},'excused')">✓ Excusar</button>
-        <button class="btn btn-danger btn-sm" onclick="resolveIncident(${inc.id},'rejected')">✗ Registrar</button>
-        <button class="btn btn-ghost btn-sm" onclick="openIncidentModal('${inc.type}','${inc.name}')">Ver</button>
-      </div>
-    </div>
-  `).join('');
+function renderIncidents(){
+  const el=document.getElementById('incidents-list');if(!el)return;
+  if(!openIncidents.length){el.innerHTML='<div class="card"><div class="empty-state"><div class="icon">✅</div>No hay incidencias abiertas.</div></div>';return;}
+  el.innerHTML=openIncidents.map(inc=>`<div class="incident-row ${inc.type==='geo'?'geo':''}" id="ir-${inc.id}"><div class="ir-icon">${inc.icon}</div><div class="ir-info"><strong>${inc.name}</strong><span>${inc.desc}</span></div><div class="ir-actions"><button class="btn btn-success btn-sm" onclick="resolveInc(${inc.id},'excused')">✓ Excusar</button><button class="btn btn-danger btn-sm" onclick="resolveInc(${inc.id},'rejected')">✗ Registrar</button><button class="btn btn-ghost btn-sm" onclick="openIncModal('${inc.type}','${inc.name}')">Ver</button></div></div>`).join('');
+}
+function resolveInc(id,a){
+  openIncidents=openIncidents.filter(i=>i.id!==id);renderIncidents();
+  alert(a==='excused'?'✅ Incidencia excusada.':'📋 Registrado como incumplimiento.');
+}
+function openIncModal(type,name){
+  const t={missing:{title:'Sin fichaje',body:`<p style="font-size:14px;color:#6b7280;margin-bottom:16px"><strong>${name}</strong> no ha registrado entrada hoy.</p><div class="fg"><label class="lbl">Comentario</label><textarea rows="3" placeholder="Justificación..."></textarea></div>`},geo:{title:'Fichaje fuera del radio GPS',body:`<div class="alert alert-yellow">📍 <strong>${name}</strong> fichó a 420m de la oficina.</div><div class="fg"><label class="lbl">Motivo</label><textarea rows="2" placeholder="Ej: Reunión externa..."></textarea></div>`}};
+  const cfg=t[type]||t.missing;
+  document.getElementById('inc-modal-title').textContent=cfg.title;
+  document.getElementById('inc-modal-body').innerHTML=cfg.body;
+  document.getElementById('inc-modal').classList.add('show');
+}
+function incTab(t){
+  ['abiertas','resueltas'].forEach(id=>document.getElementById('inc-'+id).style.display=id===t?'block':'none');
+  document.querySelectorAll('#page-manager-incidencias .inner-tab').forEach((el,i)=>el.classList.toggle('active',['abiertas','resueltas'][i]===t));
 }
 
-function resolveIncident(id, action) {
-  openIncidents = openIncidents.filter(i => i.id !== id);
-  renderIncidents();
-  const dot = document.querySelector(`[onclick="showPage('manager-incidencias',this)"] .notif-dot`);
-  if (dot) dot.textContent = openIncidents.length || '';
-  alert(action === 'excused' ? '✅ Incidencia excusada y archivada.' : '📋 Incidencia registrada como incumplimiento.');
-}
-
-function resolveQuick(type) { alert('✅ Incidencia excusada correctamente.'); }
-
-function openIncidentModal(type, name) {
-  const types = {
-    missing: { title:'Sin fichaje de entrada', body:`<p style="font-size:14px;color:#6b7280;margin-bottom:16px">El empleado <strong>${name}</strong> no ha registrado entrada hoy.</p><div class="form-group"><label class="lbl">Comentario / justificación</label><textarea rows="3" placeholder="Ej: Confirmó presencia por email, trabajo remoto no registrado..."></textarea></div>` },
-    geo: { title:'Fichaje fuera del radio GPS', body:`<p style="font-size:14px;color:#6b7280;margin-bottom:16px"><strong>${name}</strong> fichó a 420m de la oficina.</p><div class="alert alert-yellow">📍 Coordenadas registradas: 40.4168° N, 3.7038° W</div><div class="form-group"><label class="lbl">Motivo</label><textarea rows="2" placeholder="Ej: Reunión externa, desplazamiento autorizado..."></textarea></div>` },
-    short: { title:'Jornada incompleta', body:`<p style="font-size:14px;color:#6b7280;margin-bottom:16px"><strong>${name}</strong> registró menos horas de las esperadas.</p><div class="form-group"><label class="lbl">Acción</label><select><option>Excusar (justificado)</option><option>Registrar como ausencia parcial</option><option>Solicitar aclaración al empleado</option></select></div>` },
-  };
-  const cfg = types[type] || types['missing'];
-  document.getElementById('inc-modal-title').textContent = cfg.title;
-  document.getElementById('inc-modal-body').innerHTML = cfg.body;
-  document.getElementById('incident-modal').classList.add('show');
-}
-
-function excuseIncident() { closeModal('incident-modal'); alert('✅ Incidencia excusada y archivada.'); }
-function rejectIncident() { closeModal('incident-modal'); alert('📋 Registrado como incumplimiento.'); }
-
-// ===================== HORAS EXTRA (MANAGER) =====================
-let overtimeRequests = [
-  { id:1, name:'Carlos Martínez', initials:'CM', color:'#4f46e5', hours:'1h 30min', reason:'Cierre de sprint urgente. El cliente necesita el build antes de las 20h.', date:'Hoy', level:1 },
-  { id:2, name:'Ana Pérez', initials:'AP', color:'#10b981', hours:'2h 00min', reason:'Entrega de diseños para presentación con cliente mañana 9h.', date:'Hoy', level:1 },
+let otRequests=[
+  {id:1,name:'Carlos Martínez',i:'CM',c:'#4f46e5',hours:'1h 30min',reason:'Cierre de sprint urgente. El cliente necesita el build antes de las 20h.'},
+  {id:2,name:'Ana Pérez',i:'AP',c:'#10b981',hours:'2h 00min',reason:'Entrega de diseños para presentación con cliente mañana.'},
 ];
-
-function renderOvertimeList() {
-  const el = document.getElementById('overtime-list');
-  if (!el) return;
-  if (!overtimeRequests.length) { el.innerHTML = '<div class="card"><div class="empty-state"><div class="icon">✅</div>No hay solicitudes de horas extra pendientes.</div></div>'; return; }
-  el.innerHTML = overtimeRequests.map(r => `
-    <div class="card" style="margin-bottom:16px" id="ot-card-${r.id}">
-      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
-        <div class="user-avatar" style="background:${r.color};width:44px;height:44px;font-size:15px">${r.initials}</div>
-        <div style="flex:1">
-          <div style="font-size:16px;font-weight:700">${r.name}</div>
-          <div style="font-size:13px;color:#6b7280">${r.date} · <strong>${r.hours} extra solicitadas</strong></div>
-        </div>
-        <span class="badge badge-yellow">Nivel 1 – Pendiente tuya</span>
-      </div>
-      <div class="alert alert-blue" style="margin-bottom:16px">
-        💬 <strong>Motivo:</strong> "${r.reason}"
-      </div>
-      <div style="margin-bottom:16px">
-        <div style="font-size:13px;font-weight:600;color:#6b7280;margin-bottom:8px">FLUJO DE APROBACIÓN</div>
-        <div class="approval-step"><div class="level level-active">1</div><div class="info"><strong>Manager directo (tú)</strong>Pendiente de tu aprobación</div><span class="badge badge-yellow">Pendiente</span></div>
-        <div class="approval-step"><div class="level level-waiting">2</div><div class="info"><strong>Director de área</strong>Roberto Sanz · En espera</div><span class="badge badge-gray">En espera</span></div>
-        <div class="approval-step"><div class="level level-waiting">3</div><div class="info"><strong>RRHH</strong>Aprobación final · En espera</div><span class="badge badge-gray">En espera</span></div>
-      </div>
-      <div style="display:flex;gap:10px">
-        <button class="btn btn-danger btn-sm" onclick="managerRejectOT(${r.id})">✗ Rechazar</button>
-        <button class="btn btn-success" onclick="managerApproveOT(${r.id})">✓ Aprobar y pasar a nivel 2</button>
-      </div>
+function renderOTList(){
+  const el=document.getElementById('overtime-list');if(!el)return;
+  if(!otRequests.length){el.innerHTML='<div class="card"><div class="empty-state"><div class="icon">✅</div>No hay solicitudes pendientes.</div></div>';return;}
+  el.innerHTML=otRequests.map(r=>`<div class="card" style="margin-bottom:16px" id="ot-card-${r.id}">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><div class="u-avatar" style="background:${r.c};width:44px;height:44px;font-size:15px">${r.i}</div><div style="flex:1"><div style="font-size:16px;font-weight:700">${r.name}</div><div style="font-size:13px;color:#6b7280">Hoy · <strong>${r.hours} extra</strong></div></div><span class="badge badge-yellow">Nivel 1 – Pendiente</span></div>
+    <div class="alert alert-blue" style="margin-bottom:16px">💬 <strong>Motivo:</strong> "${r.reason}"</div>
+    <div style="margin-bottom:16px">
+      <div class="approval-step"><div class="a-level lv-active">1</div><div class="a-info"><strong>Manager directo (tú)</strong>Pendiente de tu aprobación</div><span class="badge badge-yellow">Pendiente</span></div>
+      <div class="approval-step"><div class="a-level lv-wait">2</div><div class="a-info"><strong>Director de área</strong>Roberto Sanz · En espera</div><span class="badge badge-gray">En espera</span></div>
+      <div class="approval-step"><div class="a-level lv-wait">3</div><div class="a-info"><strong>RRHH</strong>Aprobación final · En espera</div><span class="badge badge-gray">En espera</span></div>
     </div>
-  `).join('');
+    <div style="display:flex;gap:10px"><button class="btn btn-danger btn-sm" onclick="managerRejectOT(${r.id})">✗ Rechazar</button><button class="btn btn-success" onclick="managerApproveOT(${r.id})">✓ Aprobar → pasar a nivel 2</button></div>
+  </div>`).join('');
 }
+function managerApproveOT(id){
+  const r=otRequests.find(x=>x.id===id);
+  document.getElementById('ot-card-'+id).innerHTML=`<div style="display:flex;align-items:center;gap:14px;margin-bottom:12px"><div class="u-avatar" style="background:${r.c};width:44px;height:44px;font-size:15px">${r.i}</div><div><div style="font-size:16px;font-weight:700">${r.name}</div><div style="font-size:13px;color:#6b7280">${r.hours} · Hoy</div></div><span class="badge badge-blue">Nivel 2 – Director</span></div><div class="alert alert-green">✅ Aprobado por ti. Notificación enviada a Roberto Sanz (Nivel 2).</div><div class="approval-step"><div class="a-level lv-done">1</div><div class="a-info"><strong>Manager directo</strong>Aprobado</div><span class="badge badge-green">Aprobado</span></div><div class="approval-step"><div class="a-level lv-active">2</div><div class="a-info"><strong>Director de área</strong>Roberto Sanz · Pendiente</div><span class="badge badge-yellow">Pendiente</span></div><div class="approval-step"><div class="a-level lv-wait">3</div><div class="a-info"><strong>RRHH</strong>En espera</div><span class="badge badge-gray">En espera</span></div>`;
+  otRequests=otRequests.filter(x=>x.id!==id);
+}
+function managerRejectOT(id){
+  const r=prompt('Motivo del rechazo:');if(r===null)return;
+  document.getElementById('ot-card-'+id).innerHTML=`<div class="alert alert-red">✗ Solicitud rechazada. Motivo: "${r}"</div>`;
+  otRequests=otRequests.filter(x=>x.id!==id);
+}
+function approveOT(name){const r=otRequests.find(x=>x.name===name);if(r)managerApproveOT(r.id);else alert('✅ Aprobado.');}
+function rejectOT(name){const r=otRequests.find(x=>x.name===name);if(r)managerRejectOT(r.id);else alert('✗ Rechazado.');}
 
-function managerApproveOT(id) {
-  const r = overtimeRequests.find(x=>x.id===id);
-  const card = document.getElementById('ot-card-'+id);
-  card.innerHTML = `
-    <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
-      <div class="user-avatar" style="background:${r.color};width:44px;height:44px;font-size:15px">${r.initials}</div>
-      <div><div style="font-size:16px;font-weight:700">${r.name}</div><div style="font-size:13px;color:#6b7280">${r.hours} extra · ${r.date}</div></div>
-      <span class="badge badge-blue">Nivel 2 – Pendiente Director</span>
-    </div>
-    <div class="alert alert-green">✅ Aprobado por ti. Notificación enviada a Roberto Sanz (Nivel 2).</div>
-    <div class="approval-step"><div class="level level-done">1</div><div class="info"><strong>Manager directo</strong>Aprobado por Laura González</div><span class="badge badge-green">Aprobado</span></div>
-    <div class="approval-step"><div class="level level-active">2</div><div class="info"><strong>Director de área</strong>Roberto Sanz · Pendiente</div><span class="badge badge-yellow">Pendiente</span></div>
-    <div class="approval-step"><div class="level level-waiting">3</div><div class="info"><strong>RRHH</strong>En espera</div><span class="badge badge-gray">En espera</span></div>
-  `;
-  overtimeRequests = overtimeRequests.filter(x=>x.id!==id);
-  updateOvertimeNotif();
+// ===================== ADMIN USUARIOS =====================
+function colorFor(id){return COLORS[id%COLORS.length];}
+function initials(u){return(u.nombre[0]+u.apellidos[0]).toUpperCase();}
+function roleBadge(r){const m={empleado:'badge-gray',manager:'badge-blue',rrhh:'badge-purple',admin:'badge-red'};const l={empleado:'Empleado',manager:'Manager',rrhh:'RRHH',admin:'Admin'};return`<span class="badge ${m[r]||'badge-gray'}">${l[r]||r}</span>`;}
+function statusBadge(s){const m={activo:'badge-green',pendiente:'badge-yellow',inactivo:'badge-red'};const l={activo:'Activo',pendiente:'Pendiente',inactivo:'Inactivo'};return`<span class="badge ${m[s]||'badge-gray'}">${l[s]||s}</span>`;}
+function renderTable(list){
+  const tb=document.getElementById('users-table');if(!tb)return;
+  if(!list.length){tb.innerHTML='<tr><td colspan="6"><div class="empty-state"><div class="icon">🔍</div>Sin resultados.</div></td></tr>';return;}
+  tb.innerHTML=list.map(u=>`<tr><td><div class="user-cell"><div class="u-avatar" style="background:${colorFor(u.id)}">${initials(u)}</div><div><div class="u-name">${u.nombre} ${u.apellidos}</div><div class="u-email">${u.email}</div></div></div></td><td>${roleBadge(u.rol)}</td><td><div style="font-size:13px;font-weight:500">${u.centro}</div><div style="font-size:12px;color:#9ca3af">${u.horario.split(' (')[0]}</div></td><td>${u.proyectos.length?u.proyectos.map(p=>`<span class="tag">${p}</span>`).join(''):'<span style="color:#9ca3af;font-size:12px">—</span>'}</td><td>${statusBadge(u.status)}</td><td><div style="display:flex;gap:6px"><button class="btn btn-ghost btn-sm" onclick="editUser(${u.id})">✏️</button><button class="btn btn-danger btn-sm" onclick="confirmDelete(${u.id})">🗑</button></div></td></tr>`).join('');
 }
-
-function managerRejectOT(id) {
-  const reason = prompt('Motivo del rechazo (se enviará al empleado):');
-  if (reason === null) return;
-  document.getElementById('ot-card-'+id).innerHTML = `<div class="alert alert-red">✗ Solicitud rechazada. El empleado ha sido notificado.</div>`;
-  overtimeRequests = overtimeRequests.filter(x=>x.id!==id);
-  updateOvertimeNotif();
+function updateStats(){
+  const g=id=>document.getElementById(id);
+  if(g('stat-total')){g('stat-total').textContent=users.length;g('stat-active').textContent=users.filter(u=>u.status==='activo').length;g('stat-pending').textContent=users.filter(u=>u.status==='pendiente').length;g('stat-inactive').textContent=users.filter(u=>u.status==='inactivo').length;}
 }
-
-function approveOvertime(name) {
-  const r = overtimeRequests.find(x=>x.name===name);
-  if (r) managerApproveOT(r.id);
-  else { alert(`✅ Solicitud de ${name} aprobada. Pasa al nivel 2.`); renderIncidents(); }
+function filterUsers(){
+  const q=(document.getElementById('search-input')?.value||'').toLowerCase();
+  const rol=document.getElementById('filter-role')?.value||'';
+  const st=document.getElementById('filter-status')?.value||'';
+  renderTable(users.filter(u=>`${u.nombre} ${u.apellidos} ${u.email} ${u.depto}`.toLowerCase().includes(q)&&(!rol||u.rol===rol)&&(!st||u.status===st)));
 }
-function rejectOvertime(name) {
-  const r = overtimeRequests.find(x=>x.name===name);
-  if (r) { const reason = prompt('Motivo del rechazo:'); if (reason===null) return; managerRejectOT(r.id); }
-  else alert(`✗ Solicitud de ${name} rechazada.`);
+function openNewUser(){
+  editingId=null;document.getElementById('modal-title').textContent='Nuevo empleado';document.getElementById('modal-success').style.display='none';
+  clearForm();showMTab('datos');document.getElementById('user-modal').classList.add('show');
+  document.getElementById('btn-save').style.display='none';document.getElementById('btn-next').style.display='inline-flex';document.getElementById('btn-prev').style.display='none';
 }
-
-function updateOvertimeNotif() {
-  const dot = document.querySelector(`[onclick="showPage('manager-overtime',this)"] .notif-dot`);
-  if (dot) { dot.textContent = overtimeRequests.length; if (!overtimeRequests.length) dot.style.display='none'; }
+function editUser(id){
+  editingId=id;const u=users.find(x=>x.id===id);
+  document.getElementById('modal-title').textContent='Editar empleado';document.getElementById('modal-success').style.display='none';
+  fillForm(u);showMTab('datos');document.getElementById('user-modal').classList.add('show');
+  document.getElementById('btn-save').style.display='none';document.getElementById('btn-next').style.display='inline-flex';document.getElementById('btn-prev').style.display='none';
 }
-
-function incTab(t) {
-  ['abiertas','resueltas'].forEach(id => document.getElementById('inc-'+id).style.display = id===t?'block':'none');
-  document.querySelectorAll('#page-manager-incidencias .inner-tab').forEach((el,i) => el.classList.toggle('active',['abiertas','resueltas'][i]===t));
-}
-
-// ===================== ADMIN: USUARIOS =====================
-const COLORS_ARR = ['#4f46e5','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#ec4899'];
-let users = [
-  { id:1, nombre:'Laura', apellidos:'González Ruiz', email:'laura.gonzalez@empresa.com', dni:'12345678A', telefono:'+34 612 345 678', depto:'Tecnología', cargo:'Tech Lead', centro:'Madrid Centro', horario:'Jornada completa L-V (8h)', manager:'Roberto Sanz', rol:'manager', proyectos:['Alpha','Beta'], status:'activo', incorporacion:'2021-03-15' },
-  { id:2, nombre:'Carlos', apellidos:'Martínez López', email:'carlos.martinez@empresa.com', dni:'87654321B', telefono:'+34 623 456 789', depto:'Desarrollo', cargo:'Desarrollador Senior', centro:'Madrid Centro', horario:'Jornada completa L-V (8h)', manager:'Laura González', rol:'empleado', proyectos:['Alpha','Gamma'], status:'activo', incorporacion:'2022-06-01' },
-  { id:3, nombre:'Ana', apellidos:'Pérez Soto', email:'ana.perez@empresa.com', dni:'11223344C', telefono:'+34 634 567 890', depto:'Diseño', cargo:'UX Designer', centro:'Barcelona Oficina', horario:'Jornada intensiva (7h)', manager:'Laura González', rol:'empleado', proyectos:['Beta'], status:'activo', incorporacion:'2023-01-10' },
-  { id:4, nombre:'Miguel', apellidos:'Torres Vega', email:'miguel.torres@empresa.com', dni:'44332211D', telefono:'', depto:'Ventas', cargo:'Account Manager', centro:'Madrid Centro', horario:'Jornada completa L-V (8h)', manager:'Roberto Sanz', rol:'empleado', proyectos:[], status:'pendiente', incorporacion:'2026-02-18' },
-];
-
-function initials(u) { return (u.nombre[0]+u.apellidos[0]).toUpperCase(); }
-function colorFor(i) { return COLORS_ARR[i % COLORS_ARR.length]; }
-function roleBadge(r) {
-  const m={empleado:'badge-gray',manager:'badge-blue',rrhh:'badge-purple',admin:'badge-red'};
-  const l={empleado:'Empleado',manager:'Manager',rrhh:'RRHH',admin:'Admin'};
-  return `<span class="badge ${m[r]||'badge-gray'}">${l[r]||r}</span>`;
-}
-function statusBadge(s) {
-  const m={activo:'badge-green',pendiente:'badge-yellow',inactivo:'badge-red'};
-  const l={activo:'Activo',pendiente:'Pendiente',inactivo:'Inactivo'};
-  return `<span class="badge ${m[s]||'badge-gray'}">${l[s]||s}</span>`;
-}
-
-function renderTable(list) {
-  const tb = document.getElementById('users-table');
-  if (!tb) return;
-  if (!list.length) { tb.innerHTML='<tr><td colspan="6"><div class="empty-state"><div class="icon">🔍</div>Sin resultados.</div></td></tr>'; return; }
-  tb.innerHTML = list.map(u => `
-    <tr>
-      <td><div class="user-cell"><div class="user-avatar" style="background:${colorFor(u.id)}">${initials(u)}</div><div><div class="user-name">${u.nombre} ${u.apellidos}</div><div class="user-email">${u.email}</div></div></div></td>
-      <td>${roleBadge(u.rol)}</td>
-      <td><div style="font-size:13px;font-weight:500">${u.centro}</div><div style="font-size:12px;color:#9ca3af">${u.horario.split(' (')[0]}</div></td>
-      <td>${u.proyectos.length?u.proyectos.map(p=>`<span class="tag">${p}</span>`).join(''):'<span style="color:#9ca3af;font-size:12px">—</span>'}</td>
-      <td>${statusBadge(u.status)}</td>
-      <td><div style="display:flex;gap:6px"><button class="btn btn-ghost btn-sm" onclick="editUser(${u.id})">✏️</button><button class="btn btn-danger btn-sm" onclick="confirmDelete(${u.id})">🗑</button></div></td>
-    </tr>`).join('');
-}
-
-function updateStats() {
-  const el = id => document.getElementById(id);
-  if (el('stat-total')) { el('stat-total').textContent=users.length; el('stat-active').textContent=users.filter(u=>u.status==='activo').length; el('stat-pending').textContent=users.filter(u=>u.status==='pendiente').length; el('stat-inactive').textContent=users.filter(u=>u.status==='inactivo').length; }
-}
-
-function filterUsers() {
-  const q = document.getElementById('search-input')?.value.toLowerCase()||'';
-  const rol = document.getElementById('filter-role')?.value||'';
-  const st = document.getElementById('filter-status')?.value||'';
-  renderTable(users.filter(u => `${u.nombre} ${u.apellidos} ${u.email} ${u.depto}`.toLowerCase().includes(q) && (!rol||u.rol===rol) && (!st||u.status===st)));
-}
-
-function openNewUser() {
-  editingId = null;
-  document.getElementById('modal-title').textContent = 'Nuevo empleado';
-  document.getElementById('modal-success').style.display = 'none';
-  clearForm();
-  showModalTab('datos');
-  document.getElementById('user-modal').classList.add('show');
-  document.getElementById('btn-save').style.display='none';
-  document.getElementById('btn-next').style.display='inline-flex';
-  document.getElementById('btn-prev').style.display='none';
-}
-
-function editUser(id) {
-  editingId=id;
+function confirmDelete(id){
   const u=users.find(x=>x.id===id);
-  document.getElementById('modal-title').textContent='Editar empleado';
-  document.getElementById('modal-success').style.display='none';
-  fillForm(u);
-  showModalTab('datos');
-  document.getElementById('user-modal').classList.add('show');
-  document.getElementById('btn-save').style.display='none';
-  document.getElementById('btn-next').style.display='inline-flex';
-  document.getElementById('btn-prev').style.display='none';
+  if(u&&u.id===currentUser?.id){alert('No puedes eliminar tu propia cuenta.');return;}
+  if(!confirm(`¿Eliminar a ${u.nombre} ${u.apellidos}?`))return;
+  users=users.filter(x=>x.id!==id);renderTable(users);updateStats();buildQuickUsers();
 }
-
-function confirmDelete(id) {
-  const u=users.find(x=>x.id===id);
-  if(!confirm(`¿Eliminar a ${u.nombre} ${u.apellidos}?`)) return;
-  users=users.filter(x=>x.id!==id);
-  renderTable(users); updateStats();
-}
-
-function clearForm() {
-  ['f-nombre','f-apellidos','f-email','f-telefono','f-dni','f-depto','f-cargo','f-incorporacion'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  ['f-nacimiento','f-centro','f-horario','f-manager'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+function clearForm(){
+  ['f-nombre','f-apellidos','f-email','f-telefono','f-dni','f-depto','f-cargo','f-incorporacion','f-pwd','f-nacimiento'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['f-centro','f-horario','f-manager'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('f-rol').value='empleado';
-  document.getElementById('f-activacion').value='email';
   ['cb-alpha','cb-beta','cb-gamma'].forEach(id=>{const el=document.getElementById(id);if(el)el.checked=false;});
-  ['err-nombre','err-apellidos','err-email','err-depto','err-centro','err-horario'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='';});
+  ['err-nombre','err-apellidos','err-email','err-depto','err-centro','err-horario','err-pwd'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='';});
 }
-
-function fillForm(u) {
-  document.getElementById('f-nombre').value=u.nombre;
-  document.getElementById('f-apellidos').value=u.apellidos;
-  document.getElementById('f-email').value=u.email;
-  document.getElementById('f-telefono').value=u.telefono;
-  document.getElementById('f-dni').value=u.dni;
-  document.getElementById('f-depto').value=u.depto;
-  document.getElementById('f-cargo').value=u.cargo;
-  document.getElementById('f-centro').value=u.centro;
-  document.getElementById('f-horario').value=u.horario;
-  document.getElementById('f-incorporacion').value=u.incorporacion;
-  document.getElementById('f-rol').value=u.rol;
+function fillForm(u){
+  ['nombre','apellidos','email','telefono','dni','depto','cargo','incorporacion'].forEach(k=>{const el=document.getElementById('f-'+k);if(el)el.value=u[k]||'';});
+  document.getElementById('f-centro').value=u.centro||'';document.getElementById('f-horario').value=u.horario||'';
+  document.getElementById('f-manager').value=u.manager||'';document.getElementById('f-rol').value=u.rol||'empleado';
   ['cb-alpha','cb-beta','cb-gamma'].forEach(id=>{const el=document.getElementById(id);if(el)el.checked=u.proyectos.includes(el.value);});
 }
-
-function showModalTab(t) {
-  modalTabs.forEach(id=>{document.getElementById('mtab-'+id).style.display=id===t?'block':'none';});
-  document.querySelectorAll('#user-modal .inner-tab').forEach((el,i)=>el.classList.toggle('active',modalTabs[i]===t));
-  currentModalTab=t;
+function showMTab(t){
+  mTabs.forEach(id=>{document.getElementById('mtab-'+id).style.display=id===t?'block':'none';});
+  document.querySelectorAll('#user-modal .inner-tab').forEach((el,i)=>el.classList.toggle('active',mTabs[i]===t));
+  currentMTab=t;
 }
-
-function modalTab(t) {
-  showModalTab(t);
-  const idx=modalTabs.indexOf(t);
+function modalTab(t){
+  showMTab(t);const idx=mTabs.indexOf(t);
   document.getElementById('btn-prev').style.display=idx>0?'inline-flex':'none';
-  document.getElementById('btn-next').style.display=idx<modalTabs.length-1?'inline-flex':'none';
-  document.getElementById('btn-save').style.display=idx===modalTabs.length-1?'inline-flex':'none';
+  document.getElementById('btn-next').style.display=idx<mTabs.length-1?'inline-flex':'none';
+  document.getElementById('btn-save').style.display=idx===mTabs.length-1?'inline-flex':'none';
 }
-
-function nextModalTab() { if(!validateCurrentTab()) return; const idx=modalTabs.indexOf(currentModalTab); if(idx<modalTabs.length-1) modalTab(modalTabs[idx+1]); }
-function prevModalTab() { const idx=modalTabs.indexOf(currentModalTab); if(idx>0) modalTab(modalTabs[idx-1]); }
-
-function validateCurrentTab() {
+function nextMTab(){if(!validateMTab())return;const idx=mTabs.indexOf(currentMTab);if(idx<mTabs.length-1)modalTab(mTabs[idx+1]);}
+function prevMTab(){const idx=mTabs.indexOf(currentMTab);if(idx>0)modalTab(mTabs[idx-1]);}
+function validateMTab(){
   let ok=true;
-  if(currentModalTab==='datos'){
+  if(currentMTab==='datos'){
     ['err-nombre','err-apellidos','err-email'].forEach(id=>{document.getElementById(id).textContent='';});
     if(!document.getElementById('f-nombre').value.trim()){document.getElementById('err-nombre').textContent='Obligatorio';ok=false;}
     if(!document.getElementById('f-apellidos').value.trim()){document.getElementById('err-apellidos').textContent='Obligatorio';ok=false;}
-    const email=document.getElementById('f-email').value.trim();
-    if(!email){document.getElementById('err-email').textContent='Obligatorio';ok=false;}
-    else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){document.getElementById('err-email').textContent='Email no válido';ok=false;}
-    else if(!editingId&&users.find(u=>u.email===email)){document.getElementById('err-email').textContent='Email ya registrado';ok=false;}
+    const em=document.getElementById('f-email').value.trim();
+    if(!em){document.getElementById('err-email').textContent='Obligatorio';ok=false;}
+    else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){document.getElementById('err-email').textContent='Email no válido';ok=false;}
+    else if(!editingId&&users.find(u=>u.email.toLowerCase()===em.toLowerCase())){document.getElementById('err-email').textContent='Email ya registrado';ok=false;}
   }
-  if(currentModalTab==='laboral'){
+  if(currentMTab==='laboral'){
     ['err-depto','err-centro','err-horario'].forEach(id=>{document.getElementById(id).textContent='';});
     if(!document.getElementById('f-depto').value.trim()){document.getElementById('err-depto').textContent='Obligatorio';ok=false;}
-    if(!document.getElementById('f-centro').value){document.getElementById('err-centro').textContent='Selecciona un centro';ok=false;}
-    if(!document.getElementById('f-horario').value){document.getElementById('err-horario').textContent='Selecciona un horario';ok=false;}
+    if(!document.getElementById('f-centro').value){document.getElementById('err-centro').textContent='Selecciona centro';ok=false;}
+    if(!document.getElementById('f-horario').value){document.getElementById('err-horario').textContent='Selecciona horario';ok=false;}
+  }
+  if(currentMTab==='acceso'&&!editingId){
+    document.getElementById('err-pwd').textContent='';
+    if(document.getElementById('f-pwd').value.length<8){document.getElementById('err-pwd').textContent='Mínimo 8 caracteres';ok=false;}
   }
   return ok;
 }
-
-function saveUser() {
-  if(!validateCurrentTab()) return;
+function saveUser(){
+  if(!validateMTab())return;
   const proyectos=[...document.querySelectorAll('#user-modal input[type=checkbox]:checked')].map(c=>c.value).filter(v=>['Alpha','Beta','Gamma'].includes(v));
-  const data={nombre:document.getElementById('f-nombre').value.trim(),apellidos:document.getElementById('f-apellidos').value.trim(),email:document.getElementById('f-email').value.trim(),telefono:document.getElementById('f-telefono').value.trim(),dni:document.getElementById('f-dni').value.trim(),depto:document.getElementById('f-depto').value.trim(),cargo:document.getElementById('f-cargo').value.trim(),centro:document.getElementById('f-centro').value,horario:document.getElementById('f-horario').value,incorporacion:document.getElementById('f-incorporacion').value,manager:document.getElementById('f-manager').value,rol:document.getElementById('f-rol').value,proyectos,status:editingId?users.find(u=>u.id===editingId).status:'pendiente'};
+  const data={nombre:document.getElementById('f-nombre').value.trim(),apellidos:document.getElementById('f-apellidos').value.trim(),email:document.getElementById('f-email').value.trim(),pwd:document.getElementById('f-pwd').value||'1234',telefono:document.getElementById('f-telefono').value.trim(),dni:document.getElementById('f-dni').value.trim(),depto:document.getElementById('f-depto').value.trim(),cargo:document.getElementById('f-cargo').value.trim(),centro:document.getElementById('f-centro').value,horario:document.getElementById('f-horario').value,incorporacion:document.getElementById('f-incorporacion').value,manager:document.getElementById('f-manager').value,rol:document.getElementById('f-rol').value,proyectos,status:'activo'};
   if(editingId){const idx=users.findIndex(u=>u.id===editingId);users[idx]={...users[idx],...data};}
-  else{data.id=Date.now();users.push(data);}
+  else{data.id=Date.now()%10000;users.push(data);}
   document.getElementById('modal-success').style.display='block';
   document.getElementById('btn-save').disabled=true;
-  setTimeout(()=>{closeModal('user-modal');document.getElementById('btn-save').disabled=false;renderTable(users);updateStats();},1500);
+  setTimeout(()=>{closeModal('user-modal');document.getElementById('btn-save').disabled=false;renderTable(users);updateStats();buildQuickUsers();},1400);
 }
 
-function togglePwd() { document.getElementById('pwd-group').style.display=document.getElementById('f-activacion').value==='manual'?'flex':'none'; }
+// ===================== INFORMES / CHARTS =====================
+let chartsInitialized=false;let chartInstances={};
+function initCharts(){
+  if(chartsInitialized)return;chartsInitialized=true;
+  const opts={responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:16,font:{size:12}}}}};
+
+  chartInstances.proyectos=new Chart(document.getElementById('chart-proyectos'),{type:'bar',data:{labels:['Alpha','Beta','Gamma','Sin proyecto'],datasets:[{label:'Horas imputadas',data:[342,218,96,44],backgroundColor:['#4f46e5','#10b981','#f59e0b','#9ca3af'],borderRadius:6}]},options:{...opts,plugins:{...opts.plugins,legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'#f3f4f6'}}}}});
+
+  chartInstances.semanas=new Chart(document.getElementById('chart-semanas'),{type:'line',data:{labels:['S1','S2','S3','S4'],datasets:[{label:'Horas reales',data:[38.2,39.1,37.8,38.9],borderColor:'#4f46e5',backgroundColor:'rgba(79,70,229,.1)',fill:true,tension:.4,pointBackgroundColor:'#4f46e5'},{label:'Horas contratadas',data:[40,40,40,40],borderColor:'#e5e7eb',borderDash:[5,5],pointRadius:0}]},options:{...opts,scales:{y:{beginAtZero:false,min:35,grid:{color:'#f3f4f6'}}}}});
+
+  chartInstances.incidencias=new Chart(document.getElementById('chart-incidencias'),{type:'doughnut',data:{labels:['Sin fichaje','GPS fuera radio','Jornada corta','Sin imputación','Exceso jornada'],datasets:[{data:[5,3,8,6,2],backgroundColor:['#ef4444','#f59e0b','#4f46e5','#9ca3af','#8b5cf6'],borderWidth:0}]},options:{...opts,cutout:'65%'}});
+
+  chartInstances.overtime=new Chart(document.getElementById('chart-overtime'),{type:'bar',data:{labels:['Carlos M.','Ana P.','Sara M.','Pedro R.','Elena C.','Miguel T.'],datasets:[{label:'Horas extra',data:[4.5,3.0,2.5,6.0,1.5,0],backgroundColor:'#4f46e5',borderRadius:6},{label:'Límite mensual',data:[10,10,10,10,10,10],backgroundColor:'#fee2e2',borderRadius:6}]},options:{...opts,scales:{y:{beginAtZero:true,stacked:false,grid:{color:'#f3f4f6'}}}}});
+}
 
 // ===================== UTILS =====================
-function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+function closeModal(id){document.getElementById(id).classList.remove('show');}
 
 // ===================== INIT =====================
-switchRole('manager');
-showPage('manager-dashboard');
-renderTeamGrid();
-renderIncidents();
-renderOvertimeList();
-renderTable(users);
-updateStats();
+buildQuickUsers();
 </script>
 </body>
 </html>
