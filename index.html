@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ControlHR – Fichaje</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #1a1a2e; min-height: 100vh; }
+
+  /* NAV */
+  nav { background: #1a1a2e; color: white; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+  nav .logo { font-weight: 700; font-size: 18px; letter-spacing: 1px; }
+  nav .user { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+  nav .avatar { width: 32px; height: 32px; border-radius: 50%; background: #4f46e5; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
+
+  /* LAYOUT */
+  .container { max-width: 960px; margin: 32px auto; padding: 0 16px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media(max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+
+  /* CARDS */
+  .card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+  .card h2 { font-size: 15px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 16px; }
+
+  /* FICHAR */
+  .clock-display { text-align: center; margin: 8px 0 20px; }
+  .clock-display .time { font-size: 48px; font-weight: 700; color: #1a1a2e; letter-spacing: 2px; }
+  .clock-display .date { font-size: 14px; color: #6b7280; margin-top: 4px; }
+  .schedule-info { background: #f8fafc; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; font-size: 13px; color: #374151; display: flex; justify-content: space-between; }
+  .schedule-info span { display: flex; flex-direction: column; gap: 2px; }
+  .schedule-info strong { font-size: 15px; color: #1a1a2e; }
+
+  .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all .2s; }
+  .btn-green { background: #10b981; color: white; }
+  .btn-green:hover { background: #059669; }
+  .btn-red { background: #ef4444; color: white; }
+  .btn-red:hover { background: #dc2626; }
+  .btn-orange { background: #f59e0b; color: white; }
+  .btn-orange:hover { background: #d97706; }
+  .btn-blue { background: #4f46e5; color: white; }
+  .btn-blue:hover { background: #4338ca; }
+  .btn-gray { background: #e5e7eb; color: #374151; }
+  .btn-gray:hover { background: #d1d5db; }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+
+  /* STATUS BADGE */
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .badge-green { background: #d1fae5; color: #065f46; }
+  .badge-yellow { background: #fef3c7; color: #92400e; }
+  .badge-red { background: #fee2e2; color: #991b1b; }
+  .badge-gray { background: #f3f4f6; color: #6b7280; }
+  .badge-blue { background: #e0e7ff; color: #3730a3; }
+
+  /* TIMELINE */
+  .timeline { display: flex; align-items: center; gap: 0; margin: 16px 0; }
+  .tl-item { flex: 1; text-align: center; font-size: 12px; color: #6b7280; }
+  .tl-item strong { display: block; font-size: 15px; color: #1a1a2e; }
+  .tl-line { flex: 1; height: 2px; background: #e5e7eb; position: relative; }
+  .tl-line.done { background: #10b981; }
+  .tl-dot { width: 10px; height: 10px; border-radius: 50%; background: #e5e7eb; margin: 0 auto 4px; }
+  .tl-dot.done { background: #10b981; }
+  .tl-dot.active { background: #4f46e5; box-shadow: 0 0 0 3px #e0e7ff; }
+
+  /* GEO */
+  .geo-status { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-top: 12px; padding: 10px 14px; border-radius: 8px; }
+  .geo-ok { background: #d1fae5; color: #065f46; }
+  .geo-warn { background: #fef3c7; color: #92400e; }
+  .geo-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+
+  /* PROYECTOS */
+  .project-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .project-row label { flex: 1; font-size: 14px; font-weight: 500; }
+  .project-row input[type=number] { width: 80px; padding: 8px; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 14px; text-align: center; }
+  .project-row input:focus { outline: none; border-color: #4f46e5; }
+  .project-row .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .hours-bar { height: 8px; border-radius: 4px; background: #e5e7eb; margin: 16px 0 8px; overflow: hidden; }
+  .hours-bar-fill { height: 100%; border-radius: 4px; background: #4f46e5; transition: width .3s; }
+  .hours-bar-fill.over { background: #ef4444; }
+  .hours-summary { display: flex; justify-content: space-between; font-size: 13px; color: #6b7280; margin-bottom: 16px; }
+  .hours-summary strong { color: #1a1a2e; }
+
+  /* HISTORIAL */
+  .hist-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; }
+  .hist-row:last-child { border-bottom: none; }
+  .hist-row .day { color: #6b7280; font-size: 13px; }
+
+  /* OVERTIME MODAL */
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 100; align-items: center; justify-content: center; }
+  .overlay.show { display: flex; }
+  .modal { background: white; border-radius: 16px; padding: 28px; width: 90%; max-width: 440px; }
+  .modal h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .modal p { font-size: 14px; color: #6b7280; margin-bottom: 20px; }
+  .modal textarea { width: 100%; padding: 10px 12px; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 14px; resize: vertical; min-height: 80px; font-family: inherit; }
+  .modal textarea:focus { outline: none; border-color: #4f46e5; }
+  .modal .btns { display: flex; gap: 10px; margin-top: 16px; }
+  .modal .btns .btn { padding: 11px; font-size: 14px; }
+
+  /* APPROVALS */
+  .approval-step { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; background: #f8fafc; margin-bottom: 8px; }
+  .approval-step .level { width: 28px; height: 28px; border-radius: 50%; background: #e0e7ff; color: #4f46e5; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .approval-step .level.done { background: #d1fae5; color: #065f46; }
+  .approval-step .level.active { background: #4f46e5; color: white; }
+  .approval-step .info { flex: 1; font-size: 13px; }
+  .approval-step .info strong { display: block; font-size: 14px; }
+
+  /* TABS */
+  .tabs { display: flex; gap: 4px; background: #f3f4f6; padding: 4px; border-radius: 10px; margin-bottom: 20px; }
+  .tab { flex: 1; padding: 8px; text-align: center; font-size: 13px; font-weight: 600; border-radius: 7px; cursor: pointer; color: #6b7280; border: none; background: none; transition: all .2s; }
+  .tab.active { background: white; color: #1a1a2e; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+
+  /* SECTION HEADER */
+  .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .section-header h1 { font-size: 22px; font-weight: 700; }
+
+  .alert { padding: 12px 16px; border-radius: 8px; font-size: 14px; margin-bottom: 16px; }
+  .alert-yellow { background: #fef3c7; color: #92400e; border-left: 4px solid #f59e0b; }
+  .alert-green { background: #d1fae5; color: #065f46; border-left: 4px solid #10b981; }
+  .alert-red { background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">⏱ ControlHR</div>
+  <div class="user">
+    <div>
+      <div style="font-weight:600;font-size:14px">Carlos Martínez</div>
+      <div style="font-size:11px;color:#9ca3af">Desarrollo · Madrid</div>
+    </div>
+    <div class="avatar">CM</div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="section-header">
+    <h1>Mi jornada</h1>
+    <span id="main-badge" class="badge badge-gray">Sin iniciar</span>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('fichaje')">Fichaje</button>
+    <button class="tab" onclick="showTab('proyectos')">Proyectos</button>
+    <button class="tab" onclick="showTab('historial')">Historial</button>
+    <button class="tab" onclick="showTab('aprobaciones')">Aprobaciones</button>
+  </div>
+
+  <!-- TAB: FICHAJE -->
+  <div id="tab-fichaje">
+    <div class="grid">
+      <div class="card">
+        <h2>Control de fichaje</h2>
+        <div class="clock-display">
+          <div class="time" id="clock">00:00:00</div>
+          <div class="date" id="date-display"></div>
+        </div>
+
+        <div class="schedule-info">
+          <span>Entrada<strong>08:00</strong></span>
+          <span>Comida<strong>14:00–15:00</strong></span>
+          <span>Salida<strong>17:00</strong></span>
+          <span>Máx.<strong>8h / día</strong></span>
+        </div>
+
+        <div id="geo-status" class="geo-status geo-warn">
+          <div class="geo-dot"></div>
+          Obteniendo ubicación...
+        </div>
+
+        <div style="margin-top:16px">
+          <button id="btn-fichar" class="btn btn-green" onclick="toggleFichaje()">
+            Iniciar jornada
+          </button>
+        </div>
+
+        <div id="overtime-alert" style="display:none;margin-top:12px">
+          <div class="alert alert-yellow">
+            ⚠️ Has alcanzado tu jornada máxima de <strong>8h</strong>. Para registrar horas extra necesitas aprobación.
+          </div>
+          <button class="btn btn-orange" onclick="openOvertimeModal()" style="margin-top:4px">
+            Solicitar horas extra
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Estado de hoy</h2>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot" id="dot-in"></div>
+            <div id="lbl-in" style="color:#9ca3af">Entrada</div>
+            <strong id="time-in">--:--</strong>
+          </div>
+          <div class="tl-line" id="line-break"></div>
+          <div class="tl-item">
+            <div class="tl-dot" id="dot-break"></div>
+            <div>Comida</div>
+            <strong>14–15h</strong>
+          </div>
+          <div class="tl-line" id="line-out"></div>
+          <div class="tl-item">
+            <div class="tl-dot" id="dot-out"></div>
+            <div id="lbl-out" style="color:#9ca3af">Salida</div>
+            <strong id="time-out">--:--</strong>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;font-size:14px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+            <span style="color:#6b7280">Tiempo trabajado</span>
+            <strong id="worked-display">0h 00min</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+            <span style="color:#6b7280">Pausa comida</span>
+            <strong id="break-display">No iniciada</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <span style="color:#6b7280">Estado jornada</span>
+            <span id="status-display" class="badge badge-gray">Sin iniciar</span>
+          </div>
+        </div>
+
+        <div id="imputation-ok" class="alert alert-green" style="display:none;margin-top:16px">
+          ✅ Jornada completada. Recuerda imputar tu tiempo a proyectos.
+          <br><button onclick="showTab('proyectos')" style="margin-top:8px;background:none;border:none;color:#065f46;font-weight:700;cursor:pointer;text-decoration:underline;font-size:13px">Ir a imputación →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: PROYECTOS -->
+  <div id="tab-proyectos" style="display:none">
+    <div class="card">
+      <h2>Imputación de tiempo a proyectos</h2>
+      <div id="imputation-locked" class="alert alert-yellow" style="display:none">
+        ⏳ Debes finalizar tu jornada antes de imputar tiempo.
+      </div>
+      <div id="imputation-done" class="alert alert-green" style="display:none">
+        ✅ Imputación confirmada correctamente.
+      </div>
+
+      <div id="imputation-form">
+        <div class="hours-bar"><div class="hours-bar-fill" id="bar-fill" style="width:0%"></div></div>
+        <div class="hours-summary">
+          <span>Imputado: <strong id="imp-used">0h 00min</strong></span>
+          <span>Disponible: <strong id="imp-total">8h 00min</strong></span>
+        </div>
+
+        <div class="project-row">
+          <div class="dot" style="background:#4f46e5"></div>
+          <label>Proyecto Alpha</label>
+          <input type="number" id="p1" min="0" max="8" step="0.5" value="0" oninput="updateBar()"> h
+        </div>
+        <div class="project-row">
+          <div class="dot" style="background:#10b981"></div>
+          <label>Proyecto Beta</label>
+          <input type="number" id="p2" min="0" max="8" step="0.5" value="0" oninput="updateBar()"> h
+        </div>
+        <div class="project-row">
+          <div class="dot" style="background:#f59e0b"></div>
+          <label>Proyecto Gamma</label>
+          <input type="number" id="p3" min="0" max="8" step="0.5" value="0" oninput="updateBar()"> h
+        </div>
+        <div class="project-row">
+          <div class="dot" style="background:#6b7280"></div>
+          <label style="color:#9ca3af">Sin proyecto</label>
+          <input type="number" id="p4" min="0" max="8" step="0.5" value="0" oninput="updateBar()"> h
+        </div>
+
+        <div id="bar-warning" class="alert alert-red" style="display:none;margin-top:8px"></div>
+
+        <button class="btn btn-blue" style="margin-top:16px" id="btn-confirm-imp" onclick="confirmImputation()">
+          Confirmar imputación
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: HISTORIAL -->
+  <div id="tab-historial" style="display:none">
+    <div class="card">
+      <h2>Mis últimos registros</h2>
+      <div class="hist-row">
+        <div><strong>Lunes 17 Feb</strong><div class="day">08:02 – 17:05 · Madrid</div></div>
+        <div style="text-align:right"><strong>8h 03min</strong><br><span class="badge badge-green">Completa</span></div>
+      </div>
+      <div class="hist-row">
+        <div><strong>Martes 18 Feb</strong><div class="day">07:58 – 18:32 · Madrid</div></div>
+        <div style="text-align:right"><strong>8h + 1h 34min extra</strong><br><span class="badge badge-blue">H. Extra aprobadas</span></div>
+      </div>
+      <div class="hist-row">
+        <div><strong>Miércoles 19 Feb</strong><div class="day">08:10 – 17:00 · Madrid</div></div>
+        <div style="text-align:right"><strong>7h 50min</strong><br><span class="badge badge-yellow">Incidencia</span></div>
+      </div>
+      <div class="hist-row">
+        <div><strong>Jueves 20 Feb</strong><div class="day">08:05 – 17:02 · Teletrabajo</div></div>
+        <div style="text-align:right"><strong>7h 57min</strong><br><span class="badge badge-green">Completa</span></div>
+      </div>
+      <div class="hist-row">
+        <div><strong>Viernes 21 Feb</strong><div class="day">08:00 – 14:00 · Madrid</div></div>
+        <div style="text-align:right"><strong>6h 00min</strong><br><span class="badge badge-green">Jornada intensiva</span></div>
+      </div>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid #f3f4f6;display:flex;justify-content:space-between;font-size:14px">
+        <span style="color:#6b7280">Total semana</span>
+        <strong>38h 10min / 40h</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: APROBACIONES -->
+  <div id="tab-aprobaciones" style="display:none">
+    <div class="card">
+      <h2>Solicitudes de horas extra</h2>
+      <div id="no-requests" style="text-align:center;padding:32px;color:#9ca3af;font-size:14px">
+        No hay solicitudes pendientes
+      </div>
+      <div id="approval-flow" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div>
+            <strong style="font-size:16px">Horas extra – Hoy</strong>
+            <div style="font-size:13px;color:#6b7280;margin-top:2px">Solicitado: <span id="ot-minutes-display"></span> · Motivo: <span id="ot-reason-display"></span></div>
+          </div>
+          <span class="badge badge-yellow">Pendiente</span>
+        </div>
+        <div class="approval-step">
+          <div class="level active" id="lvl1">1</div>
+          <div class="info">
+            <strong>Manager directo</strong>
+            Laura González · Pendiente de revisión
+          </div>
+          <span class="badge badge-yellow" id="st1">Pendiente</span>
+        </div>
+        <div class="approval-step">
+          <div class="level" id="lvl2">2</div>
+          <div class="info">
+            <strong>Director de área</strong>
+            Roberto Sanz · En espera
+          </div>
+          <span class="badge badge-gray" id="st2">En espera</span>
+        </div>
+        <div class="approval-step">
+          <div class="level" id="lvl3">3</div>
+          <div class="info">
+            <strong>RRHH</strong>
+            Departamento RRHH · En espera
+          </div>
+          <span class="badge badge-gray" id="st3">En espera</span>
+        </div>
+        <div style="margin-top:16px;padding:12px;background:#f8fafc;border-radius:8px;font-size:13px;color:#6b7280">
+          ⏰ El aprobador tiene 24h para responder. Si no responde, recibirá un recordatorio automático.
+        </div>
+        <!-- Demo: simular aprobación -->
+        <button class="btn btn-gray" style="margin-top:12px;font-size:13px" onclick="simulateApproval()">
+          🎬 Demo: simular aprobación nivel 1
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL HORAS EXTRA -->
+<div class="overlay" id="overtime-overlay">
+  <div class="modal">
+    <h3>⏱ Solicitar horas extra</h3>
+    <p>Indica cuántas horas adicionales necesitas y el motivo. La solicitud pasará por 3 niveles de aprobación.</p>
+    <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px">Horas extra solicitadas</label>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+      <input type="number" id="ot-hours" min="0.5" max="4" step="0.5" value="1" style="width:80px;padding:8px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:16px;text-align:center">
+      <span style="font-size:14px;color:#6b7280">horas (máx. 4h/día)</span>
+    </div>
+    <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px">Motivo <span style="color:#ef4444">*</span></label>
+    <textarea id="ot-reason" placeholder="Explica brevemente por qué necesitas hacer horas extra hoy..."></textarea>
+    <div class="btns">
+      <button class="btn btn-gray" onclick="closeOvertimeModal()">Cancelar</button>
+      <button class="btn btn-blue" onclick="submitOvertime()">Enviar solicitud</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // --- STATE ---
+  let state = {
+    status: 'idle',        // idle | working | ended | overtime_pending
+    clockInTime: null,
+    clockOutTime: null,
+    workedMinutes: 0,
+    maxMinutes: 480,       // 8h
+    breakStart: 14 * 60,   // 14:00 en minutos
+    breakEnd: 15 * 60,     // 15:00 en minutos
+    imputationDone: false,
+    overtimeApprovalLevel: 0
+  };
+
+  // --- RELOJ ---
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent =
+      now.toTimeString().slice(0,8);
+    document.getElementById('date-display').textContent =
+      now.toLocaleDateString('es-ES', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+    if (state.status === 'working' && state.clockInTime) {
+      const mins = calcWorkedMinutes(state.clockInTime, now);
+      state.workedMinutes = mins;
+      document.getElementById('worked-display').textContent = fmtMin(mins);
+
+      // Pausa comida
+      const nowMin = now.getHours() * 60 + now.getMinutes();
+      if (nowMin >= state.breakStart && nowMin < state.breakEnd) {
+        document.getElementById('break-display').textContent = 'En pausa (14:00–15:00)';
+      } else if (nowMin >= state.breakEnd) {
+        document.getElementById('break-display').textContent = 'Realizada (1h descontada)';
+      }
+
+      // Alerta horas extra
+      if (mins >= state.maxMinutes && state.status === 'working') {
+        document.getElementById('overtime-alert').style.display = 'block';
+        document.getElementById('btn-fichar').disabled = true;
+      }
+    }
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  function calcWorkedMinutes(inTime, outTime) {
+    let mins = Math.floor((outTime - inTime) / 60000);
+    const inMin = inTime.getHours() * 60 + inTime.getMinutes();
+    const outMin = outTime.getHours() * 60 + outTime.getMinutes();
+    // Descontar pausa si aplica
+    if (inMin < state.breakEnd && outMin > state.breakStart) {
+      const overlapStart = Math.max(inMin, state.breakStart);
+      const overlapEnd = Math.min(outMin, state.breakEnd);
+      mins -= Math.max(0, overlapEnd - overlapStart);
+    }
+    return Math.max(0, mins);
+  }
+
+  function fmtMin(m) {
+    return `${Math.floor(m/60)}h ${String(m%60).padStart(2,'0')}min`;
+  }
+
+  function fmtTime(d) {
+    return d.toTimeString().slice(0,5);
+  }
+
+  // --- GEOLOCALIZACIÓN (simulada) ---
+  setTimeout(() => {
+    const ok = Math.random() > 0.2; // 80% probabilidad OK
+    const el = document.getElementById('geo-status');
+    if (ok) {
+      el.className = 'geo-status geo-ok';
+      el.innerHTML = '<div class="geo-dot"></div> Ubicación verificada · Oficina Madrid (42m)';
+    } else {
+      el.className = 'geo-status geo-warn';
+      el.innerHTML = '<div class="geo-dot"></div> Fuera del radio de oficina (340m) · Se registrará incidencia';
+    }
+  }, 1500);
+
+  // --- FICHAJE ---
+  function toggleFichaje() {
+    const now = new Date();
+    if (state.status === 'idle') {
+      state.status = 'working';
+      state.clockInTime = now;
+      document.getElementById('btn-fichar').className = 'btn btn-red';
+      document.getElementById('btn-fichar').textContent = 'Finalizar jornada';
+      document.getElementById('time-in').textContent = fmtTime(now);
+      document.getElementById('dot-in').className = 'tl-dot done';
+      document.getElementById('dot-break').className = 'tl-dot active';
+      document.getElementById('line-break').className = 'tl-line done';
+      document.getElementById('lbl-in').style.color = '#065f46';
+      document.getElementById('status-display').className = 'badge badge-green';
+      document.getElementById('status-display').textContent = 'En jornada';
+      document.getElementById('main-badge').className = 'badge badge-green';
+      document.getElementById('main-badge').textContent = 'Jornada activa';
+
+    } else if (state.status === 'working') {
+      state.status = 'ended';
+      state.clockOutTime = now;
+      state.workedMinutes = calcWorkedMinutes(state.clockInTime, now);
+
+      document.getElementById('btn-fichar').className = 'btn btn-gray';
+      document.getElementById('btn-fichar').textContent = 'Jornada finalizada';
+      document.getElementById('btn-fichar').disabled = true;
+      document.getElementById('time-out').textContent = fmtTime(now);
+      document.getElementById('dot-out').className = 'tl-dot done';
+      document.getElementById('dot-break').className = 'tl-dot done';
+      document.getElementById('line-out').className = 'tl-line done';
+      document.getElementById('lbl-out').style.color = '#065f46';
+      document.getElementById('worked-display').textContent = fmtMin(state.workedMinutes);
+      document.getElementById('status-display').className = 'badge badge-blue';
+      document.getElementById('status-display').textContent = 'Pendiente imputación';
+      document.getElementById('main-badge').className = 'badge badge-blue';
+      document.getElementById('main-badge').textContent = 'Pendiente imputación';
+      document.getElementById('imputation-ok').style.display = 'block';
+      document.getElementById('overtime-alert').style.display = 'none';
+
+      // Actualizar total en pestaña proyectos
+      const avail = Math.min(state.workedMinutes, state.maxMinutes);
+      document.getElementById('imp-total').textContent = fmtMin(avail);
+    }
+  }
+
+  // --- TABS ---
+  function showTab(t) {
+    ['fichaje','proyectos','historial','aprobaciones'].forEach(id => {
+      document.getElementById('tab-' + id).style.display = id === t ? 'block' : 'none';
+    });
+    document.querySelectorAll('.tab').forEach((el, i) => {
+      el.classList.toggle('active', ['fichaje','proyectos','historial','aprobaciones'][i] === t);
+    });
+    if (t === 'proyectos') {
+      if (state.status !== 'ended' && state.status !== 'overtime_pending') {
+        document.getElementById('imputation-locked').style.display = 'block';
+        document.getElementById('imputation-form').style.opacity = '.4';
+        document.getElementById('imputation-form').style.pointerEvents = 'none';
+      } else {
+        document.getElementById('imputation-locked').style.display = 'none';
+        document.getElementById('imputation-form').style.opacity = '1';
+        document.getElementById('imputation-form').style.pointerEvents = 'auto';
+      }
+    }
+  }
+
+  // --- BARRA IMPUTACIÓN ---
+  function updateBar() {
+    const avail = Math.min(state.workedMinutes || 480, state.maxMinutes);
+    const used = (['p1','p2','p3','p4'].reduce((s,id) => s + (parseFloat(document.getElementById(id).value)||0), 0)) * 60;
+    const pct = Math.min((used / avail) * 100, 100);
+    const fill = document.getElementById('bar-fill');
+    fill.style.width = pct + '%';
+    fill.className = 'hours-bar-fill' + (used > avail ? ' over' : '');
+    document.getElementById('imp-used').textContent = fmtMin(Math.round(used));
+    const warn = document.getElementById('bar-warning');
+    if (used > avail + 15) {
+      warn.style.display = 'block';
+      warn.textContent = `⚠️ Has imputado ${fmtMin(Math.round(used))} pero solo tienes ${fmtMin(avail)} disponibles.`;
+    } else { warn.style.display = 'none'; }
+  }
+
+  function confirmImputation() {
+    const avail = Math.min(state.workedMinutes || 480, state.maxMinutes);
+    const used = (['p1','p2','p3','p4'].reduce((s,id) => s + (parseFloat(document.getElementById(id).value)||0), 0)) * 60;
+    if (used > avail + 15) { alert('El tiempo imputado supera el tiempo disponible.'); return; }
+    if (used < avail - 30) { if (!confirm(`Quedan ${fmtMin(avail - Math.round(used))} sin imputar. ¿Confirmar igualmente?`)) return; }
+    document.getElementById('imputation-done').style.display = 'block';
+    document.getElementById('imputation-form').style.display = 'none';
+    state.imputationDone = true;
+    document.getElementById('main-badge').className = 'badge badge-green';
+    document.getElementById('main-badge').textContent = 'Jornada completa';
+  }
+
+  // --- HORAS EXTRA ---
+  function openOvertimeModal() {
+    document.getElementById('overtime-overlay').classList.add('show');
+  }
+  function closeOvertimeModal() {
+    document.getElementById('overtime-overlay').classList.remove('show');
+  }
+  function submitOvertime() {
+    const reason = document.getElementById('ot-reason').value.trim();
+    const hrs = document.getElementById('ot-hours').value;
+    if (!reason) { alert('El motivo es obligatorio.'); return; }
+    closeOvertimeModal();
+    state.status = 'overtime_pending';
+    document.getElementById('btn-fichar').disabled = false;
+    document.getElementById('btn-fichar').className = 'btn btn-gray';
+    document.getElementById('btn-fichar').textContent = '⏳ Esperando aprobación...';
+    document.getElementById('btn-fichar').disabled = true;
+    document.getElementById('overtime-alert').style.display = 'none';
+
+    // Mostrar en pestaña aprobaciones
+    document.getElementById('no-requests').style.display = 'none';
+    document.getElementById('approval-flow').style.display = 'block';
+    document.getElementById('ot-minutes-display').textContent = hrs + 'h extra';
+    document.getElementById('ot-reason-display').textContent = reason;
+    document.getElementById('main-badge').className = 'badge badge-yellow';
+    document.getElementById('main-badge').textContent = 'Horas extra pendientes';
+
+    showTab('aprobaciones');
+  }
+
+  // --- DEMO: simular aprobación ---
+  let approvalStep = 0;
+  function simulateApproval() {
+    approvalStep++;
+    const lvl = document.getElementById('lvl' + approvalStep);
+    const st = document.getElementById('st' + approvalStep);
+    lvl.className = 'level done';
+    st.className = 'badge badge-green';
+    st.textContent = 'Aprobado';
+    if (approvalStep < 3) {
+      document.getElementById('lvl' + (approvalStep+1)).className = 'level active';
+      document.getElementById('st' + (approvalStep+1)).className = 'badge badge-yellow';
+      document.getElementById('st' + (approvalStep+1)).textContent = 'Pendiente';
+    } else {
+      // Aprobación final
+      document.querySelector('[onclick="simulateApproval()"]').style.display = 'none';
+      document.getElementById('btn-fichar').disabled = false;
+      document.getElementById('btn-fichar').className = 'btn btn-red';
+      document.getElementById('btn-fichar').textContent = 'Finalizar jornada (con horas extra)';
+      state.status = 'working';
+      state.maxMinutes = 9999;
+      document.getElementById('main-badge').className = 'badge badge-green';
+      document.getElementById('main-badge').textContent = 'Horas extra aprobadas';
+      const ok = document.createElement('div');
+      ok.className = 'alert alert-green';
+      ok.style.marginTop = '12px';
+      ok.textContent = '✅ Solicitud aprobada por los 3 niveles. Ya puedes finalizar tu jornada.';
+      document.getElementById('approval-flow').appendChild(ok);
+    }
+  }
+</script>
+</body>
+</html>
